@@ -1,0 +1,19 @@
+server:
+  port: 8081
+spring:
+  application:
+      name: market-service
+  datasource:
+    url: jdbc:postgresql://market-db:5432/marketdb
+    username: market
+    password: market
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://keycloak:8080/realms/trading-platform

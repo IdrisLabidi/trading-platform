@@ -22,5 +22,14 @@ services:
       POSTGRES_PASSWORD: keycloak
     volumes: [keycloak_data:/var/lib/postgresql/data]
 
+  market-db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: marketdb
+      POSTGRES_USER: market
+      POSTGRES_PASSWORD: market
+    volumes: [ market_data:/var/lib/postgresql/data ]
+
 volumes:
   keycloak_data:
+  market_data:

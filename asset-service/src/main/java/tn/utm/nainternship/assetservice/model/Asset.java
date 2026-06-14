@@ -1,0 +1,52 @@
+package tn.utm.nainternship.assetservice.model;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import tn.utm.nainternship.assetservice.dto.AssetResponse;
+
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.UUID;
+
+@Entity
+@Table(name = "assets")
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Data
+public class Asset {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
+    @Column(unique = true)
+    private String symbol;
+    private String description;
+    private String name;
+    @Enumerated(EnumType.STRING)
+    private AssetType type;
+    private String market;          // "TUNIS", "NYSE", "NASDAQ"
+    private String currency;        // "TND", "USD"
+    private BigDecimal lastPrice;
+    private Boolean isActive;
+    private Instant listedAt;
+
+
+    public AssetResponse toResponse() {
+        return new AssetResponse(
+                this.id,
+                this.symbol,
+                this.description,
+                this.name,
+                this.type,
+                this.market,
+                this.currency,
+                this.lastPrice,
+                this.isActive,
+                this.listedAt
+        );
+    }
+}

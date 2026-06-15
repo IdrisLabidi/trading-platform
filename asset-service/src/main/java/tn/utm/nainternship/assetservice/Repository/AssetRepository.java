@@ -7,5 +7,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface AssetRepository extends JpaRepository<Asset, UUID> {
-    public Optional<Asset> findBySymbol(String symbol);
+    Optional<Asset> findBySymbol(String symbol);
 }

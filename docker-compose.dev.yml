@@ -41,6 +41,14 @@ services:
       - "5432:5432"
     volumes: [ asset_data:/var/lib/postgresql/data ]
 
+  portfolio-db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: portfoliodb
+      POSTGRES_USER: portfolio
+      POSTGRES_PASSWORD: portfolio
+    volumes: [ portfolio_data:/var/lib/postgresql/data ]
+
 volumes:
   keycloak_data:
   market_data:

@@ -1,0 +1,8 @@
+include:
+  - docker-compose.dev.yml
+
+services:
+  asset-service:
+    build: ./asset-service
+    ports: [ "8082:8082" ]
+    depends_on: [ asset-db ] #keycloak add keycloak after security config

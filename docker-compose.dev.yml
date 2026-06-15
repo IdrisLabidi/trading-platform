@@ -51,6 +51,14 @@ services:
       POSTGRES_PASSWORD: portfolio
     volumes: [ portfolio_data:/var/lib/postgresql/data ]
 
+  notifications-db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: notificationsdb
+      POSTGRES_USER: notifications
+      POSTGRES_PASSWORD: notifications
+    volumes: [ notifications_data:/var/lib/postgresql/data ]
+
 volumes:
   keycloak_data:
   market_data:

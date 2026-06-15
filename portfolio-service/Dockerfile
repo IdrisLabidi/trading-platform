@@ -21,6 +21,6 @@ USER spring
 #Copy only the built JAR from the builder stage
 COPY --from=builder /app/build/libs/*.jar app.jar
 
-EXPOSE 8082
+EXPOSE 8083
 
 ENTRYPOINT ["java", "-jar", "app.jar"]

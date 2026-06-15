@@ -1,4 +1,4 @@
-package tn.utm;
+package tn.utm.nainternship.marketservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -37,6 +37,8 @@ services:
       POSTGRES_DB: assetdb
       POSTGRES_USER: asset
       POSTGRES_PASSWORD: asset
+    ports:
+      - "5432:5432"
     volumes: [ asset_data:/var/lib/postgresql/data ]
 
 volumes:

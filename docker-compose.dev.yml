@@ -65,4 +65,5 @@ volumes:
   keycloak_data:
   market_data:
   asset_data:
+  notifications-data:
   portfolio_data:

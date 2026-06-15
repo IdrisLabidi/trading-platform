@@ -1,5 +1,8 @@
 server:
   port: 8082
+logging:
+  level:
+    org.springframework.security: DEBUG
 spring:
   application:
     name: asset-service
@@ -13,3 +16,10 @@ spring:
       ddl-auto: update
     show-sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/trading-platform
+          jwk-set-uri: http://localhost:8080/realms/trading-platform/protocol/openid-connect/certs

@@ -1,31 +1,25 @@
 package tn.utm.nainternship.marketservice.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import tn.utm.nainternship.marketservice.orderbook.Order;
+import tn.utm.nainternship.marketservice.dto.OrderRequest;
+import tn.utm.nainternship.marketservice.dto.OrderResponse;
 import tn.utm.nainternship.marketservice.service.OrderService;
-import tn.utm.nainternship.marketservice.orderbook.Trade;
 
-import java.util.List;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/orders")
 @RequiredArgsConstructor
+@Validated
 public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public void submitOrder(@RequestBody Order order) {
-        orderService.processOrder(order);
-    }
-
-    @GetMapping("/trades")
-    public List<Trade> getTrades() {
-        return orderService.getTrades();
-    }
-
-    @GetMapping
-    public String sayHello() {
-        return "Hello World";
+    public OrderResponse submitOrder(@AuthenticationPrincipal Jwt jwt, @Valid @RequestBody OrderRequest request) {
+        return orderService.submitOrder(jwt, request);
     }
 }

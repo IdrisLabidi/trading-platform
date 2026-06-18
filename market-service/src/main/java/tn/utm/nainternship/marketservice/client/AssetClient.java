@@ -20,7 +20,7 @@ public class AssetClient {
 
     @Cacheable(value = "asset", key = "#symbol")
     public Map<String, Object> getAsset(String symbol) throws AssetNotFoundException {
-        String url = String.format("http://asset-service:8084/api/assets/%s", symbol);
+        String url = String.format("http://asset-service:8082/api/assets/%s", symbol);
         try {
             Map response = restTemplate.getForObject(url, Map.class);
             if (response == null) throw new AssetNotFoundException("Unknown or inactive symbol: " + symbol);

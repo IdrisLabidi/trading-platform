@@ -20,7 +20,7 @@ public class PortfolioClient {
     private final RestTemplate restTemplate = new RestTemplate();
 
     public BigDecimal getBalance(String userId) {
-        String url = String.format("http://portfolio-service:8082/api/portfolio/%s/balance", userId);
+        String url = String.format("http://portfolio-service:8083/api/portfolio/%s/balance", userId);
         try {
             Map resp = restTemplate.getForObject(url, Map.class);
             if (resp == null || !resp.containsKey("cashBalance")) return BigDecimal.ZERO;

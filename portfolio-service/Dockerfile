@@ -5,7 +5,7 @@
 # the JRE plus the built JAR, which keeps the final image small and the
 # attack surface low (we run as a non-root "spring" user).
 FROM gradle:jdk26-corretto as builder
-LABEL authors="youssef, idris"
+LABEL authors="youssef"
 
 WORKDIR /app
 
@@ -33,6 +33,6 @@ USER spring
 COPY --from=builder /app/build/libs/*.jar app.jar
 
 # Portfolio-service exposes port 8082 (see application.yaml).
-EXPOSE 8082
+EXPOSE 8083
 
 ENTRYPOINT ["java", "-jar", "app.jar"]

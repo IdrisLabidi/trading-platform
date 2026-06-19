@@ -49,6 +49,8 @@ services:
       POSTGRES_DB: portfoliodb
       POSTGRES_USER: portfolio
       POSTGRES_PASSWORD: portfolio
+    ports:
+      - "5434:5432"
     volumes: [ portfolio_data:/var/lib/postgresql/data ]
 
   notifications-db:
@@ -63,4 +65,5 @@ volumes:
   keycloak_data:
   market_data:
   asset_data:
-  notifications-data:
+  notifications_data:
+  portfolio_data:

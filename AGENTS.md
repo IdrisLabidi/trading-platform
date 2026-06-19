@@ -1,4 +1,4 @@
-﻿# AGENTS.md - trading-platform
+# AGENTS.md - trading-platform
 
 Ce fichier retrace les modifications importantes apportées au projet, afin
 que d'autres agents IA (ou un humain) puissent rapidement comprendre l'état
@@ -39,3 +39,15 @@ courant du dépôt.
     référençait des classes inexistantes ; il sera réintroduit lorsque le
     topic `trade-executed` sera réellement consommé pour mettre à jour les
     positions après exécution d'un trade côté market-service.
+- 2026-06-19 : Refactor du **notifications-service** (Node.js 18 / Express 4) :
+  - Adoption de `dotenv` pour la gestion des variables d'environnement
+    (fichier `.env`).
+  - Utilisation de `nodemailer` pour l'envoi d'e-mails, avec une configuration
+    conditionnelle selon l'environnement (`development` vs `production`).
+  - Implémentation de Socket.io pour gérer les connexions en temps réel et
+    recevoir les événements de notification.
+  - Ajout de la fonction `sendEmail` qui vérifie la présence d'une adresse
+    e-mail avant d'envoyer une notification.
+  - Mise à jour du `Dockerfile` pour installer les dépendances et lancer
+    l'application avec Node.js.
+

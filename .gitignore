@@ -5068,3 +5068,4 @@
 /notifications-service/node_modules/yargs/package.json
 /notifications-service/node_modules/yargs/README.md
 /notifications-service/node_modules/.package-lock.json
+.aider*

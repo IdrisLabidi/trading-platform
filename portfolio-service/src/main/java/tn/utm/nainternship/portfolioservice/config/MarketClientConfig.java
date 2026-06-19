@@ -11,7 +11,7 @@ import org.springframework.web.client.RestClient;
  * Spring Framework 6 expose RestClient, une API fluide et synchrone qui remplace
  * progressivement RestTemplate. Ici on construit un client préconfiguré avec
  * l'URL de base du market-service (injectée via la propriété
- * "market-service.base-url" du application.yaml), ce qui évite de la répéter
+ * "market-service.base-url" du application.yml), ce qui évite de la répéter
  * à chaque appel et facilite la testabilité (on peut mocker le bean).
  *
  * Communication inter-services : dans une architecture microservices, chaque
@@ -22,7 +22,7 @@ public class MarketClientConfig {
 
     /**
      * Construit un RestClient pointant vers le market-service.
-     * L'URL de base est lue depuis application.yaml :
+     * L'URL de base est lue depuis application.yml :
      *   market-service.base-url=http://market-service:8081
      */
     @Bean

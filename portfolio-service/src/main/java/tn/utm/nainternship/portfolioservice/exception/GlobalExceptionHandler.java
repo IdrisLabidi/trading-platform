@@ -1,4 +1,4 @@
-﻿package tn.utm.nainternship.portfolioservice.exception;
+package tn.utm.nainternship.portfolioservice.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.support.DefaultMessageSourceResolvable;

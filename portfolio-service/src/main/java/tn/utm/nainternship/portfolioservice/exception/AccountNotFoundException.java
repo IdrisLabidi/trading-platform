@@ -1,4 +1,4 @@
-﻿package tn.utm.nainternship.portfolioservice.exception;
+package tn.utm.nainternship.portfolioservice.exception;
 
 /**
  * Levée lorsqu'aucun compte n'existe pour un userId donné.

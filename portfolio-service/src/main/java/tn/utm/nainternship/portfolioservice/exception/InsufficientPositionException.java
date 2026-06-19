@@ -1,4 +1,4 @@
-﻿package tn.utm.nainternship.portfolioservice.exception;
+package tn.utm.nainternship.portfolioservice.exception;
 
 /**
  * Levée lorsqu'un trader tente de vendre plus d'actions qu'il n'en possède

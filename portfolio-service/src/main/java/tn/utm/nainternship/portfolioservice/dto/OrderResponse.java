@@ -1,4 +1,4 @@
-﻿package tn.utm.nainternship.portfolioservice.dto;
+package tn.utm.nainternship.portfolioservice.dto;
 
 import tn.utm.nainternship.portfolioservice.model.OrderSide;
 import tn.utm.nainternship.portfolioservice.model.OrderStatus;
@@ -8,7 +8,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * DTO de réponse renvoyé après création d'un ordre.
+ * DTO de réponse renvoyée après création d'un ordre.
  *
  * Il contient toutes les informations utiles au frontend pour afficher
  * l'ordre et son statut. Le champ frozenAmount correspond à la valeur

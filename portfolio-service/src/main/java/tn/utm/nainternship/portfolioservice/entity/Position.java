@@ -1,4 +1,4 @@
-﻿package tn.utm.nainternship.portfolioservice.entity;
+package tn.utm.nainternship.portfolioservice.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

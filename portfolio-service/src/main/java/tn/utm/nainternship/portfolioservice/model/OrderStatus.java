@@ -1,4 +1,4 @@
-﻿package tn.utm.nainternship.portfolioservice.model;
+package tn.utm.nainternship.portfolioservice.model;
 
 /**
  * Cycle de vie simplifié d'un ordre dans le portfolio-service.

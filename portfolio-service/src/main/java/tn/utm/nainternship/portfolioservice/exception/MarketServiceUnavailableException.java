@@ -1,4 +1,4 @@
-﻿package tn.utm.nainternship.portfolioservice.exception;
+package tn.utm.nainternship.portfolioservice.exception;
 
 /**
  * Levée lorsque le market-service ne répond pas ou renvoie une erreur lors

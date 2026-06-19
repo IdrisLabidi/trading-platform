@@ -1,4 +1,4 @@
-﻿package tn.utm.nainternship.portfolioservice.model;
+package tn.utm.nainternship.portfolioservice.model;
 
 /**
  * Côté d'un ordre de bourse passé par un trader.

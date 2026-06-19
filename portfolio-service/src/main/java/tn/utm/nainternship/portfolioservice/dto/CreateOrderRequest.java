@@ -1,4 +1,4 @@
-﻿package tn.utm.nainternship.portfolioservice.dto;
+package tn.utm.nainternship.portfolioservice.dto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

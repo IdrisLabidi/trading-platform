@@ -4,11 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tn.utm.nainternship.portfolioservice.dto.BalanceResponse;
+import tn.utm.nainternship.portfolioservice.dto.FreezeBalanceRequest;
+import tn.utm.nainternship.portfolioservice.dto.FreezeSharesRequest;
 import tn.utm.nainternship.portfolioservice.dto.PositionResponse;
 import tn.utm.nainternship.portfolioservice.service.AccountService;
 import tn.utm.nainternship.portfolioservice.service.PositionService;
@@ -65,6 +64,18 @@ public class PortfolioController {
                                                                   @AuthenticationPrincipal Jwt jwt) {
         ensureSelf(userId, jwt);
         return ResponseEntity.ok(positionService.getAllPositions(userId));
+    }
+
+    @PostMapping("{userId}/freeze")
+    public ResponseEntity<Void> freezeAmount(@PathVariable String userId, @RequestBody FreezeBalanceRequest request){
+        accountService.freezeCash(userId, request.amount());
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{userId}/freeze-shares")
+    public ResponseEntity<Void> freezeShares(@PathVariable String userId, @RequestBody FreezeSharesRequest request){
+        positionService.freezeShares(userId, request.symbol(), request.quantity());
+        return ResponseEntity.ok().build();
     }
 
     /**

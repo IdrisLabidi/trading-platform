@@ -18,7 +18,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class PortfolioClient {
     private static final Logger log = LoggerFactory.getLogger(PortfolioClient.class);
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
     @Value("${portfolio-service.url:http://portfolio-service:8083}") private String portfolioServiceUrl;
 
     public BigDecimal getBalance(String userId) {

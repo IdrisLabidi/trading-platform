@@ -19,15 +19,14 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AssetClient {
     private static final Logger log = LoggerFactory.getLogger(AssetClient.class);
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
     @Value("${asset-service.url:http://asset-service:8082}") private String assetServiceUrl;
 
     @Cacheable(value = "asset", key = "#symbol")
-    public Map<String, Object> getAsset(String symbol, String bearerToken) throws AssetNotFoundException {
+    public Map<String, Object> getAsset(String symbol) throws AssetNotFoundException {
         String url = String.format("%s/api/assets/symbol/%s", assetServiceUrl, symbol);
         try {
             HttpHeaders headers = new HttpHeaders();
-            headers.setBearerAuth(bearerToken.replace("Bearer ", ""));
             HttpEntity<Void> entity = new HttpEntity<>(headers);
 
             Map response = restTemplate.getForObject(url, Map.class, entity);

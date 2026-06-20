@@ -43,13 +43,13 @@ public class OrderService {
     private final TradeMapper tradeMapper;
 
     @Transactional
-    public OrderResponse submitOrder(String bearerToken,OrderRequest request) {
+    public OrderResponse submitOrder(OrderRequest request) {
         // Step 1 - Read the authenticated principal from the security context and extract userId
         String userId = resolveUserId();
         log.info("Submitting order for userId={}, symbol={}, side={}, quantity={}, price={}", userId, request.getSymbol(), request.getSide(), request.getQuantity(), request.getPrice());
 
         // Step 2 - Validate symbol via asset-service (cached)
-        assetClient.getAsset(request.getSymbol(), bearerToken);
+        assetClient.getAsset(request.getSymbol());
         log.info("Symbol {} is valid", request.getSymbol());
 
         // Step 3 - Verify balance/position

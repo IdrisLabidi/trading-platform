@@ -17,7 +17,7 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public OrderResponse submitOrder(@Valid @RequestBody OrderRequest request, @RequestHeader("Authorization") String authorization) {
-        return orderService.submitOrder(authorization,request);
+    public OrderResponse submitOrder(@Valid @RequestBody OrderRequest request) {
+        return orderService.submitOrder(request);
     }
 }

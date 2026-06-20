@@ -1,4 +1,4 @@
-﻿package tn.utm.nainternship.portfolioservice.repository;
+package tn.utm.nainternship.portfolioservice.repository;
 
 import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;

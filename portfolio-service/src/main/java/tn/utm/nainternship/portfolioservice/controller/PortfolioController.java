@@ -1,49 +1,28 @@
-﻿package tn.utm.nainternship.portfolioservice.controller;
+package tn.utm.nainternship.portfolioservice.controller;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tn.utm.nainternship.portfolioservice.dto.BalanceResponse;
-import tn.utm.nainternship.portfolioservice.dto.CreateOrderRequest;
-import tn.utm.nainternship.portfolioservice.dto.OrderResponse;
+import tn.utm.nainternship.portfolioservice.dto.FreezeBalanceRequest;
+import tn.utm.nainternship.portfolioservice.dto.FreezeSharesRequest;
 import tn.utm.nainternship.portfolioservice.dto.PositionResponse;
 import tn.utm.nainternship.portfolioservice.service.AccountService;
-import tn.utm.nainternship.portfolioservice.service.OrderService;
 import tn.utm.nainternship.portfolioservice.service.PositionService;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Contrôleur REST principal du portfolio-service.
- *
  * Endpoints exposés (préfixe /api/portfolio) :
- *
- *   GET  /api/portfolio/{userId}/balance
+ *   GET /api/portfolio/{userId}/balance
  *       → solde cash (cashBalance, frozenBalance, availableBalance)
- *
- *   GET  /api/portfolio/{userId}/positions
+ *   GET /api/portfolio/{userId}/positions
  *       → liste de toutes les positions détenues par l'utilisateur
- *
- *   GET  /api/portfolio/{userId}/positions/{symbol}
+ *   GET /api/portfolio/{userId}/positions/{symbol}
  *       → quantité d'actions pour un symbole précis
- *
- *   POST /api/portfolio/{userId}/orders
- *       → crée un ordre BUY ou SELL avec gel des ressources (anti double-spending)
- *
- *   DELETE /api/portfolio/{userId}/orders/{orderId}
- *       → annule un ordre PENDING et libère les ressources gelées
- *
  * Tous les endpoints sont protégés par JWT (SecurityConfig) et restreints
  * au rôle "trader". On vérifie également côté contrôleur que le {userId}
  * du chemin correspond au sujet (sub) du JWT, afin qu'un utilisateur ne
@@ -56,7 +35,6 @@ public class PortfolioController {
 
     private final AccountService accountService;
     private final PositionService positionService;
-    private final OrderService orderService;
 
     /**
      * Récupère le solde (cash + frozen + disponible) d'un utilisateur.
@@ -88,23 +66,16 @@ public class PortfolioController {
         return ResponseEntity.ok(positionService.getAllPositions(userId));
     }
 
-    /** Crée un nouvel ordre BUY ou SELL. */
-    @PostMapping("/{userId}/orders")
-    public ResponseEntity<OrderResponse> createOrder(@PathVariable String userId,
-                                                     @Valid @RequestBody CreateOrderRequest request,
-                                                     @AuthenticationPrincipal Jwt jwt) {
-        ensureSelf(userId, jwt);
-        OrderResponse response = orderService.createOrder(userId, request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    @PostMapping("{userId}/freeze")
+    public ResponseEntity<Void> freezeAmount(@PathVariable String userId, @RequestBody FreezeBalanceRequest request){
+        accountService.freezeCash(userId, request.amount());
+        return ResponseEntity.ok().build();
     }
 
-    /** Annule un ordre PENDING. */
-    @DeleteMapping("/{userId}/orders/{orderId}")
-    public ResponseEntity<OrderResponse> cancelOrder(@PathVariable String userId,
-                                                     @PathVariable UUID orderId,
-                                                     @AuthenticationPrincipal Jwt jwt) {
-        ensureSelf(userId, jwt);
-        return ResponseEntity.ok(orderService.cancelOrder(userId, orderId));
+    @PostMapping("/{userId}/freeze-shares")
+    public ResponseEntity<Void> freezeShares(@PathVariable String userId, @RequestBody FreezeSharesRequest request){
+        positionService.freezeShares(userId, request.symbol(), request.quantity());
+        return ResponseEntity.ok().build();
     }
 
     /**

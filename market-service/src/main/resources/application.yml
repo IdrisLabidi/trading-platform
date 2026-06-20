@@ -18,3 +18,18 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://keycloak:8080/realms/trading-platform
+          jwk-set-uri: http://keycloak:8080/realms/trading-platform/protocol/openid-connect/certs
+
+  kafka:
+    bootstrap-servers: kafka:9092
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+  data:
+    redis:
+      host: redis
+      port: 6379

@@ -1,4 +1,4 @@
-﻿package tn.utm.nainternship.portfolioservice.config;
+package tn.utm.nainternship.portfolioservice.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

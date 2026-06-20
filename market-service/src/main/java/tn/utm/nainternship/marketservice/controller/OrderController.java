@@ -1,8 +1,6 @@
 package tn.utm.nainternship.marketservice.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import tn.utm.nainternship.marketservice.dto.OrderRequest;
@@ -19,7 +17,7 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public OrderResponse submitOrder(@AuthenticationPrincipal Jwt jwt, @Valid @RequestBody OrderRequest request) {
-        return orderService.submitOrder(jwt, request);
+    public OrderResponse submitOrder(@Valid @RequestBody OrderRequest request, @RequestHeader("Authorization") String authorization) {
+        return orderService.submitOrder(authorization,request);
     }
 }

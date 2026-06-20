@@ -3,7 +3,10 @@ package tn.utm.nainternship.marketservice.client;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
@@ -17,12 +20,17 @@ import java.util.Map;
 public class AssetClient {
     private static final Logger log = LoggerFactory.getLogger(AssetClient.class);
     private final RestTemplate restTemplate = new RestTemplate();
+    @Value("${asset-service.url:http://asset-service:8082}") private String assetServiceUrl;
 
     @Cacheable(value = "asset", key = "#symbol")
-    public Map<String, Object> getAsset(String symbol) throws AssetNotFoundException {
-        String url = String.format("http://asset-service:8082/api/assets/symbol/%s", symbol);
+    public Map<String, Object> getAsset(String symbol, String bearerToken) throws AssetNotFoundException {
+        String url = String.format("%s/api/assets/symbol/%s", assetServiceUrl, symbol);
         try {
-            Map response = restTemplate.getForObject(url, Map.class);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setBearerAuth(bearerToken.replace("Bearer ", ""));
+            HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+            Map response = restTemplate.getForObject(url, Map.class, entity);
             if (response == null) throw new AssetNotFoundException("Unknown or inactive symbol: " + symbol);
             return response;
         } catch (HttpClientErrorException.NotFound ex) {

@@ -3,6 +3,7 @@ package tn.utm.nainternship.marketservice.client;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -18,9 +19,10 @@ import java.util.Map;
 public class PortfolioClient {
     private static final Logger log = LoggerFactory.getLogger(PortfolioClient.class);
     private final RestTemplate restTemplate = new RestTemplate();
+    @Value("${portfolio-service.url:http://portfolio-service:8083}") private String portfolioServiceUrl;
 
     public BigDecimal getBalance(String userId) {
-        String url = String.format("http://portfolio-service:8083/api/portfolio/%s/balance", userId);
+        String url = String.format("%s/api/portfolio/%s/balance", portfolioServiceUrl, userId);
         try {
             Map resp = restTemplate.getForObject(url, Map.class);
             if (resp == null || !resp.containsKey("cashBalance")) return BigDecimal.ZERO;
@@ -34,7 +36,7 @@ public class PortfolioClient {
     }
 
     public int getPositionQuantity(String userId, String symbol) {
-        String url = String.format("http://portfolio-service:8082/api/portfolio/%s/positions/%s", userId, symbol);
+        String url = String.format("%s/api/portfolio/%s/positions/%s", portfolioServiceUrl, userId, symbol);
         try {
             Map resp = restTemplate.getForObject(url, Map.class);
             if (resp == null || !resp.containsKey("quantity")) return 0;
@@ -48,7 +50,7 @@ public class PortfolioClient {
     }
 
     public void freezeAmount(String userId, BigDecimal amount, String reason) {
-        String url = String.format("http://portfolio-service:8082/api/portfolio/%s/freeze", userId);
+        String url = String.format("%s/api/portfolio/%s/freeze", portfolioServiceUrl, userId);
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -61,7 +63,7 @@ public class PortfolioClient {
     }
 
     public void freezeShares(String userId, String symbol, int quantity, String reason) {
-        String url = String.format("http://portfolio-service:8082/api/portfolio/%s/freeze-shares", userId);
+        String url = String.format("%s/api/portfolio/%s/freeze-shares", portfolioServiceUrl, userId);
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);

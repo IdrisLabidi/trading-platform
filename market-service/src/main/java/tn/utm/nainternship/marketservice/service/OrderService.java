@@ -3,7 +3,10 @@ package tn.utm.nainternship.marketservice.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tn.utm.nainternship.marketservice.client.AssetClient;
@@ -40,12 +43,14 @@ public class OrderService {
     private final TradeMapper tradeMapper;
 
     @Transactional
-    public OrderResponse submitOrder(Jwt jwt, OrderRequest request) {
-        // Step 1 - Validate JWT and extract userId
-        String userId = jwt.getSubject();
+    public OrderResponse submitOrder(String bearerToken,OrderRequest request) {
+        // Step 1 - Read the authenticated principal from the security context and extract userId
+        String userId = resolveUserId();
+        log.info("Submitting order for userId={}, symbol={}, side={}, quantity={}, price={}", userId, request.getSymbol(), request.getSide(), request.getQuantity(), request.getPrice());
 
         // Step 2 - Validate symbol via asset-service (cached)
-        assetClient.getAsset(request.getSymbol());
+        assetClient.getAsset(request.getSymbol(), bearerToken);
+        log.info("Symbol {} is valid", request.getSymbol());
 
         // Step 3 - Verify balance/position
         if (request.getSide() == OrderRequest.Side.BUY) {
@@ -92,7 +97,7 @@ public class OrderService {
                 .map(tradeMapper::toEntity)
                 .collect(Collectors.toList());
 
-        tradeEntities = tradeRepository.saveAll(tradeEntities);
+        tradeRepository.saveAll(tradeEntities);
 
         for (TradeEvent te : tradeEvents) {
             try {
@@ -108,5 +113,24 @@ public class OrderService {
                 .status(order.getStatus().name())
                 .createdAt(order.getCreatedAt())
                 .build();
+    }
+
+    private String resolveUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+            throw new IllegalStateException("No authentication found in security context");
+        }
+
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof Jwt jwt) {
+            return jwt.getSubject();
+        }
+
+        if (authentication instanceof JwtAuthenticationToken jwtAuthenticationToken) {
+            return jwtAuthenticationToken.getToken().getSubject();
+        }
+
+        String principalType = principal == null ? "null" : principal.getClass().getName();
+        throw new IllegalStateException("Unsupported authentication principal: " + principalType);
     }
 }

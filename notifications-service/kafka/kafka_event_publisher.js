@@ -132,4 +132,219 @@ router.post('/order-cancelled', async (req, res) => {
   }
 });
 
+// Asset bought notification
+router.post('/asset-bought', async (req, res) => {
+  const { userId, symbol, quantity, price } = req.body;
+  
+  try {
+    await ensureProducerInitialized();
+    
+    const notification = {
+      type: 'assetBought',
+      userId,
+      symbol,
+      quantity,
+      price
+    };
+    
+    await producer.send({
+      topic: 'notifications',
+      messages: [{ value: JSON.stringify(notification) }]
+    });
+    
+    res.status(200).send('Asset bought notification sent');
+  } catch (error) {
+    console.error('Error sending notification:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Asset sold notification
+router.post('/asset-sold', async (req, res) => {
+  const { userId, symbol, quantity, price } = req.body;
+  
+  try {
+    await ensureProducerInitialized();
+    
+    const notification = {
+      type: 'assetSold',
+      userId,
+      symbol,
+      quantity,
+      price
+    };
+    
+    await producer.send({
+      topic: 'notifications',
+      messages: [{ value: JSON.stringify(notification) }]
+    });
+    
+    res.status(200).send('Asset sold notification sent');
+  } catch (error) {
+    console.error('Error sending notification:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Asset transferred notification
+router.post('/asset-transferred', async (req, res) => {
+  const { userId, symbol, quantity, fromUserId, toUserId } = req.body;
+  
+  try {
+    await ensureProducerInitialized();
+    
+    const notification = {
+      type: 'assetTransferred',
+      userId,
+      symbol,
+      quantity,
+      fromUserId,
+      toUserId
+    };
+    
+    await producer.send({
+      topic: 'notifications',
+      messages: [{ value: JSON.stringify(notification) }]
+    });
+    
+    res.status(200).send('Asset transferred notification sent');
+  } catch (error) {
+    console.error('Error sending notification:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Asset transfer failed notification
+router.post('/asset-transfer-failed', async (req, res) => {
+  const { userId, symbol, quantity, reason } = req.body;
+  
+  try {
+    await ensureProducerInitialized();
+    
+    const notification = {
+      type: 'assetTransferFailed',
+      userId,
+      symbol,
+      quantity,
+      reason
+    };
+    
+    await producer.send({
+      topic: 'notifications',
+      messages: [{ value: JSON.stringify(notification) }]
+    });
+    
+    res.status(200).send('Asset transfer failed notification sent');
+  } catch (error) {
+    console.error('Error sending notification:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Portfolio balance updated notification
+router.post('/portfolio-balance-updated', async (req, res) => {
+  const { userId, balance, currency } = req.body;
+  
+  try {
+    await ensureProducerInitialized();
+    
+    const notification = {
+      type: 'portfolioBalanceUpdated',
+      userId,
+      balance,
+      currency
+    };
+    
+    await producer.send({
+      topic: 'notifications',
+      messages: [{ value: JSON.stringify(notification) }]
+    });
+    
+    res.status(200).send('Portfolio balance updated notification sent');
+  } catch (error) {
+    console.error('Error sending notification:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Portfolio deposit confirmed notification
+router.post('/portfolio-deposit-confirmed', async (req, res) => {
+  const { userId, amount, currency } = req.body;
+  
+  try {
+    await ensureProducerInitialized();
+    
+    const notification = {
+      type: 'portfolioDepositConfirmed',
+      userId,
+      amount,
+      currency
+    };
+    
+    await producer.send({
+      topic: 'notifications',
+      messages: [{ value: JSON.stringify(notification) }]
+    });
+    
+    res.status(200).send('Portfolio deposit confirmed notification sent');
+  } catch (error) {
+    console.error('Error sending notification:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Portfolio withdrawal confirmed notification
+router.post('/portfolio-withdrawal-confirmed', async (req, res) => {
+  const { userId, amount, currency } = req.body;
+  
+  try {
+    await ensureProducerInitialized();
+    
+    const notification = {
+      type: 'portfolioWithdrawalConfirmed',
+      userId,
+      amount,
+      currency
+    };
+    
+    await producer.send({
+      topic: 'notifications',
+      messages: [{ value: JSON.stringify(notification) }]
+    });
+    
+    res.status(200).send('Portfolio withdrawal confirmed notification sent');
+  } catch (error) {
+    console.error('Error sending notification:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Portfolio alert triggered notification
+router.post('/portfolio-alert-triggered', async (req, res) => {
+  const { userId, symbol, price, alertPrice, alertType } = req.body;
+  
+  try {
+    await ensureProducerInitialized();
+    
+    const notification = {
+      type: 'portfolioAlertTriggered',
+      userId,
+      symbol,
+      price,
+      alertPrice,
+      alertType
+    };
+    
+    await producer.send({
+      topic: 'notifications',
+      messages: [{ value: JSON.stringify(notification) }]
+    });
+    
+    res.status(200).send('Portfolio alert triggered notification sent');
+  } catch (error) {
+    console.error('Error sending notification:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 module.exports = router;

@@ -1,4 +1,4 @@
-//Handle oll notification logic (email + websocket)
+//Handle all notification logic (email + websocket)
 const nodemailer = require('nodemailer');
 
 // Email transporter setup
@@ -40,7 +40,24 @@ const getUserEmail = (userId) => {
 
 // Notification sending function
 const sendNotification = async (data) => {
-  const { type, userId, symbol, quantity, price, filledQuantity, remainingQuantity, email: providedEmail } = data;
+  const { 
+    type, 
+    userId, 
+    symbol, 
+    quantity, 
+    price, 
+    filledQuantity, 
+    remainingQuantity, 
+    email: providedEmail,
+    fromUserId,
+    toUserId,
+    reason,
+    balance,
+    currency,
+    amount,
+    alertPrice,
+    alertType
+  } = data;
   
   // Get email from provided data or from userEmails map
   const email = providedEmail || userEmails.get(userId);
@@ -55,19 +72,51 @@ const sendNotification = async (data) => {
   switch (type) {
     case 'orderExecuted':
       subject = 'Order Executed';
-      text = "Your order for  has been executed. Quantity: , Price: ";
+      text = 'Your order for  has been executed. Quantity: , Price: ';
       break;
     case 'orderPartiallyExecuted':
       subject = 'Order Partially Executed';
-      text = "Your order for  has been partially executed. Filled: , Remaining: ";
+      text = 'Your order for  has been partially executed. Filled: , Remaining: ';
       break;
     case 'orderRejected':
       subject = 'Order Rejected';
-      text = "Your order for  has been rejected. Quantity: , Price: ";
+      text = 'Your order for  has been rejected. Quantity: , Price: ';
       break;
     case 'orderCancelled':
       subject = 'Order Cancelled';
-      text = "Your order for  has been cancelled. Quantity: , Price: ";
+      text = 'Your order for  has been cancelled. Quantity: , Price: ';
+      break;
+    case 'assetBought':
+      subject = 'Asset Bought';
+      text = 'You have successfully bought  shares of  at {price} per share.';
+      break;
+    case 'assetSold':
+      subject = 'Asset Sold';
+      text = 'You have successfully sold  shares of  at {price} per share.';
+      break;
+    case 'assetTransferred':
+      subject = 'Asset Transferred';
+      text = 'You have successfully transferred  shares of  from user  to user .';
+      break;
+    case 'assetTransferFailed':
+      subject = 'Asset Transfer Failed';
+      text = 'Your transfer of  shares of  failed. Reason: ';
+      break;
+    case 'portfolioBalanceUpdated':
+      subject = 'Portfolio Balance Updated';
+      text = 'Your portfolio balance has been updated to  .';
+      break;
+    case 'portfolioDepositConfirmed':
+      subject = 'Deposit Confirmed';
+      text = 'Your deposit of   has been confirmed.';
+      break;
+    case 'portfolioWithdrawalConfirmed':
+      subject = 'Withdrawal Confirmed';
+      text = 'Your withdrawal of   has been confirmed.';
+      break;
+    case 'portfolioAlertTriggered':
+      subject = 'Portfolio Alert Triggered';
+      text = 'Price alert triggered for . Current price: {price}. Alert price: {alertPrice}. Alert type: ';
       break;
     default:
       console.log('Unknown notification type:', type);

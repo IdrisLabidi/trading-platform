@@ -4,6 +4,7 @@ const http = require('http');
 const socketIo = require('socket.io');
 const { initConsumer } = require('./kafka/consumer');
 const { setEmail, getUserEmail } = require('./notifications');
+const kafkaEventPublisher = require('./kafka/kafka_event_publisher');
 
 const app = express();
 app.use(express.json());
@@ -29,10 +30,13 @@ app.post('/api/notifications/set-email', (req, res) => {
   res.status(200).send('Email set successfully');
 });
 
+// Use the kafka event publisher router
+app.use('/api/notifications', kafkaEventPublisher);
+
 // Start server
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, async () => {
-  console.log("Notifications service listening on port ", PORT);
+  console.log('Notifications service listening on port ', PORT);
   
   // Initialize Kafka consumer
   try {

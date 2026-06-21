@@ -23,3 +23,7 @@ spring:
         jwt:
           issuer-uri: http://localhost:8080/realms/trading-platform
           jwk-set-uri: http://localhost:8080/realms/trading-platform/protocol/openid-connect/certs
+
+notifications:
+  service:
+    url: http://localhost:8084

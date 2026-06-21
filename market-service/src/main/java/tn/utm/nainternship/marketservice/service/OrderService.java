@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tn.utm.nainternship.marketservice.client.AssetClient;
+import tn.utm.nainternship.marketservice.client.NotificationsServiceClient;
 import tn.utm.nainternship.marketservice.client.PortfolioClient;
 import tn.utm.nainternship.marketservice.dto.OrderRequest;
 import tn.utm.nainternship.marketservice.dto.OrderResponse;
@@ -41,6 +42,7 @@ public class OrderService {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final OrderMapper orderMapper;
     private final TradeMapper tradeMapper;
+    private final NotificationsServiceClient notificationsServiceClient;
 
     @Transactional
     public OrderResponse submitOrder(OrderRequest request) {
@@ -57,11 +59,15 @@ public class OrderService {
             BigDecimal balance = portfolioClient.getBalance(userId);
             BigDecimal required = request.getPrice().multiply(BigDecimal.valueOf(request.getQuantity()));
             if (balance.compareTo(required) < 0) {
+                // Send notification for rejected order
+                notificationsServiceClient.sendOrderRejectedNotification(userId, request);
                 throw new InsufficientFundsException("Insufficient funds");
             }
         } else {
             int position = portfolioClient.getPositionQuantity(userId, request.getSymbol());
             if (position < request.getQuantity()) {
+                // Send notification for rejected order
+                notificationsServiceClient.sendOrderRejectedNotification(userId, request);
                 throw new InsufficientFundsException("Insufficient shares for symbol: " + request.getSymbol());
             }
         }
@@ -83,6 +89,8 @@ public class OrderService {
             }
         } catch (RuntimeException ex) {
             log.error("Failed to freeze funds/shares", ex);
+            // Send notification for rejected order
+            notificationsServiceClient.sendOrderRejectedNotification(userId, request);
             throw new RuntimeException("Failed to freeze funds/shares: " + ex.getMessage(), ex);
         }
 
@@ -99,12 +107,37 @@ public class OrderService {
 
         tradeRepository.saveAll(tradeEntities);
 
+        // Send notifications for trade events
         for (TradeEvent te : tradeEvents) {
             try {
+                // Find the corresponding TradeEntity that was saved
+                TradeEntity tradeEntity = tradeEntities.stream()
+                    .filter(t -> t.getId().equals(te.getTradeId()))
+                    .findFirst()
+                    .orElse(null);
+                
+                if (tradeEntity != null) {
+                    // Send notification for executed trade
+                    notificationsServiceClient.sendOrderExecutedNotification(userId, order, tradeEntity);
+                }
+                
+                // Send to Kafka
                 String payload = objectMapper.writeValueAsString(te);
                 kafkaTemplate.send("trade-executed", te.getSymbol(), payload);
             } catch (Exception e) {
                 log.error("Failed to serialize trade event", e);
+            }
+        }
+
+        // Check if order is fully or partially filled and send appropriate notification
+        int totalFilledQuantity = tradeEvents.stream().mapToInt(TradeEvent::getQuantity).sum();
+        if (totalFilledQuantity > 0) {
+            if (totalFilledQuantity == request.getQuantity()) {
+                // Fully filled - already handled by trade events
+                log.info("Order fully filled");
+            } else {
+                // Partially filled
+                notificationsServiceClient.sendOrderPartiallyExecutedNotification(userId, order, totalFilledQuantity);
             }
         }
 
@@ -113,6 +146,18 @@ public class OrderService {
                 .status(order.getStatus().name())
                 .createdAt(order.getCreatedAt())
                 .build();
+    }
+
+    public void cancelOrder(String orderId) {
+        OrderEntity order = orderRepository.findById(orderId)
+            .orElseThrow(() -> new IllegalArgumentException("Order not found: " + orderId));
+            
+        String userId = order.getUserId();
+        order.setStatus(OrderEntity.Status.CANCELLED);
+        orderRepository.save(order);
+        
+        // Send notification for cancelled order
+        notificationsServiceClient.sendOrderCancelledNotification(userId, order);
     }
 
     private String resolveUserId() {

@@ -107,8 +107,11 @@ public class OrderBookService {
                     Deque<OrderNode> q = target.computeIfAbsent(price, k -> new ArrayDeque<>());
                     q.addLast(new OrderNode(incoming.getId(), incoming.getRemainingQty(), price, incoming.getCreatedAt()));
                 } else {
-                    // MARKET order with remaining qty -> cancel remaining
-                    incoming.setStatus(OrderEntity.Status.CANCELLED);
+                    // MARKET order with remaining qty -> add to book using provided price so it can match later
+                    NavigableMap<BigDecimal, Deque<OrderNode>> target = isBuy ? bookBids : bookAsks;
+                    BigDecimal price = incoming.getPrice() != null ? incoming.getPrice() : BigDecimal.ZERO;
+                    Deque<OrderNode> q = target.computeIfAbsent(price, k -> new ArrayDeque<>());
+                    q.addLast(new OrderNode(incoming.getId(), incoming.getRemainingQty(), price, incoming.getCreatedAt()));
                 }
             }
 

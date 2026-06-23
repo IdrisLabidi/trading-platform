@@ -2,7 +2,6 @@ package tn.utm.nainternship.marketservice.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -18,16 +17,14 @@ import tn.utm.nainternship.marketservice.dto.TradeEvent;
 import tn.utm.nainternship.marketservice.entity.OrderEntity;
 import tn.utm.nainternship.marketservice.entity.TradeEntity;
 import tn.utm.nainternship.marketservice.exception.InsufficientFundsException;
+import tn.utm.nainternship.marketservice.kafka.TradeEventPublisher;
 import tn.utm.nainternship.marketservice.mapper.OrderMapper;
-import tn.utm.nainternship.marketservice.mapper.TradeMapper;
 import tn.utm.nainternship.marketservice.repository.OrderRepository;
 import tn.utm.nainternship.marketservice.repository.TradeRepository;
-import tools.jackson.databind.ObjectMapper;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -35,14 +32,12 @@ import java.util.stream.Collectors;
 public class OrderService {
     private final AssetClient assetClient;
     private final PortfolioClient portfolioClient;
+    private final NotificationsServiceClient notificationsClient;
     private final OrderBookService orderBookService;
     private final OrderRepository orderRepository;
     private final TradeRepository tradeRepository;
-    private final KafkaTemplate<String, String> kafkaTemplate;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final TradeEventPublisher tradeEventPublisher;
     private final OrderMapper orderMapper;
-    private final TradeMapper tradeMapper;
-    private final NotificationsServiceClient notificationsServiceClient;
 
     @Transactional
     public OrderResponse submitOrder(OrderRequest request) {
@@ -59,15 +54,11 @@ public class OrderService {
             BigDecimal balance = portfolioClient.getBalance(userId);
             BigDecimal required = request.getPrice().multiply(BigDecimal.valueOf(request.getQuantity()));
             if (balance.compareTo(required) < 0) {
-                // Send notification for rejected order
-                notificationsServiceClient.sendOrderRejectedNotification(userId, request);
                 throw new InsufficientFundsException("Insufficient funds");
             }
         } else {
             int position = portfolioClient.getPositionQuantity(userId, request.getSymbol());
             if (position < request.getQuantity()) {
-                // Send notification for rejected order
-                notificationsServiceClient.sendOrderRejectedNotification(userId, request);
                 throw new InsufficientFundsException("Insufficient shares for symbol: " + request.getSymbol());
             }
         }
@@ -89,55 +80,47 @@ public class OrderService {
             }
         } catch (RuntimeException ex) {
             log.error("Failed to freeze funds/shares", ex);
-            // Send notification for rejected order
-            notificationsServiceClient.sendOrderRejectedNotification(userId, request);
             throw new RuntimeException("Failed to freeze funds/shares: " + ex.getMessage(), ex);
         }
 
         // Step 5 - Persist the order
         order = orderRepository.save(order);
 
-        // Step 6 - Run matching engine
-        List<TradeEvent> tradeEvents = orderBookService.match(order);
+        // Step 6 — Run matching engine
+        List<TradeEntity> trades = orderBookService.match(order);
+        log.info("Matching result for order {}: {} trade(s), status={}",
+                order.getId(), trades.size(), order.getStatus());
 
-        // Step 7 - Persist trades and publish to Kafka
-        List<TradeEntity> tradeEntities = tradeEvents.stream()
-                .map(tradeMapper::toEntity)
-                .collect(Collectors.toList());
+        // Step 7 — Persist trades and publish to Kafka
+        for (TradeEntity trade : trades) {
+            TradeEntity saved = tradeRepository.save(trade);
+            log.info("Trade persisted: {} x{} @ {}", saved.getSymbol(), saved.getQuantity(), saved.getPrice());
 
-        tradeRepository.saveAll(tradeEntities);
+            TradeEvent event = TradeEvent.builder()
+                    .tradeId(saved.getId())
+                    .symbol(saved.getSymbol())
+                    .price(saved.getPrice())
+                    .quantity(saved.getQuantity())
+                    .buyOrderId(saved.getBuyOrderId())
+                    .sellOrderId(saved.getSellOrderId())
+                    .timestamp(saved.getTimestamp())
+                    .build();
 
-        // Send notifications for trade events
-        for (TradeEvent te : tradeEvents) {
-            try {
-                // Find the corresponding TradeEntity that was saved
-                TradeEntity tradeEntity = tradeEntities.stream()
-                    .filter(t -> t.getId().equals(te.getTradeId()))
-                    .findFirst()
-                    .orElse(null);
-                
-                if (tradeEntity != null) {
-                    // Send notification for executed trade
-                    notificationsServiceClient.sendOrderExecutedNotification(userId, order, tradeEntity);
-                }
-                
-                // Send to Kafka
-                String payload = objectMapper.writeValueAsString(te);
-                kafkaTemplate.send("trade-executed", te.getSymbol(), payload);
-            } catch (Exception e) {
-                log.error("Failed to serialize trade event", e);
-            }
+            tradeEventPublisher.publish(event);
         }
 
+        // Save the updated order status (FILLED / PARTIAL / PENDING / CANCELLED)
+        order = orderRepository.save(order);
+
         // Check if order is fully or partially filled and send appropriate notification
-        int totalFilledQuantity = tradeEvents.stream().mapToInt(TradeEvent::getQuantity).sum();
+        int totalFilledQuantity = trades.stream().mapToInt(TradeEntity::getQuantity).sum();
         if (totalFilledQuantity > 0) {
             if (totalFilledQuantity == request.getQuantity()) {
                 // Fully filled - already handled by trade events
                 log.info("Order fully filled");
             } else {
                 // Partially filled
-                notificationsServiceClient.sendOrderPartiallyExecutedNotification(userId, order, totalFilledQuantity);
+                notificationsClient.sendOrderPartiallyExecutedNotification(userId, order, totalFilledQuantity);
             }
         }
 
@@ -146,18 +129,6 @@ public class OrderService {
                 .status(order.getStatus().name())
                 .createdAt(order.getCreatedAt())
                 .build();
-    }
-
-    public void cancelOrder(String orderId) {
-        OrderEntity order = orderRepository.findById(orderId)
-            .orElseThrow(() -> new IllegalArgumentException("Order not found: " + orderId));
-            
-        String userId = order.getUserId();
-        order.setStatus(OrderEntity.Status.CANCELLED);
-        orderRepository.save(order);
-        
-        // Send notification for cancelled order
-        notificationsServiceClient.sendOrderCancelledNotification(userId, order);
     }
 
     private String resolveUserId() {

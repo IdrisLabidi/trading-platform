@@ -6,7 +6,6 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import tn.utm.nainternship.marketservice.entity.OrderEntity;
 import tn.utm.nainternship.marketservice.entity.TradeEntity;
-import tn.utm.nainternship.marketservice.mapper.TradeMapper;
 import tn.utm.nainternship.marketservice.repository.OrderRepository;
 import tn.utm.nainternship.marketservice.repository.TradeRepository;
 import tools.jackson.databind.ObjectMapper;
@@ -20,7 +19,6 @@ public class TradeEventListener {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final OrderRepository orderRepository;
     private final TradeRepository tradeRepository;
-    private final TradeMapper tradeMapper;
 
     @KafkaListener(topics = "trade-executed", groupId = "market-service-group")
     public void onTradeExecuted(String message) {
@@ -28,11 +26,11 @@ public class TradeEventListener {
             // map to TradeEntity
             var dto = objectMapper.readTree(message);
             TradeEntity trade = new TradeEntity();
-            trade.setId(dto.get("tradeId").asText());
-            trade.setSymbol(dto.get("symbol").asText());
-            trade.setBuyOrderId(dto.get("buyOrderId").asText());
-            trade.setSellOrderId(dto.get("sellOrderId").asText());
-            trade.setPrice(new java.math.BigDecimal(dto.get("price").asText()));
+            trade.setId(dto.get("tradeId").asString());
+            trade.setSymbol(dto.get("symbol").asString());
+            trade.setBuyOrderId(dto.get("buyOrderId").asString());
+            trade.setSellOrderId(dto.get("sellOrderId").asString());
+            trade.setPrice(new java.math.BigDecimal(dto.get("price").asString()));
             trade.setQuantity(dto.get("quantity").asInt());
             tradeRepository.save(trade);
 
@@ -41,9 +39,9 @@ public class TradeEventListener {
             String sellId = trade.getSellOrderId();
 
             Optional<OrderEntity> buyOpt = orderRepository.findById(buyId);
-            if (buyOpt.isPresent()) updateOrderFromTrade(buyOpt.get(), trade.getQuantity());
+            buyOpt.ifPresent(orderEntity -> updateOrderFromTrade(orderEntity, trade.getQuantity()));
             Optional<OrderEntity> sellOpt = orderRepository.findById(sellId);
-            if (sellOpt.isPresent()) updateOrderFromTrade(sellOpt.get(), trade.getQuantity());
+            sellOpt.ifPresent(orderEntity -> updateOrderFromTrade(orderEntity, trade.getQuantity()));
 
         } catch (Exception ex) {
             log.error("Failed to process trade-executed message", ex);

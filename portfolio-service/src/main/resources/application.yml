@@ -19,6 +19,12 @@ spring:
             jwt:
               issuer-uri: http://keycloak:8080/realms/trading-platform
 
+    kafka:
+      bootstrap-servers: kafka:29092
+      consumer:
+        key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
 market-service:
   base-url: http://market-service:8081
 

@@ -97,19 +97,30 @@ public class AccountService {
     }
 
     /**
+     * Crédite le compte cash d'un utilisateur suite à l'exécution d'un ordre SELL.
+     */
+    @Transactional
+    public Account creditCash(String userId, BigDecimal amount) {
+        Account account = loadForUpdate(userId);
+        account.setCashBalance(account.getCashBalance().add(amount));
+        log.debug("Credited {} to user {} (new cashBalance={})", amount, userId, account.getCashBalance());
+        return accountRepository.save(account);
+    }
+
+    /**
      * Débite définitivement un montant précédemment gelé (ordre exécuté).
      * Aucun mouvement sur cashBalance : la portion gelée disparaît simplement
      * car elle est partie vers le vendeur.
      */
     @Transactional
-    public Account consumeFrozenCash(String userId, BigDecimal amount) {
+    public void consumeFrozenCash(String userId, BigDecimal amount) {
         Account account = loadForUpdate(userId);
         BigDecimal newFrozen = account.getFrozenBalance().subtract(amount);
         if (newFrozen.signum() < 0) {
             newFrozen = BigDecimal.ZERO;
         }
         account.setFrozenBalance(newFrozen);
-        return accountRepository.save(account);
+        accountRepository.save(account);
     }
 
     /** Crée un compte à zéro pour un nouvel utilisateur. */

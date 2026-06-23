@@ -20,11 +20,13 @@ public class TradeEntity {
     @Column(nullable = false)
     private String symbol;
 
-    @Column(nullable = false)
-    private String buyOrderId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "buy_order_id", nullable = false)
+    private OrderEntity buyOrder;
 
-    @Column(nullable = false)
-    private String sellOrderId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sell_order_id", nullable = false)
+    private OrderEntity sellOrder;
 
     private BigDecimal price;
 

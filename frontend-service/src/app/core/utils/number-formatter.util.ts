@@ -1,3 +1,7 @@
+﻿/**
+ * Static helpers around `Intl.NumberFormat` for currency, plain numbers
+ * and percentage formatting.
+ */
 export class NumberFormatter {
   static currency(value: number, currency = 'EUR', locale = 'fr-FR'): string {
     return new Intl.NumberFormat(locale, {

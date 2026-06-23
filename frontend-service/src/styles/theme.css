@@ -1,10 +1,11 @@
-/* Theme variables placeholder */
+﻿/* =============================================================
+ * Theme bridge: forwards CSS custom properties to PrimeNG
+ * ============================================================= */
+
 [data-theme='dark'] {
-  --app-bg: #0b0d12;
-  --app-fg: #e6e8ee;
+  color-scheme: dark;
 }
 
 [data-theme='light'] {
-  --app-bg: #ffffff;
-  --app-fg: #0b0d12;
+  color-scheme: light;
 }

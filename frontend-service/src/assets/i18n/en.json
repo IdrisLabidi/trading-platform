@@ -1,0 +1,37 @@
+﻿{
+  "app": {
+    "name": "Trading Platform",
+    "loading": "Loading...",
+    "error": "An error occurred"
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "username": "Username",
+    "password": "Password",
+    "submit": "Sign in",
+    "invalidCredentials": "Invalid credentials"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "markets": "Markets",
+    "portfolio": "Portfolio",
+    "assets": "Assets",
+    "orders": "Orders",
+    "history": "History",
+    "watchlist": "Watchlist",
+    "notifications": "Notifications",
+    "settings": "Settings"
+  },
+  "common": {
+    "yes": "Yes",
+    "no": "No",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "delete": "Delete",
+    "search": "Search",
+    "open": "Open",
+    "close": "Close"
+  }
+}

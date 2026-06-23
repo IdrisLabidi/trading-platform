@@ -1,0 +1,37 @@
+﻿{
+  "app": {
+    "name": "Trading Platform",
+    "loading": "Chargement...",
+    "error": "Une erreur est survenue"
+  },
+  "auth": {
+    "login": "Connexion",
+    "logout": "Déconnexion",
+    "username": "Nom d''utilisateur",
+    "password": "Mot de passe",
+    "submit": "Se connecter",
+    "invalidCredentials": "Identifiants invalides"
+  },
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "markets": "Marchés",
+    "portfolio": "Portefeuille",
+    "assets": "Actifs",
+    "orders": "Ordres",
+    "history": "Historique",
+    "watchlist": "Watchlist",
+    "notifications": "Notifications",
+    "settings": "Paramètres"
+  },
+  "common": {
+    "yes": "Oui",
+    "no": "Non",
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "search": "Rechercher",
+    "open": "Ouvrir",
+    "close": "Fermer"
+  }
+}

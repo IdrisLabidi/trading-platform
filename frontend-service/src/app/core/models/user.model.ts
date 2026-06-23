@@ -1,4 +1,4 @@
-export interface IUser {
+﻿export interface IUser {
   readonly id: string;
   readonly username: string;
   readonly email: string;
@@ -19,11 +19,17 @@ export interface IAuthToken {
   readonly tokenType: string;
 }
 
-export interface IJwtPayload {
+export interface IKeycloakTokenParsed {
   readonly sub: string;
   readonly preferred_username?: string;
   readonly email?: string;
+  readonly given_name?: string;
+  readonly family_name?: string;
+  readonly name?: string;
   readonly realm_access?: { roles: readonly string[] };
   readonly exp?: number;
   readonly iat?: number;
+  readonly [claim: string]: unknown;
 }
+
+export type IJwtPayload = IKeycloakTokenParsed;

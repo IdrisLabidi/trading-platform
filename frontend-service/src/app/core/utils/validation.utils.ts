@@ -1,3 +1,6 @@
+﻿/**
+ * Lightweight validation helpers shared by feature forms.
+ */
 export class ValidationUtils {
   static isEmail(value: string): boolean {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);

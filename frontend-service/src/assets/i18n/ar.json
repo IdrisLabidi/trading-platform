@@ -1,0 +1,37 @@
+﻿{
+  "app": {
+    "name": "منصة التداول",
+    "loading": "جار التحميل...",
+    "error": "حدث خطأ"
+  },
+  "auth": {
+    "login": "تسجيل الدخول",
+    "logout": "تسجيل الخروج",
+    "username": "اسم المستخدم",
+    "password": "كلمة المرور",
+    "submit": "دخول",
+    "invalidCredentials": "بيانات الاعتماد غير صالحة"
+  },
+  "nav": {
+    "dashboard": "لوحة التحكم",
+    "markets": "الأسواق",
+    "portfolio": "المحفظة",
+    "assets": "الأصول",
+    "orders": "الأوامر",
+    "history": "السجل",
+    "watchlist": "قائمة المتابعة",
+    "notifications": "الإشعارات",
+    "settings": "الإعدادات"
+  },
+  "common": {
+    "yes": "نعم",
+    "no": "لا",
+    "cancel": "إلغاء",
+    "confirm": "تأكيد",
+    "save": "حفظ",
+    "delete": "حذف",
+    "search": "بحث",
+    "open": "فتح",
+    "close": "إغلاق"
+  }
+}

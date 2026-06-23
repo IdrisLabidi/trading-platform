@@ -1,8 +1,13 @@
-import { Injectable, inject } from '@angular/core';
+﻿import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
+/**
+ * Thin wrapper around `HttpClient` that prefixes every request with the
+ * configured `apiBaseUrl`. The HTTP interceptors (auth, error, loading)
+ * are wired once in `app.config.ts`.
+ */
 @Injectable({ providedIn: 'root' })
 export class HttpService {
   private readonly http = inject(HttpClient);

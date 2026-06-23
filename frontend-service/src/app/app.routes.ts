@@ -1,5 +1,12 @@
-import { Routes } from '@angular/router';
+﻿import { type Routes } from '@angular/router';
+import { authMatchGuard } from './core/guards/auth.guard';
 
+/**
+ * Root routes:
+ * - `/login` is public.
+ * - Everything else goes through the authenticated shell, which in
+ *   turn enforces the auth + role guards for each lazy feature.
+ */
 export const routes: Routes = [
   {
     path: 'login',
@@ -8,6 +15,7 @@ export const routes: Routes = [
   },
   {
     path: '',
+    canMatch: [authMatchGuard],
     loadChildren: () =>
       import('./layout/shell/shell.routes').then((m) => m.SHELL_ROUTES)
   },

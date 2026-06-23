@@ -11,8 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import tn.utm.nainternship.marketservice.client.AssetClient;
 import tn.utm.nainternship.marketservice.client.NotificationsServiceClient;
 import tn.utm.nainternship.marketservice.client.PortfolioClient;
+import tn.utm.nainternship.marketservice.dto.OrderDetailsResponse;
 import tn.utm.nainternship.marketservice.dto.OrderRequest;
 import tn.utm.nainternship.marketservice.dto.OrderResponse;
+import tn.utm.nainternship.marketservice.dto.OrderUpdateRequest;
 import tn.utm.nainternship.marketservice.dto.TradeEvent;
 import tn.utm.nainternship.marketservice.entity.OrderEntity;
 import tn.utm.nainternship.marketservice.entity.TradeEntity;
@@ -92,24 +94,7 @@ public class OrderService {
                 order.getId(), trades.size(), order.getStatus());
 
         // Step 7 — Persist trades and publish to Kafka
-        for (TradeEntity trade : trades) {
-            TradeEntity saved = tradeRepository.save(trade);
-            log.info("Trade persisted: {} x{} @ {}", saved.getSymbol(), saved.getQuantity(), saved.getPrice());
-
-            TradeEvent event = TradeEvent.builder()
-                    .tradeId(saved.getId())
-                    .symbol(saved.getSymbol())
-                    .price(saved.getPrice())
-                    .quantity(saved.getQuantity())
-                    .buyOrderId(saved.getBuyOrder().getId())
-                    .sellOrderId(saved.getSellOrder().getId())
-                    .buyUserId(saved.getBuyOrder().getUserId())
-                    .sellUserId(saved.getSellOrder().getUserId())
-                    .timestamp(saved.getTimestamp())
-                    .build();
-
-            tradeEventPublisher.publish(event);
-        }
+        persistTrades(trades);
 
         // Save the updated order status (FILLED / PARTIAL / PENDING / CANCELLED)
         order = orderRepository.save(order);
@@ -133,15 +118,90 @@ public class OrderService {
                 .build();
     }
 
+    @Transactional(readOnly = true)
+    public OrderBookSnapshot getOrderBookBySymbol(String symbol) {
+        return orderBookService.snapshot(symbol);
+    }
+
+    @Transactional(readOnly = true)
+    public OrderDetailsResponse getOrderById(String orderId) {
+        String userId = resolveUserId();
+        return toDetails(requireOwnedOrder(orderId, userId));
+    }
+
+    @Transactional(readOnly = true)
+    public List<OrderDetailsResponse> getOrdersByUser(String userId) {
+        ensureSelf(userId);
+        return orderRepository.findByUserIdOrderByCreatedAtDesc(userId).stream()
+                .map(this::toDetails)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<OrderDetailsResponse> getOpenOrdersByUser(String userId) {
+        ensureSelf(userId);
+        return orderRepository.findByUserIdAndStatusInOrderByCreatedAtDesc(
+                userId, List.of(OrderEntity.Status.PENDING, OrderEntity.Status.PARTIAL)
+        ).stream().map(this::toDetails).toList();
+    }
+
+    @Transactional
+    public OrderResponse updateOrder(String orderId, OrderUpdateRequest request) {
+        String userId = resolveUserId();
+        OrderEntity order = requireOwnedOrder(orderId, userId);
+
+        if (order.getStatus() != OrderEntity.Status.PENDING && order.getStatus() != OrderEntity.Status.PARTIAL) {
+            throw new IllegalStateException("Only open orders can be updated");
+        }
+        if (request.getPrice() == null && request.getQuantity() == null) {
+            throw new IllegalArgumentException("At least one field must be provided for update");
+        }
+
+        int filledQty = order.getQuantity() - order.getRemainingQty();
+        BigDecimal newPrice = request.getPrice() != null ? request.getPrice() : order.getPrice();
+        int newTotalQty = request.getQuantity() != null ? request.getQuantity() : order.getQuantity();
+
+        if (newTotalQty < filledQty) {
+            throw new IllegalArgumentException("Updated quantity cannot be smaller than already filled quantity");
+        }
+
+        int newRemainingQty = newTotalQty - filledQty;
+        String freezeReason = "ORDER_" + order.getId();
+
+        orderBookService.removeFromBook(order);
+        adjustReservation(order, newPrice, newRemainingQty, userId, freezeReason);
+
+        order.setPrice(newPrice);
+        order.setQuantity(newTotalQty);
+        order.setRemainingQty(newRemainingQty);
+        order.setStatus(newRemainingQty > 0
+                ? (filledQty > 0 ? OrderEntity.Status.PARTIAL : OrderEntity.Status.PENDING)
+                : OrderEntity.Status.CANCELLED);
+
+        order = orderRepository.save(order);
+
+        if (order.getRemainingQty() > 0) {
+            List<TradeEntity> trades = orderBookService.match(order);
+            persistTrades(trades);
+            order = orderRepository.save(order);
+
+            int totalFilledQuantity = trades.stream().mapToInt(TradeEntity::getQuantity).sum();
+            if (totalFilledQuantity > 0 && order.getRemainingQty() > 0) {
+                notificationsClient.sendOrderPartiallyExecutedNotification(userId, order, totalFilledQuantity);
+            }
+        }
+
+        return OrderResponse.builder()
+                .id(order.getId())
+                .status(order.getStatus().name())
+                .createdAt(order.getCreatedAt())
+                .build();
+    }
+
     @Transactional
     public OrderResponse cancelOrder(String orderId) {
         String userId = resolveUserId();
-        OrderEntity order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new IllegalArgumentException("Order not found: " + orderId));
-
-        if (!userId.equals(order.getUserId())) {
-            throw new SecurityException("You can only cancel your own orders");
-        }
+        OrderEntity order = requireOwnedOrder(orderId, userId);
 
         if (order.getStatus() == OrderEntity.Status.FILLED || order.getStatus() == OrderEntity.Status.CANCELLED) {
             throw new IllegalStateException("Order cannot be cancelled in status " + order.getStatus());
@@ -170,6 +230,78 @@ public class OrderService {
         return OrderResponse.builder()
                 .id(order.getId())
                 .status(order.getStatus().name())
+                .createdAt(order.getCreatedAt())
+                .build();
+    }
+
+    private void adjustReservation(OrderEntity order, BigDecimal newPrice, int newRemainingQty, String userId, String freezeReason) {
+        if (order.getSide() == OrderEntity.Side.BUY) {
+            BigDecimal oldReserved = order.getPrice().multiply(BigDecimal.valueOf(order.getRemainingQty()));
+            BigDecimal newReserved = newPrice.multiply(BigDecimal.valueOf(newRemainingQty));
+            BigDecimal delta = newReserved.subtract(oldReserved);
+            if (delta.signum() > 0) {
+                portfolioClient.freezeAmount(userId, delta, freezeReason);
+            } else if (delta.signum() < 0) {
+                portfolioClient.unfreezeAmount(userId, delta.abs(), freezeReason);
+            }
+        } else {
+            int delta = newRemainingQty - order.getRemainingQty();
+            if (delta > 0) {
+                portfolioClient.freezeShares(userId, order.getSymbol(), delta, freezeReason);
+            } else if (delta < 0) {
+                portfolioClient.unfreezeShares(userId, order.getSymbol(), Math.abs(delta), freezeReason);
+            }
+        }
+    }
+
+    private void persistTrades(List<TradeEntity> trades) {
+        for (TradeEntity trade : trades) {
+            TradeEntity saved = tradeRepository.save(trade);
+            log.info("Trade persisted: {} x{} @ {}", saved.getSymbol(), saved.getQuantity(), saved.getPrice());
+
+            TradeEvent event = TradeEvent.builder()
+                    .tradeId(saved.getId())
+                    .symbol(saved.getSymbol())
+                    .price(saved.getPrice())
+                    .quantity(saved.getQuantity())
+                    .buyOrderId(saved.getBuyOrder().getId())
+                    .sellOrderId(saved.getSellOrder().getId())
+                    .buyUserId(saved.getBuyOrder().getUserId())
+                    .sellUserId(saved.getSellOrder().getUserId())
+                    .timestamp(saved.getTimestamp())
+                    .build();
+
+            tradeEventPublisher.publish(event);
+        }
+    }
+
+    private OrderEntity requireOwnedOrder(String orderId, String userId) {
+        OrderEntity order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("Order not found: " + orderId));
+        if (!userId.equals(order.getUserId())) {
+            throw new SecurityException("You can only access your own orders");
+        }
+        return order;
+    }
+
+    private void ensureSelf(String userId) {
+        String currentUserId = resolveUserId();
+        if (!currentUserId.equals(userId)) {
+            throw new SecurityException("You can only access your own orders");
+        }
+    }
+
+    private OrderDetailsResponse toDetails(OrderEntity order) {
+        return OrderDetailsResponse.builder()
+                .id(order.getId())
+                .userId(order.getUserId())
+                .symbol(order.getSymbol())
+                .side(order.getSide())
+                .type(order.getType())
+                .price(order.getPrice())
+                .quantity(order.getQuantity())
+                .remainingQty(order.getRemainingQty())
+                .status(order.getStatus())
                 .createdAt(order.getCreatedAt())
                 .build();
     }

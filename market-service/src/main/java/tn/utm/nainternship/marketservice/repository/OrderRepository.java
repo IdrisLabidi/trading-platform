@@ -10,6 +10,9 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<OrderEntity, String> {
     List<OrderEntity> findBySymbol(String symbol);
 
+    List<OrderEntity> findByUserIdOrderByCreatedAtDesc(String userId);
+
+    List<OrderEntity> findByUserIdAndStatusInOrderByCreatedAtDesc(String userId, List<OrderEntity.Status> statuses);
+
     List<OrderEntity> findByStatusInOrderByCreatedAtAsc(List<OrderEntity.Status> statuses);
 }
-

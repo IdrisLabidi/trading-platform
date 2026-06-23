@@ -1,0 +1,10 @@
+/* Theme variables placeholder */
+[data-theme='dark'] {
+  --app-bg: #0b0d12;
+  --app-fg: #e6e8ee;
+}
+
+[data-theme='light'] {
+  --app-bg: #ffffff;
+  --app-fg: #0b0d12;
+}

@@ -1,12 +1,15 @@
-import { Component, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { WorkspaceComponent } from './layout/workspace/workspace.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.html',
-  styleUrl: './app.css'
+  standalone: true,
+  imports: [RouterOutlet, WorkspaceComponent],
+  template: `
+    <app-workspace></app-workspace>
+    <router-outlet />
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class App {
-  protected readonly title = signal('frontend-service');
-}
+export class App {}

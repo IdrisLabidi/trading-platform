@@ -1,4 +1,4 @@
-﻿{
+{
   "app": {
     "name": "Trading Platform",
     "loading": "Loading...",
@@ -33,5 +33,64 @@
     "search": "Search",
     "open": "Open",
     "close": "Close"
+  },
+  "dashboard": {
+    "toolbar": {
+      "title": "Dashboard",
+      "subtitle": "Overview of your trading activity",
+      "refresh": "Refresh",
+      "lastRefreshed": "Last refreshed"
+    },
+    "status": {
+      "ready": "Up to date",
+      "idle": "Idle",
+      "error": "Error"
+    },
+    "common": {
+      "updated": "Updated",
+      "placeholder": "Placeholder",
+      "widgetPlaceholder": "Widget placeholder"
+    },
+    "summary": {
+      "label": "Key metrics",
+      "portfolio": "Portfolio value",
+      "dayChange": "Day change",
+      "openOrders": "Open orders",
+      "watchlist": "Watchlists",
+      "tradesToday": "Trades today",
+      "assets": "tracked assets",
+      "asOf": "as of"
+    },
+    "portfolio": {
+      "title": "Portfolio",
+      "totalValue": "Total value",
+      "totalCost": "Total cost",
+      "totalPnL": "Unrealized P&L",
+      "totalPnLPercent": "P&L %",
+      "symbol": "Symbol",
+      "quantity": "Quantity",
+      "averagePrice": "Avg. price",
+      "currentPrice": "Current price",
+      "marketValue": "Market value",
+      "empty": "No position in your portfolio yet."
+    },
+    "market": {
+      "title": "Market overview",
+      "empty": "No market index to display right now."
+    },
+    "watchlist": {
+      "title": "Watchlist",
+      "count": "watchlist(s)",
+      "target": "Target",
+      "empty": "You are not tracking any asset yet."
+    },
+    "activity": {
+      "title": "Recent activity",
+      "empty": "No recent trade."
+    },
+    "error": {
+      "title": "Dashboard error",
+      "unknown": "Unknown error while loading the dashboard."
+    }
   }
 }

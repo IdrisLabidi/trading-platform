@@ -1,4 +1,4 @@
-ï»¿{
+{
   "app": {
     "name": "Trading Platform",
     "loading": "Chargement...",
@@ -6,7 +6,7 @@
   },
   "auth": {
     "login": "Connexion",
-    "logout": "DÃ©connexion",
+    "logout": "Déconnexion",
     "username": "Nom d''utilisateur",
     "password": "Mot de passe",
     "submit": "Se connecter",
@@ -14,14 +14,14 @@
   },
   "nav": {
     "dashboard": "Tableau de bord",
-    "markets": "MarchÃ©s",
+    "markets": "Marchés",
     "portfolio": "Portefeuille",
     "assets": "Actifs",
     "orders": "Ordres",
     "history": "Historique",
     "watchlist": "Watchlist",
     "notifications": "Notifications",
-    "settings": "ParamÃ¨tres"
+    "settings": "Paramètres"
   },
   "common": {
     "yes": "Oui",
@@ -33,5 +33,64 @@
     "search": "Rechercher",
     "open": "Ouvrir",
     "close": "Fermer"
+  },
+  "dashboard": {
+    "toolbar": {
+      "title": "Tableau de bord",
+      "subtitle": "Vue d''ensemble de votre activité de trading",
+      "refresh": "Actualiser",
+      "lastRefreshed": "Dernière mise à jour"
+    },
+    "status": {
+      "ready": "À jour",
+      "idle": "En attente",
+      "error": "Erreur"
+    },
+    "common": {
+      "updated": "Mis à jour",
+      "placeholder": "Espace réservé",
+      "widgetPlaceholder": "Widget à compléter"
+    },
+    "summary": {
+      "label": "Indicateurs clés",
+      "portfolio": "Valeur du portefeuille",
+      "dayChange": "Variation du jour",
+      "openOrders": "Ordres ouverts",
+      "watchlist": "Watchlists",
+      "tradesToday": "Trades aujourd''hui",
+      "assets": "actifs suivis",
+      "asOf": "au"
+    },
+    "portfolio": {
+      "title": "Portefeuille",
+      "totalValue": "Valeur totale",
+      "totalCost": "Coût total",
+      "totalPnL": "Plus-value latente",
+      "totalPnLPercent": "Plus-value %",
+      "symbol": "Symbole",
+      "quantity": "Quantité",
+      "averagePrice": "PRU",
+      "currentPrice": "Prix actuel",
+      "marketValue": "Valeur de marché",
+      "empty": "Aucune position dans votre portefeuille."
+    },
+    "market": {
+      "title": "Aperçu du marché",
+      "empty": "Aucun indice de marché à afficher pour le moment."
+    },
+    "watchlist": {
+      "title": "Watchlist",
+      "count": "watchlist(s)",
+      "target": "Cible",
+      "empty": "Aucun actif suivi pour le moment."
+    },
+    "activity": {
+      "title": "Activité récente",
+      "empty": "Aucune transaction récente."
+    },
+    "error": {
+      "title": "Erreur du tableau de bord",
+      "unknown": "Erreur inconnue lors du chargement du tableau de bord."
+    }
   }
 }

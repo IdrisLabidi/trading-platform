@@ -82,7 +82,7 @@ export class SidebarComponent {
   /** Pinned state, two-way bound to the shell. `false` = collapsed by default. */
   readonly pinned = model<boolean>(false);
   /** Hover state, owned by the sidebar (transient). */
-  private readonly hovered = signal<boolean>(false);
+  protected readonly hovered = signal<boolean>(false);
   /** Effective expanded state: pinned open OR currently hovered. */
   readonly expanded = computed(() => this.pinned() || this.hovered());
 

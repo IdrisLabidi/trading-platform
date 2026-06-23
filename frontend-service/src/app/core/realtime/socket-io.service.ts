@@ -1,7 +1,7 @@
 ﻿import { isPlatformBrowser } from '@angular/common';
 import { DOCUMENT } from '@angular/common';
 import { Injectable, NgZone, PLATFORM_ID, inject, signal } from '@angular/core';
-import { Subject, type Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { io, type Socket } from 'socket.io-client';
 
 import { AuthService } from '../services/auth.service';

@@ -20,4 +20,9 @@ public class OrderController {
     public OrderResponse submitOrder(@Valid @RequestBody OrderRequest request) {
         return orderService.submitOrder(request);
     }
+
+    @DeleteMapping("/{orderId}")
+    public OrderResponse cancelOrder(@PathVariable String orderId) {
+        return orderService.cancelOrder(orderId);
+    }
 }

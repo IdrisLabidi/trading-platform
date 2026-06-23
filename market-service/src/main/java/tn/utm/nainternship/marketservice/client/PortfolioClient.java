@@ -74,5 +74,30 @@ public class PortfolioClient {
             throw new RuntimeException("Failed to freeze shares: " + ex.getMessage(), ex);
         }
     }
-}
 
+    public void unfreezeAmount(String userId, BigDecimal amount, String reason) {
+        String url = String.format("%s/api/portfolio/%s/unfreeze", portfolioServiceUrl, userId);
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            Map body = Map.of("amount", amount, "reason", reason);
+            restTemplate.postForEntity(url, new HttpEntity<>(body, headers), Void.class);
+        } catch (Exception ex) {
+            log.error("Error unfreezing amount", ex);
+            throw new RuntimeException("Failed to unfreeze amount: " + ex.getMessage(), ex);
+        }
+    }
+
+    public void unfreezeShares(String userId, String symbol, int quantity, String reason) {
+        String url = String.format("%s/api/portfolio/%s/unfreeze-shares", portfolioServiceUrl, userId);
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            Map body = Map.of("symbol", symbol, "quantity", quantity, "reason", reason);
+            restTemplate.postForEntity(url, new HttpEntity<>(body, headers), Void.class);
+        } catch (Exception ex) {
+            log.error("Error unfreezing shares", ex);
+            throw new RuntimeException("Failed to unfreeze shares: " + ex.getMessage(), ex);
+        }
+    }
+}

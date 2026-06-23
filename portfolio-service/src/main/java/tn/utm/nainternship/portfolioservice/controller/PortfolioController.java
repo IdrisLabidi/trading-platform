@@ -66,7 +66,7 @@ public class PortfolioController {
         return ResponseEntity.ok(positionService.getAllPositions(userId));
     }
 
-    @PostMapping("{userId}/freeze")
+    @PostMapping("/{userId}/freeze")
     public ResponseEntity<Void> freezeAmount(@PathVariable String userId, @RequestBody FreezeBalanceRequest request){
         accountService.freezeCash(userId, request.amount());
         return ResponseEntity.ok().build();
@@ -75,6 +75,18 @@ public class PortfolioController {
     @PostMapping("/{userId}/freeze-shares")
     public ResponseEntity<Void> freezeShares(@PathVariable String userId, @RequestBody FreezeSharesRequest request){
         positionService.freezeShares(userId, request.symbol(), request.quantity());
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{userId}/unfreeze")
+    public ResponseEntity<Void> unfreezeAmount(@PathVariable String userId, @RequestBody FreezeBalanceRequest request) {
+        accountService.releaseCash(userId, request.amount());
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{userId}/unfreeze-shares")
+    public ResponseEntity<Void> unfreezeShares(@PathVariable String userId, @RequestBody FreezeSharesRequest request) {
+        positionService.releaseShares(userId, request.symbol(), request.quantity());
         return ResponseEntity.ok().build();
     }
 

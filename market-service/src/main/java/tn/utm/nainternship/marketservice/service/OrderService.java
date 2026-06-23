@@ -133,6 +133,47 @@ public class OrderService {
                 .build();
     }
 
+    @Transactional
+    public OrderResponse cancelOrder(String orderId) {
+        String userId = resolveUserId();
+        OrderEntity order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("Order not found: " + orderId));
+
+        if (!userId.equals(order.getUserId())) {
+            throw new SecurityException("You can only cancel your own orders");
+        }
+
+        if (order.getStatus() == OrderEntity.Status.FILLED || order.getStatus() == OrderEntity.Status.CANCELLED) {
+            throw new IllegalStateException("Order cannot be cancelled in status " + order.getStatus());
+        }
+
+        int remainingQty = order.getRemainingQty();
+        String freezeReason = "ORDER_" + order.getId();
+
+        orderBookService.removeFromBook(order);
+
+        if (remainingQty > 0) {
+            if (order.getSide() == OrderEntity.Side.BUY) {
+                BigDecimal amount = order.getPrice().multiply(BigDecimal.valueOf(remainingQty));
+                portfolioClient.unfreezeAmount(userId, amount, freezeReason);
+            } else {
+                portfolioClient.unfreezeShares(userId, order.getSymbol(), remainingQty, freezeReason);
+            }
+        }
+
+        order.setRemainingQty(0);
+        order.setStatus(OrderEntity.Status.CANCELLED);
+        order = orderRepository.save(order);
+
+        notificationsClient.sendOrderCancelledNotification(userId, order);
+
+        return OrderResponse.builder()
+                .id(order.getId())
+                .status(order.getStatus().name())
+                .createdAt(order.getCreatedAt())
+                .build();
+    }
+
     private String resolveUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {

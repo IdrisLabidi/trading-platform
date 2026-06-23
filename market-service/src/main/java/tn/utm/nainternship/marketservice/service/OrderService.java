@@ -101,8 +101,10 @@ public class OrderService {
                     .symbol(saved.getSymbol())
                     .price(saved.getPrice())
                     .quantity(saved.getQuantity())
-                    .buyOrderId(saved.getBuyOrderId())
-                    .sellOrderId(saved.getSellOrderId())
+                    .buyOrderId(saved.getBuyOrder().getId())
+                    .sellOrderId(saved.getSellOrder().getId())
+                    .buyUserId(saved.getBuyOrder().getUserId())
+                    .sellUserId(saved.getSellOrder().getUserId())
                     .timestamp(saved.getTimestamp())
                     .build();
 

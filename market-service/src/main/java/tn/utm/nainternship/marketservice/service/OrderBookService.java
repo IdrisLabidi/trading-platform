@@ -113,7 +113,7 @@ public class OrderBookService {
 
                 log.info("MATCH  symbol={} qty={} @ {} | buyOrder={} sellOrder={}",
                         incoming.getSymbol(), fillQty, bestPrice,
-                        trade.getBuyOrderId(), trade.getSellOrderId());
+                        trade.getBuyOrder().getId(), trade.getSellOrder().getId());
 
                 // ── Decrement quantities ─────────────────────────────────────────
                 incoming.setRemainingQty(incoming.getRemainingQty() - fillQty);
@@ -230,17 +230,17 @@ public class OrderBookService {
                                    OrderEntity counterOrder,
                                    BigDecimal executionPrice,
                                    int fillQty) {
-        String buyOrderId  = incoming.getSide() == OrderEntity.Side.BUY
-                ? incoming.getId() : counterOrder.getId();
-        String sellOrderId = incoming.getSide() == OrderEntity.Side.SELL
-                ? incoming.getId() : counterOrder.getId();
+        OrderEntity buyOrder  = incoming.getSide() == OrderEntity.Side.BUY
+                ? incoming : counterOrder;
+        OrderEntity sellOrder = incoming.getSide() == OrderEntity.Side.SELL
+                ? incoming : counterOrder;
 
         return TradeEntity.builder()
                 .symbol(incoming.getSymbol())
                 .price(executionPrice)
                 .quantity(fillQty)
-                .buyOrderId(buyOrderId)
-                .sellOrderId(sellOrderId)
+                .buyOrder(buyOrder)
+                .sellOrder(sellOrder)
                 .build();
     }
 

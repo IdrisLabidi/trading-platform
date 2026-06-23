@@ -32,6 +32,8 @@ public class TradeEventListener {
             trade.setSellOrderId(dto.get("sellOrderId").asString());
             trade.setPrice(new java.math.BigDecimal(dto.get("price").asString()));
             trade.setQuantity(dto.get("quantity").asInt());
+
+            log.info("Received trade-executed message: {}", message);
             tradeRepository.save(trade);
 
             // update orders' remaining qty and status if present

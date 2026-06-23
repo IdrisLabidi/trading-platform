@@ -21,7 +21,7 @@ spring:
           jwk-set-uri: http://keycloak:8080/realms/trading-platform/protocol/openid-connect/certs
 
   kafka:
-    bootstrap-servers: kafka:9092
+    bootstrap-servers: kafka:29092
     consumer:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer

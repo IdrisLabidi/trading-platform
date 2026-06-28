@@ -154,6 +154,56 @@
     }
   },
   "portfolio": {
+    "overview": {
+      "title": "Portefeuille",
+      "subtitle": "Vue d''ensemble de vos positions et de votre solde",
+      "refresh": "Actualiser",
+      "openOrders": "Ordres ouverts",
+      "loading": "Chargement du portefeuille...",
+      "totalValue": "Valeur totale",
+      "totalCost": "Coût total",
+      "pnl": "Plus-value latente",
+      "cash": "Trésorerie disponible",
+      "positions": "Positions",
+      "cost": "Coût d''acquisition",
+      "frozen": "Réservé",
+      "available": "Disponible"
+    },
+    "positions": {
+      "title": "Positions",
+      "empty": "Aucune position dans votre portefeuille.",
+      "col": {
+        "symbol": "Symbole",
+        "quantity": "Quantité",
+        "avgPrice": "PRU",
+        "currentPrice": "Prix actuel",
+        "marketValue": "Valeur de marché",
+        "pnl": "Plus-value",
+        "weight": "Poids"
+      },
+      "total": "Total",
+      "hundredPercent": "100%"
+    },
+    "details": {
+      "title": "Détails de la position",
+      "assetFallback": "Position",
+      "trade": "Trader",
+      "openMarket": "Voir le marché",
+      "loading": "Chargement de la position...",
+      "notFound": "Position introuvable",
+      "quantity": "Quantité",
+      "avgPrice": "Prix de revient",
+      "currentPrice": "Prix actuel",
+      "marketValue": "Valeur de marché",
+      "pnl": "Plus-value latente",
+      "reservations": "Réservations",
+      "frozen": "Quantité gelée",
+      "available": "Disponible"
+    },
+    "performance": {
+      "title": "Contribution au P&L",
+      "empty": "Aucune donnée de performance."
+    },
     "error": {
       "title": "Erreur portefeuille",
       "unknown": "Erreur inconnue lors du chargement du portefeuille."

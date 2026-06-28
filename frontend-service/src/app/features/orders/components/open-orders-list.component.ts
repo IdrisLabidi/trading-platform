@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
-import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
@@ -22,7 +21,6 @@ import type { IOrder } from '../models/order.model';
   selector: 'app-open-orders-list',
   standalone: true,
   imports: [
-    DatePipe,
     RouterLink,
     TranslatePipe,
     ButtonModule,

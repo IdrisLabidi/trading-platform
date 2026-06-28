@@ -9,10 +9,10 @@ import { SelectModule } from 'primeng/select';
 
 import { OrdersStore } from '../stores/orders.store';
 import { NotificationService } from '../../../core/services/notification.service';
-import { CurrencyFormatPipe } from '../../../shared/pipes/currency-format.pipe';
 import { NumberFormatPipe } from '../../../shared/pipes/number-format.pipe';
 import { OpenOrderItemComponent } from './open-order-item.component';
 import type { IOrder, OrderStatus } from '../models/order.model';
+import {FormsModule} from '@angular/forms';
 
 interface IStatusFilter {
   readonly label: string;
@@ -37,9 +37,9 @@ interface IStatusFilter {
     TagModule,
     ProgressSpinnerModule,
     SelectModule,
-    CurrencyFormatPipe,
     NumberFormatPipe,
-    OpenOrderItemComponent
+    OpenOrderItemComponent,
+    FormsModule
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

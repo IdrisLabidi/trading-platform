@@ -154,6 +154,56 @@
     }
   },
   "portfolio": {
+    "overview": {
+      "title": "Portfolio",
+      "subtitle": "Overview of your positions and cash balance",
+      "refresh": "Refresh",
+      "openOrders": "Open orders",
+      "loading": "Loading portfolio...",
+      "totalValue": "Total value",
+      "totalCost": "Total cost",
+      "pnl": "Unrealized P&L",
+      "cash": "Available cash",
+      "positions": "Positions",
+      "cost": "Acquisition cost",
+      "frozen": "Frozen",
+      "available": "Available"
+    },
+    "positions": {
+      "title": "Positions",
+      "empty": "No position in your portfolio yet.",
+      "col": {
+        "symbol": "Symbol",
+        "quantity": "Quantity",
+        "avgPrice": "Avg. price",
+        "currentPrice": "Current price",
+        "marketValue": "Market value",
+        "pnl": "P&L",
+        "weight": "Weight"
+      },
+      "total": "Total",
+      "hundredPercent": "100%"
+    },
+    "details": {
+      "title": "Position details",
+      "assetFallback": "Position",
+      "trade": "Trade",
+      "openMarket": "Open market",
+      "loading": "Loading position...",
+      "notFound": "Position not found",
+      "quantity": "Quantity",
+      "avgPrice": "Average price",
+      "currentPrice": "Current price",
+      "marketValue": "Market value",
+      "pnl": "Unrealized P&L",
+      "reservations": "Reservations",
+      "frozen": "Frozen quantity",
+      "available": "Available"
+    },
+    "performance": {
+      "title": "P&L contribution",
+      "empty": "No performance data yet."
+    },
     "error": {
       "title": "Portfolio error",
       "unknown": "Unknown error while loading the portfolio."

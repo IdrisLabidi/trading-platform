@@ -4,7 +4,6 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 
-import { CurrencyFormatPipe } from '../../../shared/pipes/currency-format.pipe';
 import { NumberFormatPipe } from '../../../shared/pipes/number-format.pipe';
 import type { IOrder, OrderStatus } from '../models/order.model';
 
@@ -21,7 +20,6 @@ import type { IOrder, OrderStatus } from '../models/order.model';
     TranslatePipe,
     ButtonModule,
     TagModule,
-    CurrencyFormatPipe,
     NumberFormatPipe
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -75,8 +73,8 @@ import type { IOrder, OrderStatus } from '../models/order.model';
           size="small"
           severity="danger"
           [outlined]="true"
-          [disabled]="!cancellable() || cancelling()"
-          [loading]="cancelling()"
+          [disabled]="!cancellable() || cancelling"
+          [loading]="cancelling"
           (onClick)="onCancel()"
         >
           <i class="pi pi-times" pButtonIcon></i>

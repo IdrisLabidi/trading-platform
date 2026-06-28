@@ -4,7 +4,6 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
 
-import { CurrencyFormatPipe } from '../../../shared/pipes/currency-format.pipe';
 import { NumberFormatPipe } from '../../../shared/pipes/number-format.pipe';
 import type { IOrder } from '../models/order.model';
 
@@ -16,7 +15,7 @@ import type { IOrder } from '../models/order.model';
 @Component({
   selector: 'app-cancel-order-dialog',
   standalone: true,
-  imports: [TranslatePipe, ButtonModule, CardModule, TagModule, CurrencyFormatPipe, NumberFormatPipe],
+  imports: [TranslatePipe, ButtonModule, CardModule, TagModule, NumberFormatPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <p-card>

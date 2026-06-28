@@ -158,5 +158,142 @@
       "title": "Portfolio error",
       "unknown": "Unknown error while loading the portfolio."
     }
+  },
+  "orders": {
+    "history": {
+      "title": "Order history",
+      "subtitle": "Every order you placed on the platform",
+      "refresh": "Refresh",
+      "open": "View open orders",
+      "new": "New order",
+      "filter": "Filter by status",
+      "loading": "Loading orders...",
+      "empty": "No order matches your filter.",
+      "openSection": "Open orders",
+      "terminalSection": "Completed orders",
+      "col": {
+        "symbol": "Symbol",
+        "side": "Side",
+        "type": "Type",
+        "quantity": "Quantity",
+        "price": "Price",
+        "status": "Status",
+        "createdAt": "Created at"
+      }
+    },
+    "open": {
+      "title": "Open orders",
+      "subtitle": "Your pending or partially filled orders",
+      "refresh": "Refresh",
+      "new": "New order",
+      "loading": "Loading open orders...",
+      "empty": "You have no open order.",
+      "emptyAction": "Place a new order"
+    },
+    "form": {
+      "title": "New order",
+      "subtitle": "Submit a buy or sell order",
+      "submitting": "Submitting your order...",
+      "section": {
+        "instrument": "Instrument",
+        "execution": "Execution",
+        "summary": "Summary"
+      },
+      "field": {
+        "symbol": "Symbol",
+        "symbolPlaceholder": "Choose a symbol",
+        "side": "Side",
+        "type": "Order type",
+        "price": "Limit price",
+        "pricePlaceholder": "Price in account currency",
+        "priceMarketHint": "Not applicable for market orders.",
+        "quantity": "Quantity",
+        "quantityPlaceholder": "Number of shares"
+      },
+      "summary": {
+        "symbol": "Symbol",
+        "estimated": "Estimated total",
+        "side": "Side"
+      },
+      "actions": {
+        "reset": "Reset",
+        "submitBuy": "Buy",
+        "submitSell": "Sell"
+      }
+    },
+    "book": {
+      "title": "Order book",
+      "subtitle": "Live snapshot of the order book",
+      "symbolPlaceholder": "Choose a symbol",
+      "refresh": "Refresh",
+      "trade": "Trade",
+      "loading": "Loading order book...",
+      "empty": "Select a symbol to view its order book.",
+      "bids": "Bids",
+      "asks": "Asks",
+      "price": "Price",
+      "quantity": "Quantity",
+      "emptyBids": "No bid in the book",
+      "emptyAsks": "No ask in the book"
+    },
+    "item": {
+      "quantity": "Quantity",
+      "remaining": "Remaining",
+      "price": "Price",
+      "createdAt": "Created at",
+      "cancel": "Cancel"
+    },
+    "confirm": {
+      "title": "Order confirmation",
+      "symbol": "Symbol",
+      "type": "Type",
+      "quantity": "Quantity",
+      "price": "Price",
+      "estimated": "Estimated total",
+      "cancel": "Cancel",
+      "submitBuy": "Confirm buy",
+      "submitSell": "Confirm sell"
+    },
+    "cancel": {
+      "title": "Cancel order",
+      "symbol": "Symbol",
+      "side": "Side",
+      "quantity": "Quantity",
+      "price": "Price",
+      "warning": "This releases the cash or share reservation. It cannot be undone.",
+      "keep": "Keep order",
+      "confirm": "Cancel order"
+    },
+    "confirmation": {
+      "title": "Order submitted",
+      "submitted": "Your order has been recorded.",
+      "id": "Order ID",
+      "createdAt": "Created at",
+      "estimated": "Estimated total",
+      "close": "Close",
+      "viewOrders": "View my orders"
+    },
+    "notifications": {
+      "submitted": {
+        "title": "Order submitted",
+        "message": "Your order has been recorded."
+      },
+      "cancelled": {
+        "title": "Order cancelled",
+        "message": "The order has been cancelled."
+      },
+      "updated": {
+        "title": "Order updated",
+        "message": "The order has been updated."
+      }
+    },
+    "error": {
+      "title": "Orders error",
+      "unknown": "Unknown error while loading orders.",
+      "busy": "Another operation is already in progress.",
+      "submit": "Could not submit the order.",
+      "cancel": "Could not cancel the order.",
+      "book": "Could not fetch the order book."
+    }
   }
 }

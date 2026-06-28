@@ -1,4 +1,4 @@
-﻿import { DestroyRef, Injectable, computed, inject, signal } from '@angular/core';
+import { DestroyRef, Injectable, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { RealtimeService } from '../../../core/realtime/realtime.service';
@@ -69,6 +69,11 @@ export class OrderWebSocketService {
   /** Replace the entire history (used when the page hydrates from REST). */
   hydrate(orders: readonly IOrder[]): void {
     this._orders.set([...orders]);
+  }
+
+  /** Replace the order book snapshot (used by REST loads). */
+  setBook(book: IOrderBook): void {
+    this._orderBook.set(book);
   }
 
   private applyOrder(order: IOrder): void {

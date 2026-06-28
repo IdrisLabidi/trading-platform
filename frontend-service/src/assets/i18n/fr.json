@@ -158,5 +158,142 @@
       "title": "Erreur portefeuille",
       "unknown": "Erreur inconnue lors du chargement du portefeuille."
     }
+  },
+  "orders": {
+    "history": {
+      "title": "Historique des ordres",
+      "subtitle": "Tous vos ordres passés sur la plateforme",
+      "refresh": "Actualiser",
+      "open": "Voir les ordres ouverts",
+      "new": "Nouvel ordre",
+      "filter": "Filtrer par statut",
+      "loading": "Chargement des ordres...",
+      "empty": "Aucun ordre ne correspond à votre filtre.",
+      "openSection": "Ordres ouverts",
+      "terminalSection": "Ordres terminés",
+      "col": {
+        "symbol": "Symbole",
+        "side": "Sens",
+        "type": "Type",
+        "quantity": "Quantité",
+        "price": "Prix",
+        "status": "Statut",
+        "createdAt": "Créé le"
+      }
+    },
+    "open": {
+      "title": "Ordres ouverts",
+      "subtitle": "Vos ordres en attente ou partiellement exécutés",
+      "refresh": "Actualiser",
+      "new": "Nouvel ordre",
+      "loading": "Chargement des ordres ouverts...",
+      "empty": "Aucun ordre ouvert.",
+      "emptyAction": "Passer un nouvel ordre"
+    },
+    "form": {
+      "title": "Nouvel ordre",
+      "subtitle": "Soumettre un ordre d''achat ou de vente",
+      "submitting": "Envoi de l''ordre en cours...",
+      "section": {
+        "instrument": "Instrument",
+        "execution": "Exécution",
+        "summary": "Récapitulatif"
+      },
+      "field": {
+        "symbol": "Symbole",
+        "symbolPlaceholder": "Choisir un symbole",
+        "side": "Sens",
+        "type": "Type d''ordre",
+        "price": "Prix limite",
+        "pricePlaceholder": "Prix en devise",
+        "priceMarketHint": "Non applicable pour un ordre au marché.",
+        "quantity": "Quantité",
+        "quantityPlaceholder": "Quantité d''actions"
+      },
+      "summary": {
+        "symbol": "Symbole",
+        "estimated": "Montant estimé",
+        "side": "Sens"
+      },
+      "actions": {
+        "reset": "Réinitialiser",
+        "submitBuy": "Acheter",
+        "submitSell": "Vendre"
+      }
+    },
+    "book": {
+      "title": "Carnet d''ordres",
+      "subtitle": "Aperçu temps réel des ordres en carnet",
+      "symbolPlaceholder": "Choisir un symbole",
+      "refresh": "Actualiser",
+      "trade": "Trader",
+      "loading": "Chargement du carnet...",
+      "empty": "Sélectionnez un symbole pour afficher son carnet.",
+      "bids": "Achat",
+      "asks": "Vente",
+      "price": "Prix",
+      "quantity": "Quantité",
+      "emptyBids": "Aucun ordre d''achat en carnet",
+      "emptyAsks": "Aucun ordre de vente en carnet"
+    },
+    "item": {
+      "quantity": "Quantité",
+      "remaining": "Restant",
+      "price": "Prix",
+      "createdAt": "Créé le",
+      "cancel": "Annuler"
+    },
+    "confirm": {
+      "title": "Confirmation de l''ordre",
+      "symbol": "Symbole",
+      "type": "Type",
+      "quantity": "Quantité",
+      "price": "Prix",
+      "estimated": "Montant estimé",
+      "cancel": "Annuler",
+      "submitBuy": "Confirmer l''achat",
+      "submitSell": "Confirmer la vente"
+    },
+    "cancel": {
+      "title": "Annuler l''ordre",
+      "symbol": "Symbole",
+      "side": "Sens",
+      "quantity": "Quantité",
+      "price": "Prix",
+      "warning": "Cette action libère la réservation de fonds ou de titres. Elle ne peut pas être annulée.",
+      "keep": "Conserver l''ordre",
+      "confirm": "Annuler l''ordre"
+    },
+    "confirmation": {
+      "title": "Ordre soumis",
+      "submitted": "Votre ordre a été enregistré avec succès.",
+      "id": "Identifiant",
+      "createdAt": "Créé le",
+      "estimated": "Montant estimé",
+      "close": "Fermer",
+      "viewOrders": "Voir mes ordres"
+    },
+    "notifications": {
+      "submitted": {
+        "title": "Ordre soumis",
+        "message": "Votre ordre a été enregistré."
+      },
+      "cancelled": {
+        "title": "Ordre annulé",
+        "message": "L''ordre a été annulé avec succès."
+      },
+      "updated": {
+        "title": "Ordre modifié",
+        "message": "L''ordre a été mis à jour."
+      }
+    },
+    "error": {
+      "title": "Erreur ordres",
+      "unknown": "Erreur inconnue lors du chargement des ordres.",
+      "busy": "Une autre opération est déjà en cours.",
+      "submit": "Impossible de soumettre l''ordre.",
+      "cancel": "Impossible d''annuler l''ordre.",
+      "book": "Impossible de récupérer le carnet d''ordres."
+    }
   }
 }

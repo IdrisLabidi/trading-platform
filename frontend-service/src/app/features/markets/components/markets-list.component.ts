@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
-import { DatePipe } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
@@ -23,7 +22,6 @@ import {
   selector: 'app-markets-list',
   standalone: true,
   imports: [
-    DatePipe,
     TranslatePipe,
     ButtonModule,
     TagModule,

@@ -74,7 +74,7 @@ import type { IWatchlist } from '../models/watchlist.model';
               type="text"
               class="w-full"
               [ngModel]="renameValue()"
-              (ngModelChange)="renameValue.set($event)"
+              (ngModelChange)="_renameValue.set($event)"
               name="rename"
               autocomplete="off"
             />
@@ -111,7 +111,7 @@ import type { IWatchlist } from '../models/watchlist.model';
             type="text"
             class="w-full uppercase"
             [ngModel]="newSymbol()"
-            (ngModelChange)="newSymbol.set($event)"
+            (ngModelChange)="_newSymbol.set($event)"
             name="symbol"
             placeholder="AAPL"
             autocomplete="off"
@@ -124,7 +124,7 @@ import type { IWatchlist } from '../models/watchlist.model';
           <p-inputNumber
             class="w-full"
             [ngModel]="newTarget()"
-            (ngModelChange)="newTarget.set($event)"
+            (ngModelChange)="_newTarget.set($event)"
             name="target"
             [min]="0"
             [minFractionDigits]="2"
@@ -173,10 +173,10 @@ export class WatchlistItemsComponent {
   private readonly _watchlist = signal<IWatchlist | null>(null);
 
   private readonly _renaming = signal<boolean>(false);
-  private readonly _renameValue = signal<string>('');
+  protected readonly _renameValue = signal<string>('');
 
-  private readonly _newSymbol = signal<string>('');
-  private readonly _newTarget = signal<number | null>(null);
+  protected readonly _newSymbol = signal<string>('');
+  protected readonly _newTarget = signal<number | null>(null);
 
   @Input({ required: true })
   set watchlist(value: IWatchlist) {

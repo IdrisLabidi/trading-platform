@@ -92,7 +92,7 @@ export class MarketSearchComponent {
   protected readonly type = signal<AssetType | 'ALL'>(this.initial.type);
   protected readonly activeOnly = signal<boolean>(this.initial.activeOnly);
 
-  readonly typeOptions: ReadonlyArray<{ readonly label: string; readonly value: AssetType | 'ALL' }> = [
+  readonly typeOptions: { readonly label: string; readonly value: AssetType | 'ALL' }[] = [
     { label: 'All', value: 'ALL' },
     { label: 'STOCK', value: 'STOCK' },
     { label: 'ETF', value: 'ETF' },

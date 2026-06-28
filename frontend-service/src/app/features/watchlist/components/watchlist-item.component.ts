@@ -8,7 +8,6 @@ import { TagModule } from 'primeng/tag';
 import { FormsModule } from '@angular/forms';
 
 import { CurrencyFormatPipe } from '../../../shared/pipes/currency-format.pipe';
-import { NumberFormatPipe } from '../../../shared/pipes/number-format.pipe';
 import { PercentFormatPipe } from '../../../shared/pipes/percent-format.pipe';
 import { WatchlistStore } from '../stores/watchlist.store';
 import type { IWatchlist, IWatchlistItem } from '../models/watchlist.model';
@@ -31,7 +30,6 @@ import type { IWatchlist, IWatchlistItem } from '../models/watchlist.model';
     InputNumberModule,
     TagModule,
     CurrencyFormatPipe,
-    NumberFormatPipe,
     PercentFormatPipe
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,

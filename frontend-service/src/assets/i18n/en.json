@@ -413,5 +413,75 @@
       "itemUpdate": "Could not update the target price.",
       "itemRemove": "Could not remove the symbol."
     }
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Customize your trading experience",
+    "navigation": "Sections",
+    "menu": {
+      "theme": "Appearance",
+      "themeDescription": "Dark or light theme.",
+      "language": "Language",
+      "languageDescription": "Choose the UI language.",
+      "profile": "Profile",
+      "profileDescription": "Keycloak identity and notifications.",
+      "notifications": "Notifications",
+      "notificationsDescription": "Notification toggles."
+    },
+    "theme": {
+      "title": "Theme",
+      "subtitle": "Pick the theme that suits you best.",
+      "darkTitle": "Dark",
+      "darkDescription": "Recommended for late-night trading sessions.",
+      "lightTitle": "Light",
+      "lightDescription": "More comfortable during the day.",
+      "active": "Active",
+      "previewTitle": "Preview",
+      "previewSample": "Sample item",
+      "previewHelp": "The theme is applied immediately across the whole application."
+    },
+    "language": {
+      "title": "Language",
+      "subtitle": "Pick the UI language.",
+      "french": "French",
+      "frenchDescription": "Platform`s primary language.",
+      "english": "English",
+      "englishDescription": "International English.",
+      "arabic": "Arabic",
+      "arabicDescription": "Modern standard Arabic (RTL).",
+      "rtl": "Right-to-left",
+      "ltr": "Left-to-right",
+      "active": "Current",
+      "previewTitle": "Preview",
+      "previewHello": "Hello and welcome!",
+      "previewDirection": "Reading direction"
+    },
+    "profile": {
+      "title": "Profile and notifications",
+      "subtitle": "Keycloak identity and notification preferences.",
+      "identityTitle": "Identity",
+      "username": "Username",
+      "email": "Email address",
+      "fullName": "Full name",
+      "roles": "Roles",
+      "notificationsTitle": "Notifications",
+      "notificationsInbox": "In-app notifications",
+      "notificationsInboxHelp": "Enable toasts and realtime notifications.",
+      "orderConfirmations": "Order confirmations",
+      "orderConfirmationsHelp": "Show a toast after every order submission.",
+      "priceAlerts": "Price alerts",
+      "priceAlertsHelp": "Enable push notifications for price changes.",
+      "compactTables": "Compact tables",
+      "compactTablesHelp": "Reduce row density in every table.",
+      "sessionTheme": "Current theme",
+      "sessionLanguage": "Current language",
+      "signOut": "Sign out"
+    },
+    "notifications": {
+      "reset": {
+        "title": "Settings reset",
+        "message": "All preferences have been reset to their defaults."
+      }
+    }
   }
 }

@@ -413,5 +413,75 @@
       "itemUpdate": "Impossible de mettre à jour le prix cible.",
       "itemRemove": "Impossible de retirer le symbole."
     }
+  },
+  "settings": {
+    "title": "Paramètres",
+    "subtitle": "Personnalisez votre expérience de trading",
+    "navigation": "Sections",
+    "menu": {
+      "theme": "Apparence",
+      "themeDescription": "Thème clair ou sombre.",
+      "language": "Langue",
+      "languageDescription": "Choisissez la langue de l''interface.",
+      "profile": "Profil",
+      "profileDescription": "Identité Keycloak et notifications.",
+      "notifications": "Notifications",
+      "notificationsDescription": "Toggles de notifications."
+    },
+    "theme": {
+      "title": "Thème",
+      "subtitle": "Choisissez le thème qui vous convient le mieux.",
+      "darkTitle": "Sombre",
+      "darkDescription": "Recommandé pour les sessions de trading nocturnes.",
+      "lightTitle": "Clair",
+      "lightDescription": "Plus confortable en plein jour.",
+      "active": "Actif",
+      "previewTitle": "Aperçu",
+      "previewSample": "Exemple d''élément",
+      "previewHelp": "Le thème est appliqué immédiatement à toute l''application."
+    },
+    "language": {
+      "title": "Langue",
+      "subtitle": "Choisissez la langue de l''interface.",
+      "french": "Français",
+      "frenchDescription": "Langue principale de la plateforme.",
+      "english": "Anglais",
+      "englishDescription": "Anglais international.",
+      "arabic": "Arabe",
+      "arabicDescription": "Arabe standard moderne (RTL).",
+      "rtl": "Lecture de droite à gauche",
+      "ltr": "Lecture de gauche à droite",
+      "active": "Actuelle",
+      "previewTitle": "Aperçu",
+      "previewHello": "Bonjour et bienvenue !",
+      "previewDirection": "Sens de lecture"
+    },
+    "profile": {
+      "title": "Profil et notifications",
+      "subtitle": "Identité Keycloak et préférences de notification.",
+      "identityTitle": "Identité",
+      "username": "Nom d''utilisateur",
+      "email": "Adresse e-mail",
+      "fullName": "Nom complet",
+      "roles": "Rôles",
+      "notificationsTitle": "Notifications",
+      "notificationsInbox": "Notifications dans l''application",
+      "notificationsInboxHelp": "Active la réception des toasts et des notifications en temps réel.",
+      "orderConfirmations": "Confirmations d''ordre",
+      "orderConfirmationsHelp": "Affiche un toast après chaque soumission d''ordre.",
+      "priceAlerts": "Alertes de prix",
+      "priceAlertsHelp": "Active les notifications push pour les variations de prix.",
+      "compactTables": "Tables compactes",
+      "compactTablesHelp": "Réduit la densité des lignes dans toutes les tables.",
+      "sessionTheme": "Thème actuel",
+      "sessionLanguage": "Langue actuelle",
+      "signOut": "Se déconnecter"
+    },
+    "notifications": {
+      "reset": {
+        "title": "Paramètres réinitialisés",
+        "message": "Tous les paramètres ont été remis aux valeurs par défaut."
+      }
+    }
   }
 }

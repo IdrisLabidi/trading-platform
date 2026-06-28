@@ -83,16 +83,53 @@ C'est le cœur du système : carnet d'ordres + matching engine.
 
 Allez sur [start.spring.io](https://start.spring.io) (ou utilisez IntelliJ) avec :
 
-- **Project** : Maven
-- **Language** : Java 21
+- **Project** : Gradle
+- **Language** : Java 
 - **Dependencies** :
-  - `Spring Web`
-  - `Spring Data JPA`
-  - `PostgreSQL Driver`
-  - `Spring for Apache Kafka`
-  - `OAuth2 Resource Server` (intégration Keycloak)
-  - `Validation`
-  - `Spring Data Redis` (pour le carnet d'ordres en mémoire)
+  ```
+  plugins {
+    id 'java'
+    id 'org.springframework.boot' version '4.1.0'
+    id 'io.spring.dependency-management' version '1.1.7'
+    }
+    
+    group = 'tn.utm.na-internship'
+    version = '0.0.1-SNAPSHOT'
+    description = 'market-service'
+    
+    java {
+    toolchain {
+    languageVersion = JavaLanguageVersion.of(26)
+    }
+    }
+    
+    repositories {
+    mavenCentral()
+    }
+    
+    dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-kafka'
+    implementation 'org.springframework.boot:spring-boot-starter-security-oauth2-resource-server'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+    runtimeOnly 'org.postgresql:postgresql'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+    testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-data-redis-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-kafka-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-security-oauth2-resource-server-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-validation-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    }
+  ```
 
 ### 2.2 Configurer la base de données
 
@@ -163,39 +200,13 @@ public class SecurityConfig {
 
 > Keycloak place les rôles dans `realm_access.roles` du JWT — c'est pourquoi le converter ci-dessus va chercher cette claim spécifique.
 
-### 2.4 Modèle de données (entités JPA)
+### 2.4 Modèles de données (entités JPA)
 
-```java
-@Entity
-@Table(name = "orders")
-public class Order {
-    @Id @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
-
-    private String userId;       // sub du token Keycloak
-    private String symbol;        // ex: "ABC"
-    private OrderSide side;       // BUY / SELL
-    private OrderType type;       // MARKET / LIMIT
-    private BigDecimal price;
-    private Integer quantity;
-    private Integer remainingQty;
-    private OrderStatus status;   // PENDING / PARTIAL / FILLED / CANCELLED
-    private Instant createdAt;
-}
-
-@Entity
-@Table(name = "trades")
-public class Trade {
-    @Id @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
-    private String symbol;
-    private BigDecimal price;
-    private Integer quantity;
-    private UUID buyOrderId;
-    private UUID sellOrderId;
-    private Instant executedAt;
-}
-```
+\trading-platform\market-service\src\main\java\tn\utm\nainternship\marketservice\dto\OrderDetailsResponse.java
+\trading-platform\market-service\src\main\java\tn\utm\nainternship\marketservice\dto\OrderRequest.java
+\trading-platform\market-service\src\main\java\tn\utm\nainternship\marketservice\dto\OrderResponse.java
+\trading-platform\market-service\src\main\java\tn\utm\nainternship\marketservice\dto\OrderUpdateRequest.java
+\trading-platform\market-service\src\main\java\tn\utm\nainternship\marketservice\dto\TradeEvent.java
 
 ### 2.5 Le carnet d'ordres en mémoire (Redis ou structures Java)
 
@@ -259,27 +270,7 @@ public class TradeEventPublisher {
 ```
 
 ### 2.7 Contrôleur REST
-
-```java
-@RestController
-@RequestMapping("/api/market")
-public class OrderController {
-
-    @PostMapping("/orders")
-    public ResponseEntity<OrderResponse> submitOrder(
-            @AuthenticationPrincipal Jwt jwt,
-            @RequestBody @Valid OrderRequest request) {
-        String userId = jwt.getSubject();
-        Order order = orderService.submit(userId, request);
-        return ResponseEntity.ok(toResponse(order));
-    }
-
-    @GetMapping("/orderbook/{symbol}")
-    public OrderBookSnapshot getOrderBook(@PathVariable String symbol) {
-        return orderBookService.snapshot(symbol);
-    }
-}
-```
+\trading-platform\market-service\src\main\java\tn\utm\nainternship\marketservice\controller\OrderController.java
 
 ---
 
@@ -292,42 +283,12 @@ Même squelette que `market-service`, mais :
 
 ### 3.1 Entités
 
-```java
-@Entity
-@Table(name = "accounts")
-public class Account {
-    @Id
-    private String userId; // sub Keycloak
-    private BigDecimal cashBalance;
-}
-
-@Entity
-@Table(name = "positions")
-public class Position {
-    @Id @GeneratedValue
-    private Long id;
-    private String userId;
-    private String symbol;
-    private Integer quantity;
-    private BigDecimal avgPrice;
-}
-```
+\trading-platform\portfolio-service\src\main\java\tn\utm\nainternship\portfolioservice\entity\Account.java
+\trading-platform\portfolio-service\src\main\java\tn\utm\nainternship\portfolioservice\entity\Position.java
 
 ### 3.2 Consumer Kafka
 
-```java
-@Component
-public class TradeEventListener {
-
-    @KafkaListener(topics = "trade-executed", groupId = "portfolio-service")
-    public void onTradeExecuted(TradeEvent event) {
-        // 1. Récupérer la position existante (ou la créer)
-        // 2. Mettre à jour quantity et avgPrice (moyenne pondérée)
-        // 3. Débiter/créditer le cashBalance
-        positionRepository.save(updatedPosition);
-    }
-}
-```
+\trading-platform\portfolio-service\src\main\java\tn\utm\nainternship\portfolioservice\kafka\TradeEventListener.java
 
 ### 3.3 application.yml
 
@@ -365,10 +326,12 @@ npm install express ws kafkajs jsonwebtoken jwks-rsa cors
 
 ```
 notification-service/
-├── server.js
-├── kafkaConsumer.js
-├── wsServer.js
-└── auth.js
+├── app.js
+├── kafka
+    ├── consumer.js
+    └── kafka_event_publisher.js
+├── notifications.js
+└── Dockerfile
 ```
 
 ### 4.3 Validation du token Keycloak (`auth.js`)
@@ -398,96 +361,14 @@ function verifyToken(token) {
 module.exports = { verifyToken };
 ```
 
-### 4.4 Serveur WebSocket (`wsServer.js`)
+### 4.4 Serveur WebSocket (`notifications.js`)
+\trading-platform\notifications-service\notifications.js
 
-```javascript
-const WebSocket = require('ws');
-const { verifyToken } = require('./auth');
+### 4.5 Consumer Kafka (`kafka/consumer.js`)
+\trading-platform\notifications-service\kafka/consumer.js
 
-function createWsServer(server) {
-  const wss = new WebSocket.Server({ server });
-  const clientsBySymbol = new Map(); // symbol -> Set<ws>
-
-  wss.on('connection', async (ws, req) => {
-    const token = new URL(req.url, 'http://x').searchParams.get('token');
-    try {
-      const user = await verifyToken(token);
-      ws.userId = user.sub;
-    } catch {
-      ws.close(4001, 'Invalid token');
-      return;
-    }
-
-    ws.on('message', (msg) => {
-      const { action, symbol } = JSON.parse(msg);
-      if (action === 'subscribe') {
-        if (!clientsBySymbol.has(symbol)) clientsBySymbol.set(symbol, new Set());
-        clientsBySymbol.get(symbol).add(ws);
-      }
-    });
-
-    ws.on('close', () => {
-      clientsBySymbol.forEach(set => set.delete(ws));
-    });
-  });
-
-  return {
-    broadcast(symbol, payload) {
-      const clients = clientsBySymbol.get(symbol);
-      if (!clients) return;
-      const message = JSON.stringify(payload);
-      clients.forEach(ws => ws.readyState === WebSocket.OPEN && ws.send(message));
-    }
-  };
-}
-
-module.exports = createWsServer;
-```
-
-### 4.5 Consumer Kafka (`kafkaConsumer.js`)
-
-```javascript
-const { Kafka } = require('kafkajs');
-
-function startKafkaConsumer(wsServer) {
-  const kafka = new Kafka({ clientId: 'notification-service', brokers: ['kafka:9092'] });
-  const consumer = kafka.consumer({ groupId: 'notification-service' });
-
-  return (async () => {
-    await consumer.connect();
-    await consumer.subscribe({ topic: 'trade-executed', fromBeginning: false });
-
-    await consumer.run({
-      eachMessage: async ({ message }) => {
-        const event = JSON.parse(message.value.toString());
-        wsServer.broadcast(event.symbol, { type: 'trade', ...event });
-      }
-    });
-  })();
-}
-
-module.exports = startKafkaConsumer;
-```
-
-### 4.6 Point d'entrée (`server.js`)
-
-```javascript
-const express = require('express');
-const http = require('http');
-const cors = require('cors');
-const createWsServer = require('./wsServer');
-const startKafkaConsumer = require('./kafkaConsumer');
-
-const app = express();
-app.use(cors());
-app.get('/health', (req, res) => res.json({ status: 'ok' }));
-
-const server = http.createServer(app);
-const wsServer = createWsServer(server);
-startKafkaConsumer(wsServer);
-
-server.listen(8083, () => console.log('notification-service on :8083'));
-```
+### 4.6 Point d'entrée (`app.js`)
+\trading-platform\notifications-service\app.js
 
 ---
 
@@ -691,8 +572,7 @@ L'`asset-service` est le **référentiel central des actifs financiers** (action
 
 ### 7.1 Dépendances (`start.spring.io`)
 
-Identiques au `market-service` :
-`Spring Web` · `Spring Data JPA` · `PostgreSQL Driver` · `OAuth2 Resource Server` · `Validation` · `Spring Cache` (pour mettre les actifs en cache Redis et éviter des appels répétés)
+Identiques au `market-service`
 
 ### 7.2 Base de données dédiée : `assetdb`
 
@@ -708,87 +588,14 @@ asset-db:
 ```
 
 ### 7.3 Entité principale
-
-```java
-@Entity
-@Table(name = "assets")
-public class Asset {
-    @Id
-    private String symbol;          // ex: "ABC", "TUN10", "SP500-ETF"
-
-    @Enumerated(EnumType.STRING)
-    private AssetType type;         // STOCK, ETF, BOND, FOREX
-
-    private String name;            // "Attijari Bank"
-    private String description;
-    private String market;          // "TUNIS", "NYSE", "NASDAQ"
-    private String currency;        // "TND", "USD"
-    private BigDecimal lastPrice;
-    private Boolean isActive;
-    private Instant listedAt;
-}
-
-public enum AssetType { STOCK, ETF, BOND, FOREX }
-```
+D:\IGL3 - D desk\Stage_d_ete\trading-platform\asset-service\src\main\java\tn\utm\nainternship\assetservice\model\Asset.java
 
 ### 7.4 Repository et service
-
-```java
-public interface AssetRepository extends JpaRepository<Asset, String> {
-    List<Asset> findByTypeAndIsActiveTrue(AssetType type);
-    List<Asset> findByMarketAndIsActiveTrue(String market);
-    boolean existsBySymbolAndIsActiveTrue(String symbol);
-}
-
-@Service
-@CacheConfig(cacheNames = "assets")
-public class AssetService {
-
-    @Cacheable(key = "#symbol")
-    public Asset getBySymbol(String symbol) {
-        return assetRepository.findById(symbol)
-            .orElseThrow(() -> new AssetNotFoundException("Actif inconnu : " + symbol));
-    }
-
-    @Cacheable(key = "#type")
-    public List<Asset> getByType(AssetType type) {
-        return assetRepository.findByTypeAndIsActiveTrue(type);
-    }
-}
-```
+\trading-platform\asset-service\src\main\java\tn\utm\nainternship\assetservice\Repository\AssetRepository.java
+\trading-platform\asset-service\src\main\java\tn\utm\nainternship\assetservice\Service\AssetService.java
 
 ### 7.5 Contrôleur REST
-
-```java
-@RestController
-@RequestMapping("/api/assets")
-public class AssetController {
-
-    @GetMapping
-    public List<Asset> list(@RequestParam(required = false) AssetType type) {
-        return type != null ? assetService.getByType(type) : assetService.getAll();
-    }
-
-    @GetMapping("/{symbol}")
-    public Asset getOne(@PathVariable String symbol) {
-        return assetService.getBySymbol(symbol);
-    }
-
-    // Endpoint réservé aux admins pour créer/désactiver un actif
-    @PostMapping
-    @PreAuthorize("hasRole('admin')")
-    public ResponseEntity<Asset> create(@RequestBody @Valid AssetRequest request) {
-        return ResponseEntity.status(201).body(assetService.create(request));
-    }
-
-    @DeleteMapping("/{symbol}")
-    @PreAuthorize("hasRole('admin')")
-    public ResponseEntity<Void> deactivate(@PathVariable String symbol) {
-        assetService.deactivate(symbol);
-        return ResponseEntity.noContent().build();
-    }
-}
-```
+\trading-platform\asset-service\src\main\java\tn\utm\nainternship\assetservice\controller\AssetController.java
 
 ### 7.6 Données initiales (seed)
 

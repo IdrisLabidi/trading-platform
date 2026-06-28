@@ -6,6 +6,7 @@ import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="page-container">
+      <h1>{{ title }}</h1>
     </div>
   `
 })

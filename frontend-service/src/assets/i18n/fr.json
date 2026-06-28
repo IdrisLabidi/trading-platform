@@ -92,5 +92,71 @@
       "title": "Erreur du tableau de bord",
       "unknown": "Erreur inconnue lors du chargement du tableau de bord."
     }
+  },
+  "markets": {
+    "list": {
+      "title": "Marchés",
+      "subtitle": "Liste des instruments cotés sur la plateforme",
+      "refresh": "Actualiser",
+      "loading": "Chargement des marchés...",
+      "empty": "Aucun marché ne correspond à votre recherche."
+    },
+    "status": {
+      "inactive": "Inactif"
+    },
+    "card": {
+      "details": "Voir le détail",
+      "trade": "Trader"
+    },
+    "search": {
+      "aria": "Filtrer les marchés",
+      "placeholder": "Rechercher par symbole ou nom",
+      "type": "Type",
+      "activeOnly": "Actifs uniquement",
+      "apply": "Filtrer"
+    },
+    "details": {
+      "loading": "Chargement du marché...",
+      "notFound": "Marché introuvable",
+      "backToList": "Retour à la liste",
+      "trade": "Passer un ordre",
+      "orderBook": "Carnet d''ordres",
+      "refreshBook": "Actualiser",
+      "bids": "Achat",
+      "asks": "Vente",
+      "price": "Prix",
+      "emptyBids": "Aucun ordre d''achat en carnet",
+      "emptyAsks": "Aucun ordre de vente en carnet",
+      "myOrders": "Mes ordres",
+      "noOrders": "Aucun ordre pour ce symbole."
+    },
+    "notifications": {
+      "submitted": {
+        "title": "Ordre soumis",
+        "message": "Votre ordre a été enregistré."
+      },
+      "cancelled": {
+        "title": "Ordre annulé",
+        "message": "L''ordre a été annulé avec succès."
+      },
+      "updated": {
+        "title": "Ordre modifié",
+        "message": "L''ordre a été mis à jour."
+      }
+    },
+    "error": {
+      "title": "Erreur marchés",
+      "unknown": "Erreur inconnue lors du chargement des marchés.",
+      "orderBook": "Impossible de récupérer le carnet d''ordres.",
+      "submit": "Impossible de soumettre l''ordre.",
+      "cancel": "Impossible d''annuler l''ordre.",
+      "update": "Impossible de mettre à jour l''ordre."
+    }
+  },
+  "portfolio": {
+    "error": {
+      "title": "Erreur portefeuille",
+      "unknown": "Erreur inconnue lors du chargement du portefeuille."
+    }
   }
 }

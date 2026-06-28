@@ -1,14 +1,16 @@
-import { Routes } from '@angular/router';
+import { type Routes } from '@angular/router';
 
 export const MARKETS_ROUTES: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./components/markets-list.component').then((m) => m.MarketsListComponent)
+      import('./components/markets-list.component').then((m) => m.MarketsListComponent),
+    title: 'markets.list.title'
   },
   {
     path: ':symbol',
     loadComponent: () =>
-      import('./components/market-details.component').then((m) => m.MarketDetailsComponent)
+      import('./components/market-details.component').then((m) => m.MarketDetailsComponent),
+    title: 'markets.list.title'
   }
 ];

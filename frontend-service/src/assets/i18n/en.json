@@ -92,5 +92,71 @@
       "title": "Dashboard error",
       "unknown": "Unknown error while loading the dashboard."
     }
+  },
+  "markets": {
+    "list": {
+      "title": "Markets",
+      "subtitle": "Catalog of instruments listed on the platform",
+      "refresh": "Refresh",
+      "loading": "Loading markets...",
+      "empty": "No market matches your filters."
+    },
+    "status": {
+      "inactive": "Inactive"
+    },
+    "card": {
+      "details": "Open details",
+      "trade": "Trade"
+    },
+    "search": {
+      "aria": "Filter markets",
+      "placeholder": "Search by symbol or name",
+      "type": "Type",
+      "activeOnly": "Active only",
+      "apply": "Filter"
+    },
+    "details": {
+      "loading": "Loading market...",
+      "notFound": "Market not found",
+      "backToList": "Back to the list",
+      "trade": "Place an order",
+      "orderBook": "Order book",
+      "refreshBook": "Refresh",
+      "bids": "Bids",
+      "asks": "Asks",
+      "price": "Price",
+      "emptyBids": "No bid in the book",
+      "emptyAsks": "No ask in the book",
+      "myOrders": "My orders",
+      "noOrders": "You have no order for this symbol."
+    },
+    "notifications": {
+      "submitted": {
+        "title": "Order submitted",
+        "message": "Your order has been recorded."
+      },
+      "cancelled": {
+        "title": "Order cancelled",
+        "message": "The order has been cancelled."
+      },
+      "updated": {
+        "title": "Order updated",
+        "message": "The order has been updated."
+      }
+    },
+    "error": {
+      "title": "Markets error",
+      "unknown": "Unknown error while loading markets.",
+      "orderBook": "Could not fetch the order book.",
+      "submit": "Could not submit the order.",
+      "cancel": "Could not cancel the order.",
+      "update": "Could not update the order."
+    }
+  },
+  "portfolio": {
+    "error": {
+      "title": "Portfolio error",
+      "unknown": "Unknown error while loading the portfolio."
+    }
   }
 }

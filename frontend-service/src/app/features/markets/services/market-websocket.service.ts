@@ -1,8 +1,8 @@
-﻿import { DestroyRef, Injectable, computed, inject, signal } from '@angular/core';
+import { DestroyRef, Injectable, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { RealtimeService } from '../../../core/realtime/realtime.service';
-import type { IMarket, IPriceUpdate } from '../models/market.model';
+import type { IAsset, IMarket, IPriceUpdate } from '../models/market.model';
 
 /**
  * Live signal store for market prices.
@@ -12,7 +12,9 @@ import type { IMarket, IPriceUpdate } from '../models/market.model';
  * - Exposes `subscribe(symbols)` / `unsubscribe(symbols)` helpers that
  *   forward to the underlying realtime transport.
  * - The derived `markets()` signal returns the merged view (symbol +
- *   latest price) ready to be consumed by UI components.
+ *   latest price) ready to be consumed by UI components. When no live
+ *   price update has been received yet the store falls back to the
+ *   catalog snapshot provided by `markets.store.ts`.
  */
 @Injectable({ providedIn: 'root' })
 export class MarketWebSocketService {
@@ -20,6 +22,7 @@ export class MarketWebSocketService {
   private readonly destroyRef = inject(DestroyRef);
 
   private readonly _prices = signal<ReadonlyMap<string, IPriceUpdate>>(new Map());
+  private readonly _catalog = signal<readonly IAsset[]>([]);
   private readonly _subscribed = signal<readonly string[]>([]);
   private readonly _lastUpdate = signal<IPriceUpdate | null>(null);
 
@@ -28,17 +31,38 @@ export class MarketWebSocketService {
   readonly lastUpdate = this._lastUpdate.asReadonly();
 
   readonly markets = computed<readonly IMarket[]>(() => {
+    const priceMap = this._prices();
+    const catalog = this._catalog();
     const out: IMarket[] = [];
-    for (const [symbol, update] of this._prices()) {
-      out.push({
-        symbol,
-        name: symbol,
-        price: update.price,
-        change: 0,
-        changePercent: 0
-      });
+    if (priceMap.size > 0) {
+      for (const [symbol, update] of priceMap) {
+        const asset = catalog.find((entry) => entry.symbol === symbol);
+        const previous = asset?.lastPrice ?? update.price;
+        out.push({
+          symbol,
+          name: asset?.name ?? symbol,
+          type: asset?.type ?? 'STOCK',
+          currency: asset?.currency ?? 'USD',
+          price: update.price,
+          previousPrice: previous,
+          change: update.price - previous,
+          changePercent: previous === 0 ? 0 : (update.price - previous) / previous,
+          isActive: asset?.isActive ?? true
+        });
+      }
+      return out;
     }
-    return out;
+    return catalog.map((asset) => ({
+      symbol: asset.symbol,
+      name: asset.name,
+      type: asset.type,
+      currency: asset.currency,
+      price: asset.lastPrice,
+      previousPrice: asset.lastPrice,
+      change: 0,
+      changePercent: 0,
+      isActive: asset.isActive
+    }));
   });
 
   constructor() {
@@ -46,6 +70,11 @@ export class MarketWebSocketService {
       .priceUpdate$()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((update) => this.applyPrice(update));
+  }
+
+  /** Provide the latest asset catalog so price updates can be enriched. */
+  setCatalog(assets: readonly IAsset[]): void {
+    this._catalog.set(assets);
   }
 
   /** Subscribe to live price updates for a set of symbols. */

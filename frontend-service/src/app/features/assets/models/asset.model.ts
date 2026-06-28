@@ -1,6 +1,3 @@
-export interface IAsset {
-  readonly symbol: string;
-  readonly name: string;
-  readonly type: 'STOCK' | 'ETF' | 'CRYPTO' | 'BOND';
-  readonly currency: string;
-}
+import type { AssetType, IAsset } from '../../markets/models/market.model';
+
+export type { AssetType, IAsset };

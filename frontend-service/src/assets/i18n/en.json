@@ -483,5 +483,59 @@
         "message": "All preferences have been reset to their defaults."
       }
     }
+  },
+  "assets": {
+    "catalog": {
+      "title": "Asset catalog",
+      "subtitle": "Every instrument available on the platform",
+      "refresh": "Refresh",
+      "loading": "Loading catalog...",
+      "empty": "No asset matches your filter.",
+      "inactive": "Inactive",
+      "listedAt": "Listed on",
+      "details": "Open details",
+      "trade": "Trade"
+    },
+    "details": {
+      "title": "Asset details",
+      "assetFallback": "Asset",
+      "loading": "Loading asset...",
+      "notFound": "Asset not found",
+      "backToList": "Back to catalog",
+      "watchlist": "Add to watchlist",
+      "trade": "Trade",
+      "price": "Current price",
+      "currency": "Currency",
+      "market": "Listing venue",
+      "type": "Type",
+      "identification": "Identification",
+      "uuid": "UUID",
+      "listedAt": "Listed on",
+      "status": "Status",
+      "active": "Active",
+      "inactive": "Inactive",
+      "userOrders": "Your orders",
+      "description": "Description",
+      "noDescription": "No description is available for this asset."
+    },
+    "search": {
+      "aria": "Filter catalog",
+      "placeholder": "Search by symbol, name or description",
+      "type": "Type",
+      "market": "Market",
+      "activeOnly": "Active only",
+      "apply": "Filter"
+    },
+    "notifications": {
+      "watchlistMissing": {
+        "title": "No watchlist",
+        "message": "Create a watchlist first to add assets to it."
+      }
+    },
+    "error": {
+      "title": "Assets error",
+      "unknown": "Unknown error while loading the catalog.",
+      "fetch": "Could not fetch this asset."
+    }
   }
 }

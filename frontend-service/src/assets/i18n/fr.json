@@ -483,5 +483,59 @@
         "message": "Tous les paramètres ont été remis aux valeurs par défaut."
       }
     }
+  },
+  "assets": {
+    "catalog": {
+      "title": "Catalogue d''actifs",
+      "subtitle": "Tous les instruments disponibles sur la plateforme",
+      "refresh": "Actualiser",
+      "loading": "Chargement du catalogue...",
+      "empty": "Aucun actif ne correspond à votre filtre.",
+      "inactive": "Inactif",
+      "listedAt": "Listé le",
+      "details": "Voir le détail",
+      "trade": "Trader"
+    },
+    "details": {
+      "title": "Détail de l''actif",
+      "assetFallback": "Actif",
+      "loading": "Chargement de l''actif...",
+      "notFound": "Actif introuvable",
+      "backToList": "Retour au catalogue",
+      "watchlist": "Ajouter à la watchlist",
+      "trade": "Trader",
+      "price": "Prix actuel",
+      "currency": "Devise",
+      "market": "Place de cotation",
+      "type": "Type",
+      "identification": "Identification",
+      "uuid": "Identifiant UUID",
+      "listedAt": "Date de référencement",
+      "status": "Statut",
+      "active": "Actif",
+      "inactive": "Inactif",
+      "userOrders": "Vos ordres",
+      "description": "Description",
+      "noDescription": "Aucune description n''est disponible pour cet actif."
+    },
+    "search": {
+      "aria": "Filtrer le catalogue",
+      "placeholder": "Rechercher par symbole, nom ou description",
+      "type": "Type",
+      "market": "Marché",
+      "activeOnly": "Actifs uniquement",
+      "apply": "Filtrer"
+    },
+    "notifications": {
+      "watchlistMissing": {
+        "title": "Aucune watchlist",
+        "message": "Créez d''abord une watchlist pour pouvoir y ajouter des actifs."
+      }
+    },
+    "error": {
+      "title": "Erreur actifs",
+      "unknown": "Erreur inconnue lors du chargement du catalogue.",
+      "fetch": "Impossible de récupérer cet actif."
+    }
   }
 }

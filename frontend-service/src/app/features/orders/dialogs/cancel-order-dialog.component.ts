@@ -23,10 +23,10 @@ import type { IOrder } from '../models/order.model';
       <ng-template pTemplate="header">
         <div class="flex items-center justify-between px-4 pt-4">
           <h2 class="text-sm font-semibold">
-            {{ ''orders.cancel.title'' | translate }}
+            {{ 'orders.cancel.title' | translate }}
           </h2>
           <p-tag
-            [value]="order?.status ?? '' ''"
+            [value]="order?.status ?? ' '"
             severity="warn"
             [rounded]="true"
           ></p-tag>
@@ -35,32 +35,32 @@ import type { IOrder } from '../models/order.model';
 
       <div class="grid grid-cols-2 gap-3 px-4 pb-4 text-sm">
         <div class="flex flex-col">
-          <span class="text-xs text-[var(--app-fg-muted)]">{{ ''orders.cancel.symbol'' | translate }}</span>
+          <span class="text-xs text-[var(--app-fg-muted)]">{{ 'orders.cancel.symbol' | translate }}</span>
           <span class="font-semibold">{{ order?.symbol }}</span>
         </div>
         <div class="flex flex-col">
-          <span class="text-xs text-[var(--app-fg-muted)]">{{ ''orders.cancel.side'' | translate }}</span>
+          <span class="text-xs text-[var(--app-fg-muted)]">{{ 'orders.cancel.side' | translate }}</span>
           <span
             class="rounded-md px-2 py-0.5 text-xs font-semibold uppercase"
-            [class.bg-[var(--app-success)]]="order?.side === ''BUY''"
-            [class.bg-[var(--app-danger)]]="order?.side === ''SELL''"
+            [class.bg-[var(--app-success)]]="order?.side === 'BUY'"
+            [class.bg-[var(--app-danger)]]="order?.side === 'SELL'"
             [class.text-white]="true"
           >
             {{ order?.side }}
           </span>
         </div>
         <div class="flex flex-col">
-          <span class="text-xs text-[var(--app-fg-muted)]">{{ ''orders.cancel.quantity'' | translate }}</span>
+          <span class="text-xs text-[var(--app-fg-muted)]">{{ 'orders.cancel.quantity' | translate }}</span>
           <span class="font-semibold tabular-nums">{{ order?.quantity | appNumber }}</span>
         </div>
         <div class="flex flex-col">
-          <span class="text-xs text-[var(--app-fg-muted)]">{{ ''orders.cancel.price'' | translate }}</span>
+          <span class="text-xs text-[var(--app-fg-muted)]">{{ 'orders.cancel.price' | translate }}</span>
           <span class="font-semibold tabular-nums">{{ order?.price | appNumber }}</span>
         </div>
       </div>
 
       <p class="px-4 text-xs text-[var(--app-fg-muted)]">
-        {{ ''orders.cancel.warning'' | translate }}
+        {{ 'orders.cancel.warning' | translate }}
       </p>
 
       <ng-template pTemplate="footer">
@@ -72,7 +72,7 @@ import type { IOrder } from '../models/order.model';
             [disabled]="busy"
             (onClick)="onCancel()"
           >
-            <span pButtonLabel>{{ ''orders.cancel.keep'' | translate }}</span>
+            <span pButtonLabel>{{ 'orders.cancel.keep' | translate }}</span>
           </p-button>
           <p-button
             severity="danger"
@@ -80,7 +80,7 @@ import type { IOrder } from '../models/order.model';
             [loading]="busy"
             (onClick)="onConfirm()"
           >
-            <span pButtonLabel>{{ ''orders.cancel.confirm'' | translate }}</span>
+            <span pButtonLabel>{{ 'orders.cancel.confirm' | translate }}</span>
           </p-button>
         </div>
       </ng-template>

@@ -41,11 +41,11 @@ export interface IConfirmOrderDialogData {
       <ng-template pTemplate="header">
         <div class="flex items-center justify-between px-4 pt-4">
           <h2 class="text-sm font-semibold">
-            {{ ''orders.confirm.title'' | translate }}
+            {{ 'orders.confirm.title' | translate }}
           </h2>
           <p-tag
-            [value]="data?.side ?? '' ''"
-            [severity]="data?.side === ''BUY'' ? ''success'' : ''danger''"
+            [value]="data?.side ?? ' '"
+            [severity]="data?.side === 'BUY' ? 'success' : 'danger'"
             [rounded]="true"
           ></p-tag>
         </div>
@@ -53,19 +53,19 @@ export interface IConfirmOrderDialogData {
 
       <div class="grid grid-cols-2 gap-3 px-4 pb-4 text-sm">
         <div class="flex flex-col">
-          <span class="text-xs text-[var(--app-fg-muted)]">{{ ''orders.confirm.symbol'' | translate }}</span>
+          <span class="text-xs text-[var(--app-fg-muted)]">{{ 'orders.confirm.symbol' | translate }}</span>
           <span class="font-semibold">{{ data?.symbol }}</span>
         </div>
         <div class="flex flex-col">
-          <span class="text-xs text-[var(--app-fg-muted)]">{{ ''orders.confirm.type'' | translate }}</span>
+          <span class="text-xs text-[var(--app-fg-muted)]">{{ 'orders.confirm.type' | translate }}</span>
           <span class="font-semibold">{{ data?.type }}</span>
         </div>
         <div class="flex flex-col">
-          <span class="text-xs text-[var(--app-fg-muted)]">{{ ''orders.confirm.quantity'' | translate }}</span>
+          <span class="text-xs text-[var(--app-fg-muted)]">{{ 'orders.confirm.quantity' | translate }}</span>
           <span class="font-semibold tabular-nums">{{ data?.quantity | appNumber }}</span>
         </div>
         <div class="flex flex-col">
-          <span class="text-xs text-[var(--app-fg-muted)]">{{ ''orders.confirm.price'' | translate }}</span>
+          <span class="text-xs text-[var(--app-fg-muted)]">{{ 'orders.confirm.price' | translate }}</span>
           <span class="font-semibold tabular-nums">
             @if (data?.price !== null && data?.price !== undefined) {
               {{ data?.price | appNumber }}
@@ -75,9 +75,9 @@ export interface IConfirmOrderDialogData {
           </span>
         </div>
         <div class="col-span-2 flex flex-col">
-          <span class="text-xs text-[var(--app-fg-muted)]">{{ ''orders.confirm.estimated'' | translate }}</span>
+          <span class="text-xs text-[var(--app-fg-muted)]">{{ 'orders.confirm.estimated' | translate }}</span>
           <span class="text-lg font-semibold tabular-nums">
-            {{ (data?.estimatedTotal ?? 0) | appCurrency: (data?.currency ?? ''USD'') }}
+            {{ (data?.estimatedTotal ?? 0) | appCurrency: (data?.currency ?? 'USD') }}
           </span>
         </div>
       </div>
@@ -91,16 +91,16 @@ export interface IConfirmOrderDialogData {
             [disabled]="busy"
             (onClick)="onCancel()"
           >
-            <span pButtonLabel>{{ ''orders.confirm.cancel'' | translate }}</span>
+            <span pButtonLabel>{{ 'orders.confirm.cancel' | translate }}</span>
           </p-button>
           <p-button
-            [severity]="data?.side === ''BUY'' ? ''success'' : ''danger''"
+            [severity]="data?.side === 'BUY' ? 'success' : 'danger'"
             type="button"
             [loading]="busy"
             (onClick)="onConfirm()"
           >
             <span pButtonLabel>
-              {{ (data?.side === ''BUY'' ? ''orders.confirm.submitBuy'' : ''orders.confirm.submitSell'') | translate }}
+              {{ (data?.side === 'BUY' ? 'orders.confirm.submitBuy' : 'orders.confirm.submitSell') | translate }}
             </span>
           </p-button>
         </div>

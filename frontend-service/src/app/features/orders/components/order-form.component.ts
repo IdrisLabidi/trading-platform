@@ -61,16 +61,16 @@ interface IOrderFormControls {
           <a
             routerLink="/orders"
             class="grid h-8 w-8 place-items-center rounded-md text-[var(--app-fg-muted)] transition-colors hover:bg-[var(--app-bg-overlay)] hover:text-[var(--app-fg)]"
-            [attr.aria-label]="''common.close'' | translate"
+            [attr.aria-label]="'common.close' | translate"
           >
             <i class="pi pi-arrow-left" aria-hidden="true"></i>
           </a>
           <div>
             <h1 class="text-base font-semibold sm:text-lg">
-              {{ ''orders.form.title'' | translate }}
+              {{ 'orders.form.title' | translate }}
             </h1>
             <p class="text-xs text-[var(--app-fg-muted)]">
-              {{ ''orders.form.subtitle'' | translate }}
+              {{ 'orders.form.subtitle' | translate }}
             </p>
           </div>
         </div>
@@ -81,7 +81,7 @@ interface IOrderFormControls {
           class="flex items-center gap-2 rounded-md border border-[var(--app-border)] bg-[var(--app-bg-elevated)] px-4 py-2 text-sm text-[var(--app-fg-muted)]"
         >
           <p-progressSpinner styleClass="h-4 w-4" strokeWidth="6" ariaLabel="loading"></p-progressSpinner>
-          <span>{{ ''orders.form.submitting'' | translate }}</span>
+          <span>{{ 'orders.form.submitting' | translate }}</span>
         </div>
       }
 
@@ -99,7 +99,7 @@ interface IOrderFormControls {
           <ng-template pTemplate="header">
             <div class="px-4 pt-4">
               <h2 class="text-sm font-semibold">
-                {{ ''orders.form.section.instrument'' | translate }}
+                {{ 'orders.form.section.instrument' | translate }}
               </h2>
             </div>
           </ng-template>
@@ -107,7 +107,7 @@ interface IOrderFormControls {
           <div class="flex flex-col gap-3 px-4 pb-4">
             <label class="flex flex-col gap-1 text-sm">
               <span class="font-medium text-[var(--app-fg)]">
-                {{ ''orders.form.field.symbol'' | translate }}
+                {{ 'orders.form.field.symbol' | translate }}
               </span>
               <p-select
                 class="w-full"
@@ -117,7 +117,7 @@ interface IOrderFormControls {
                 optionValue="value"
                 [filter]="true"
                 filterBy="label,value"
-                [placeholder]="''orders.form.field.symbolPlaceholder'' | translate"
+                [placeholder]="'orders.form.field.symbolPlaceholder' | translate"
                 [showClear]="true"
                 appendTo="body"
                 dataKey="value"
@@ -126,7 +126,7 @@ interface IOrderFormControls {
 
             <label class="flex flex-col gap-1 text-sm">
               <span class="font-medium text-[var(--app-fg)]">
-                {{ ''orders.form.field.side'' | translate }}
+                {{ 'orders.form.field.side' | translate }}
               </span>
               <p-select
                 class="w-full"
@@ -140,7 +140,7 @@ interface IOrderFormControls {
 
             <label class="flex flex-col gap-1 text-sm">
               <span class="font-medium text-[var(--app-fg)]">
-                {{ ''orders.form.field.type'' | translate }}
+                {{ 'orders.form.field.type' | translate }}
               </span>
               <p-select
                 class="w-full"
@@ -158,7 +158,7 @@ interface IOrderFormControls {
           <ng-template pTemplate="header">
             <div class="px-4 pt-4">
               <h2 class="text-sm font-semibold">
-                {{ ''orders.form.section.execution'' | translate }}
+                {{ 'orders.form.section.execution' | translate }}
               </h2>
             </div>
           </ng-template>
@@ -166,7 +166,7 @@ interface IOrderFormControls {
           <div class="grid grid-cols-1 gap-3 px-4 pb-4 sm:grid-cols-2">
             <label class="flex flex-col gap-1 text-sm">
               <span class="font-medium text-[var(--app-fg)]">
-                {{ ''orders.form.field.price'' | translate }}
+                {{ 'orders.form.field.price' | translate }}
               </span>
               <p-inputNumber
                 class="w-full"
@@ -174,26 +174,26 @@ interface IOrderFormControls {
                 [min]="0"
                 [minFractionDigits]="2"
                 [maxFractionDigits]="6"
-                [disabled]="typeControl.value === ''MARKET''"
-                [placeholder]="''orders.form.field.pricePlaceholder'' | translate"
+                [disabled]="typeControl.value === 'MARKET'"
+                [placeholder]="'orders.form.field.pricePlaceholder' | translate"
               ></p-inputNumber>
-              @if (typeControl.value === ''MARKET'') {
+              @if (typeControl.value === 'MARKET') {
                 <small class="text-[var(--app-fg-muted)]">
-                  {{ ''orders.form.field.priceMarketHint'' | translate }}
+                  {{ 'orders.form.field.priceMarketHint' | translate }}
                 </small>
               }
             </label>
 
             <label class="flex flex-col gap-1 text-sm">
               <span class="font-medium text-[var(--app-fg)]">
-                {{ ''orders.form.field.quantity'' | translate }}
+                {{ 'orders.form.field.quantity' | translate }}
               </span>
               <p-inputNumber
                 class="w-full"
                 formControlName="quantity"
                 [min]="1"
                 [showButtons]="true"
-                [placeholder]="''orders.form.field.quantityPlaceholder'' | translate"
+                [placeholder]="'orders.form.field.quantityPlaceholder' | translate"
               ></p-inputNumber>
             </label>
           </div>
@@ -203,7 +203,7 @@ interface IOrderFormControls {
           <ng-template pTemplate="header">
             <div class="px-4 pt-4">
               <h2 class="text-sm font-semibold">
-                {{ ''orders.form.section.summary'' | translate }}
+                {{ 'orders.form.section.summary' | translate }}
               </h2>
             </div>
           </ng-template>
@@ -211,13 +211,13 @@ interface IOrderFormControls {
           <div class="grid grid-cols-1 gap-3 px-4 pb-4 sm:grid-cols-3">
             <div class="flex flex-col gap-1">
               <span class="text-xs text-[var(--app-fg-muted)]">
-                {{ ''orders.form.summary.symbol'' | translate }}
+                {{ 'orders.form.summary.symbol' | translate }}
               </span>
               <span class="text-sm font-semibold">{{ summarySymbol() }}</span>
             </div>
             <div class="flex flex-col gap-1">
               <span class="text-xs text-[var(--app-fg-muted)]">
-                {{ ''orders.form.summary.estimated'' | translate }}
+                {{ 'orders.form.summary.estimated' | translate }}
               </span>
               <span class="text-sm font-semibold tabular-nums">
                 {{ estimatedTotal() | appCurrency: summaryCurrency() }}
@@ -225,11 +225,11 @@ interface IOrderFormControls {
             </div>
             <div class="flex flex-col gap-1">
               <span class="text-xs text-[var(--app-fg-muted)]">
-                {{ ''orders.form.summary.side'' | translate }}
+                {{ 'orders.form.summary.side' | translate }}
               </span>
               <p-tag
                 [value]="sideControl.value"
-                [severity]="sideControl.value === ''BUY'' ? ''success'' : ''danger''"
+                [severity]="sideControl.value === 'BUY' ? 'success' : 'danger'"
                 [rounded]="true"
               ></p-tag>
             </div>
@@ -244,16 +244,16 @@ interface IOrderFormControls {
             [disabled]="store.submitting()"
             (onClick)="reset()"
           >
-            <span pButtonLabel>{{ ''orders.form.actions.reset'' | translate }}</span>
+            <span pButtonLabel>{{ 'orders.form.actions.reset' | translate }}</span>
           </p-button>
           <p-button
             type="submit"
-            [severity]="sideControl.value === ''BUY'' ? ''success'' : ''danger''"
+            [severity]="sideControl.value === 'BUY' ? 'success' : 'danger'"
             [disabled]="form.invalid || store.submitting()"
             [loading]="store.submitting()"
           >
             <span pButtonLabel>
-              {{ (sideControl.value === ''BUY'' ? ''orders.form.actions.submitBuy'' : ''orders.form.actions.submitSell'') | translate }}
+              {{ (sideControl.value === 'BUY' ? 'orders.form.actions.submitBuy' : 'orders.form.actions.submitSell') | translate }}
             </span>
           </p-button>
         </div>
@@ -342,7 +342,6 @@ export class OrderFormComponent implements OnInit {
       this._preselectedSymbol.set(fromQuery);
       this.symbolControl.setValue(fromQuery);
     }
-    // When the user picks a symbol, fall back to its last traded price.
     this.symbolControl.valueChanges.subscribe((symbol) => {
       if (!symbol) {
         return;

@@ -35,8 +35,8 @@ import type { IOrder, OrderStatus } from '../models/order.model';
         <div class="flex items-center gap-2">
           <span
             class="rounded-md px-2 py-0.5 text-xs font-semibold uppercase"
-            [class.bg-[var(--app-success)]]="order.side === ''BUY''"
-            [class.bg-[var(--app-danger)]]="order.side === ''SELL''"
+            [class.bg-[var(--app-success)]]="order.side === 'BUY'"
+            [class.bg-[var(--app-danger)]]="order.side === 'SELL'"
             [class.text-white]="true"
           >
             {{ order.side }}
@@ -53,20 +53,20 @@ import type { IOrder, OrderStatus } from '../models/order.model';
 
       <dl class="grid grid-cols-2 gap-2 text-xs">
         <div class="flex flex-col">
-          <dt class="text-[var(--app-fg-muted)]">{{ ''orders.item.quantity'' | translate }}</dt>
+          <dt class="text-[var(--app-fg-muted)]">{{ 'orders.item.quantity' | translate }}</dt>
           <dd class="font-semibold tabular-nums">{{ order.quantity | appNumber }}</dd>
         </div>
         <div class="flex flex-col">
-          <dt class="text-[var(--app-fg-muted)]">{{ ''orders.item.remaining'' | translate }}</dt>
+          <dt class="text-[var(--app-fg-muted)]">{{ 'orders.item.remaining' | translate }}</dt>
           <dd class="font-semibold tabular-nums">{{ order.remainingQty | appNumber }}</dd>
         </div>
         <div class="flex flex-col">
-          <dt class="text-[var(--app-fg-muted)]">{{ ''orders.item.price'' | translate }}</dt>
+          <dt class="text-[var(--app-fg-muted)]">{{ 'orders.item.price' | translate }}</dt>
           <dd class="font-semibold tabular-nums">{{ order.price | appNumber }}</dd>
         </div>
         <div class="flex flex-col">
-          <dt class="text-[var(--app-fg-muted)]">{{ ''orders.item.createdAt'' | translate }}</dt>
-          <dd class="font-semibold">{{ order.createdAt | date: ''short'' }}</dd>
+          <dt class="text-[var(--app-fg-muted)]">{{ 'orders.item.createdAt' | translate }}</dt>
+          <dd class="font-semibold">{{ order.createdAt | date: 'short' }}</dd>
         </div>
       </dl>
 
@@ -80,7 +80,7 @@ import type { IOrder, OrderStatus } from '../models/order.model';
           (onClick)="onCancel()"
         >
           <i class="pi pi-times" pButtonIcon></i>
-          <span pButtonLabel>{{ ''orders.item.cancel'' | translate }}</span>
+          <span pButtonLabel>{{ 'orders.item.cancel' | translate }}</span>
         </p-button>
       </footer>
     </article>

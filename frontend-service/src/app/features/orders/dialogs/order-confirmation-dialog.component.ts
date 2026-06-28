@@ -32,7 +32,7 @@ import type { IOrderResponse } from '../models/order.model';
       <ng-template pTemplate="header">
         <div class="flex items-center justify-between px-4 pt-4">
           <h2 class="text-sm font-semibold">
-            {{ ''orders.confirmation.title'' | translate }}
+            {{ 'orders.confirmation.title' | translate }}
           </h2>
           @if (response) {
             <p-tag
@@ -45,20 +45,20 @@ import type { IOrderResponse } from '../models/order.model';
       </ng-template>
 
       <div class="flex flex-col gap-3 px-4 pb-4 text-sm">
-        <p-message severity="success" [text]="''orders.confirmation.submitted'' | translate"></p-message>
+        <p-message severity="success" [text]="'orders.confirmation.submitted' | translate"></p-message>
 
         <dl class="grid grid-cols-2 gap-2 text-xs">
           <div class="flex flex-col">
-            <dt class="text-[var(--app-fg-muted)]">{{ ''orders.confirmation.id'' | translate }}</dt>
+            <dt class="text-[var(--app-fg-muted)]">{{ 'orders.confirmation.id' | translate }}</dt>
             <dd class="font-mono text-sm">{{ response?.id }}</dd>
           </div>
           <div class="flex flex-col">
-            <dt class="text-[var(--app-fg-muted)]">{{ ''orders.confirmation.createdAt'' | translate }}</dt>
-            <dd class="font-semibold">{{ response?.createdAt | date: ''short'' }}</dd>
+            <dt class="text-[var(--app-fg-muted)]">{{ 'orders.confirmation.createdAt' | translate }}</dt>
+            <dd class="font-semibold">{{ response?.createdAt | date: 'short' }}</dd>
           </div>
           @if (estimatedTotal !== null) {
             <div class="col-span-2 flex flex-col">
-              <dt class="text-[var(--app-fg-muted)]">{{ ''orders.confirmation.estimated'' | translate }}</dt>
+              <dt class="text-[var(--app-fg-muted)]">{{ 'orders.confirmation.estimated' | translate }}</dt>
               <dd class="text-base font-semibold tabular-nums">
                 {{ estimatedTotal | appCurrency: currency }}
               </dd>
@@ -75,13 +75,13 @@ import type { IOrderResponse } from '../models/order.model';
             type="button"
             (onClick)="onClose()"
           >
-            <span pButtonLabel>{{ ''orders.confirmation.close'' | translate }}</span>
+            <span pButtonLabel>{{ 'orders.confirmation.close' | translate }}</span>
           </p-button>
           <p-button
             type="button"
             (onClick)="onViewOrders()"
           >
-            <span pButtonLabel>{{ ''orders.confirmation.viewOrders'' | translate }}</span>
+            <span pButtonLabel>{{ 'orders.confirmation.viewOrders' | translate }}</span>
           </p-button>
         </div>
       </ng-template>

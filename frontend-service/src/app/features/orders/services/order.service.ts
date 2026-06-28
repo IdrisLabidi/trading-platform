@@ -63,7 +63,7 @@ export class OrderService {
       .pipe(map((raw) => this.toOrder(raw)));
   }
 
-  /** Fetch the caller''s full order history. */
+  /** Fetch the caller's full order history. */
   history(): Observable<readonly IOrder[]> {
     const userId = this.auth.user()?.id;
     const path = userId
@@ -74,7 +74,7 @@ export class OrderService {
       .pipe(map((list) => list.map((raw) => this.toOrder(raw))));
   }
 
-  /** Fetch the caller''s open (PENDING/PARTIAL) orders. */
+  /** Fetch the caller's open (PENDING/PARTIAL) orders. */
   openOrders(): Observable<readonly IOrder[]> {
     const userId = this.auth.user()?.id;
     const path = userId

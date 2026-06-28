@@ -40,10 +40,10 @@ import type { IOrder } from '../models/order.model';
           <i class="pi pi-shopping-cart text-lg text-[var(--app-fg-muted)]" aria-hidden="true"></i>
           <div>
             <h1 class="text-base font-semibold sm:text-lg">
-              {{ ''orders.open.title'' | translate }}
+              {{ 'orders.open.title' | translate }}
             </h1>
             <p class="text-xs text-[var(--app-fg-muted)]">
-              {{ ''orders.open.subtitle'' | translate }}
+              {{ 'orders.open.subtitle' | translate }}
             </p>
           </div>
         </div>
@@ -61,14 +61,14 @@ import type { IOrder } from '../models/order.model';
             (onClick)="refresh()"
           >
             <i class="pi pi-refresh" pButtonIcon></i>
-            <span pButtonLabel>{{ ''orders.open.refresh'' | translate }}</span>
+            <span pButtonLabel>{{ 'orders.open.refresh' | translate }}</span>
           </p-button>
           <p-button
             size="small"
-            [routerLink]="[''/orders'', ''new'']"
+            [routerLink]="['/orders', 'new']"
           >
             <i class="pi pi-plus" pButtonIcon></i>
-            <span pButtonLabel>{{ ''orders.open.new'' | translate }}</span>
+            <span pButtonLabel>{{ 'orders.open.new' | translate }}</span>
           </p-button>
         </div>
       </header>
@@ -79,7 +79,7 @@ import type { IOrder } from '../models/order.model';
             class="flex h-40 flex-col items-center justify-center gap-2 text-sm text-[var(--app-fg-muted)]"
           >
             <p-progressSpinner styleClass="h-6 w-6" strokeWidth="6" ariaLabel="loading"></p-progressSpinner>
-            <span>{{ ''orders.open.loading'' | translate }}</span>
+            <span>{{ 'orders.open.loading' | translate }}</span>
           </div>
         } @else if (store.error() && store.openOrders().length === 0) {
           <div
@@ -94,12 +94,12 @@ import type { IOrder } from '../models/order.model';
             class="flex h-40 flex-col items-center justify-center gap-2 text-center text-sm text-[var(--app-fg-muted)]"
           >
             <i class="pi pi-inbox text-2xl" aria-hidden="true"></i>
-            <p>{{ ''orders.open.empty'' | translate }}</p>
+            <p>{{ 'orders.open.empty' | translate }}</p>
             <a
-              [routerLink]="[''/orders'', ''new'']"
+              [routerLink]="['/orders', 'new']"
               class="text-xs font-medium text-[var(--app-accent)] hover:underline"
             >
-              {{ ''orders.open.emptyAction'' | translate }}
+              {{ 'orders.open.emptyAction' | translate }}
             </a>
           </div>
         } @else {

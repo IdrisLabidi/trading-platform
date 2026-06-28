@@ -20,7 +20,7 @@ interface IStatusFilter {
 }
 
 /**
- * Order history page. Loads the caller''s order history through the
+ * Order history page. Loads the caller's order history through the
  * REST endpoint, augments it with realtime events and lets the user
  * filter by status. Open orders are surfaced as actionable cards
  * (cancel button) while terminal orders are rendered as a static
@@ -51,10 +51,10 @@ interface IStatusFilter {
           <i class="pi pi-history text-lg text-[var(--app-fg-muted)]" aria-hidden="true"></i>
           <div>
             <h1 class="text-base font-semibold sm:text-lg">
-              {{ ''orders.history.title'' | translate }}
+              {{ 'orders.history.title' | translate }}
             </h1>
             <p class="text-xs text-[var(--app-fg-muted)]">
-              {{ ''orders.history.subtitle'' | translate }}
+              {{ 'orders.history.subtitle' | translate }}
             </p>
           </div>
         </div>
@@ -72,13 +72,13 @@ interface IStatusFilter {
             (onClick)="refresh()"
           >
             <i class="pi pi-refresh" pButtonIcon></i>
-            <span pButtonLabel>{{ ''orders.history.refresh'' | translate }}</span>
+            <span pButtonLabel>{{ 'orders.history.refresh' | translate }}</span>
           </p-button>
           <p-button
             size="small"
-            [routerLink]="[''/orders'', ''open'']"
+            [routerLink]="['/orders', 'open']"
           >
-            <span pButtonLabel>{{ ''orders.history.open'' | translate }}</span>
+            <span pButtonLabel>{{ 'orders.history.open' | translate }}</span>
           </p-button>
         </div>
       </header>
@@ -92,14 +92,14 @@ interface IStatusFilter {
           optionLabel="label"
           optionValue="value"
           appendTo="body"
-          [placeholder]="''orders.history.filter'' | translate"
+          [placeholder]="'orders.history.filter' | translate"
         ></p-select>
         <p-button
           size="small"
-          [routerLink]="[''/orders'', ''new'']"
+          [routerLink]="['/orders', 'new']"
         >
           <i class="pi pi-plus" pButtonIcon></i>
-          <span pButtonLabel>{{ ''orders.history.new'' | translate }}</span>
+          <span pButtonLabel>{{ 'orders.history.new' | translate }}</span>
         </p-button>
       </div>
 
@@ -109,7 +109,7 @@ interface IStatusFilter {
             class="flex h-40 flex-col items-center justify-center gap-2 text-sm text-[var(--app-fg-muted)]"
           >
             <p-progressSpinner styleClass="h-6 w-6" strokeWidth="6" ariaLabel="loading"></p-progressSpinner>
-            <span>{{ ''orders.history.loading'' | translate }}</span>
+            <span>{{ 'orders.history.loading' | translate }}</span>
           </div>
         } @else if (store.error() && store.history().length === 0) {
           <div
@@ -124,14 +124,14 @@ interface IStatusFilter {
             class="flex h-40 flex-col items-center justify-center gap-2 text-center text-sm text-[var(--app-fg-muted)]"
           >
             <i class="pi pi-search text-2xl" aria-hidden="true"></i>
-            <p>{{ ''orders.history.empty'' | translate }}</p>
+            <p>{{ 'orders.history.empty' | translate }}</p>
           </div>
         } @else {
           <div class="flex flex-col gap-4">
             @if (openFiltered().length > 0) {
               <section class="flex flex-col gap-2">
                 <h2 class="text-xs font-semibold uppercase text-[var(--app-fg-muted)]">
-                  {{ ''orders.history.openSection'' | translate }}
+                  {{ 'orders.history.openSection' | translate }}
                 </h2>
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
                   @for (order of openFiltered(); track order.id) {
@@ -147,19 +147,19 @@ interface IStatusFilter {
             @if (terminalFiltered().length > 0) {
               <section class="flex flex-col gap-2">
                 <h2 class="text-xs font-semibold uppercase text-[var(--app-fg-muted)]">
-                  {{ ''orders.history.terminalSection'' | translate }}
+                  {{ 'orders.history.terminalSection' | translate }}
                 </h2>
                 <div class="overflow-hidden rounded-lg border border-[var(--app-border)] bg-[var(--app-bg-elevated)]">
                   <table class="w-full text-sm">
                     <thead class="bg-[var(--app-bg-overlay)] text-xs uppercase text-[var(--app-fg-muted)]">
                       <tr>
-                        <th class="px-3 py-2 text-start font-medium">{{ ''orders.history.col.symbol'' | translate }}</th>
-                        <th class="px-3 py-2 text-start font-medium">{{ ''orders.history.col.side'' | translate }}</th>
-                        <th class="px-3 py-2 text-start font-medium">{{ ''orders.history.col.type'' | translate }}</th>
-                        <th class="px-3 py-2 text-end font-medium">{{ ''orders.history.col.quantity'' | translate }}</th>
-                        <th class="px-3 py-2 text-end font-medium">{{ ''orders.history.col.price'' | translate }}</th>
-                        <th class="px-3 py-2 text-start font-medium">{{ ''orders.history.col.status'' | translate }}</th>
-                        <th class="px-3 py-2 text-start font-medium">{{ ''orders.history.col.createdAt'' | translate }}</th>
+                        <th class="px-3 py-2 text-start font-medium">{{ 'orders.history.col.symbol' | translate }}</th>
+                        <th class="px-3 py-2 text-start font-medium">{{ 'orders.history.col.side' | translate }}</th>
+                        <th class="px-3 py-2 text-start font-medium">{{ 'orders.history.col.type' | translate }}</th>
+                        <th class="px-3 py-2 text-end font-medium">{{ 'orders.history.col.quantity' | translate }}</th>
+                        <th class="px-3 py-2 text-end font-medium">{{ 'orders.history.col.price' | translate }}</th>
+                        <th class="px-3 py-2 text-start font-medium">{{ 'orders.history.col.status' | translate }}</th>
+                        <th class="px-3 py-2 text-start font-medium">{{ 'orders.history.col.createdAt' | translate }}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -169,8 +169,8 @@ interface IStatusFilter {
                           <td class="px-3 py-2">
                             <span
                               class="rounded-md px-2 py-0.5 text-xs font-semibold uppercase"
-                              [class.bg-[var(--app-success)]]="order.side === ''BUY''"
-                              [class.bg-[var(--app-danger)]]="order.side === ''SELL''"
+                              [class.bg-[var(--app-success)]]="order.side === 'BUY'"
+                              [class.bg-[var(--app-danger)]]="order.side === 'SELL'"
                               [class.text-white]="true"
                             >
                               {{ order.side }}
@@ -186,7 +186,7 @@ interface IStatusFilter {
                               [rounded]="true"
                             ></p-tag>
                           </td>
-                          <td class="px-3 py-2">{{ order.createdAt | date: ''short'' }}</td>
+                          <td class="px-3 py-2">{{ order.createdAt | date: 'short' }}</td>
                         </tr>
                       }
                     </tbody>

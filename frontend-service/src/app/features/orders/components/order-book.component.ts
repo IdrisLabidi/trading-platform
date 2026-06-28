@@ -45,10 +45,10 @@ interface ISymbolOption {
           <i class="pi pi-book text-lg text-[var(--app-fg-muted)]" aria-hidden="true"></i>
           <div>
             <h1 class="text-base font-semibold sm:text-lg">
-              {{ ''orders.book.title'' | translate }}
+              {{ 'orders.book.title' | translate }}
             </h1>
             <p class="text-xs text-[var(--app-fg-muted)]">
-              {{ ''orders.book.subtitle'' | translate }}
+              {{ 'orders.book.subtitle' | translate }}
             </p>
           </div>
         </div>
@@ -63,7 +63,7 @@ interface ISymbolOption {
             [filter]="true"
             filterBy="label,value"
             appendTo="body"
-            [placeholder]="''orders.book.symbolPlaceholder'' | translate"
+            [placeholder]="'orders.book.symbolPlaceholder' | translate"
           ></p-select>
           <p-button
             size="small"
@@ -74,15 +74,15 @@ interface ISymbolOption {
             (onClick)="reload()"
           >
             <i class="pi pi-refresh" pButtonIcon></i>
-            <span pButtonLabel>{{ ''orders.book.refresh'' | translate }}</span>
+            <span pButtonLabel>{{ 'orders.book.refresh' | translate }}</span>
           </p-button>
           @if (selectedSymbol()) {
             <a
-              [routerLink]="[''/orders'', ''new'']"
+              [routerLink]="['/orders', 'new']"
               [queryParams]="{ symbol: selectedSymbol() }"
               class="text-xs font-medium text-[var(--app-accent)] hover:underline"
             >
-              {{ ''orders.book.trade'' | translate }}
+              {{ 'orders.book.trade' | translate }}
             </a>
           }
         </div>
@@ -94,14 +94,14 @@ interface ISymbolOption {
             class="flex h-40 flex-col items-center justify-center gap-2 text-center text-sm text-[var(--app-fg-muted)]"
           >
             <i class="pi pi-search text-2xl" aria-hidden="true"></i>
-            <p>{{ ''orders.book.empty'' | translate }}</p>
+            <p>{{ 'orders.book.empty' | translate }}</p>
           </div>
         } @else if (loading() && !orderBook()) {
           <div
             class="flex h-40 flex-col items-center justify-center gap-2 text-sm text-[var(--app-fg-muted)]"
           >
             <p-progressSpinner styleClass="h-6 w-6" strokeWidth="6" ariaLabel="loading"></p-progressSpinner>
-            <span>{{ ''orders.book.loading'' | translate }}</span>
+            <span>{{ 'orders.book.loading' | translate }}</span>
           </div>
         } @else {
           <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -110,7 +110,7 @@ interface ISymbolOption {
                 <div class="flex items-center gap-2">
                   <i class="pi pi-arrow-down text-sm text-[var(--app-success)]" aria-hidden="true"></i>
                   <h2 class="text-sm font-semibold">
-                    {{ ''orders.book.bids'' | translate }}
+                    {{ 'orders.book.bids' | translate }}
                   </h2>
                 </div>
                 <span class="text-xs text-[var(--app-fg-muted)]">
@@ -118,13 +118,13 @@ interface ISymbolOption {
                 </span>
               </header>
               <div class="grid grid-cols-2 px-4 py-2 text-xs uppercase text-[var(--app-fg-muted)]">
-                <span>{{ ''orders.book.price'' | translate }}</span>
-                <span class="text-end">{{ ''orders.book.quantity'' | translate }}</span>
+                <span>{{ 'orders.book.price' | translate }}</span>
+                <span class="text-end">{{ 'orders.book.quantity' | translate }}</span>
               </div>
               <ul class="divide-y divide-[var(--app-border)]">
                 @if (bids().length === 0) {
                   <li class="px-4 py-3 text-sm text-[var(--app-fg-muted)]">
-                    {{ ''orders.book.emptyBids'' | translate }}
+                    {{ 'orders.book.emptyBids' | translate }}
                   </li>
                 } @else {
                   @for (level of bids(); track level.price) {
@@ -145,7 +145,7 @@ interface ISymbolOption {
                 <div class="flex items-center gap-2">
                   <i class="pi pi-arrow-up text-sm text-[var(--app-danger)]" aria-hidden="true"></i>
                   <h2 class="text-sm font-semibold">
-                    {{ ''orders.book.asks'' | translate }}
+                    {{ 'orders.book.asks' | translate }}
                   </h2>
                 </div>
                 <span class="text-xs text-[var(--app-fg-muted)]">
@@ -153,13 +153,13 @@ interface ISymbolOption {
                 </span>
               </header>
               <div class="grid grid-cols-2 px-4 py-2 text-xs uppercase text-[var(--app-fg-muted)]">
-                <span>{{ ''orders.book.price'' | translate }}</span>
-                <span class="text-end">{{ ''orders.book.quantity'' | translate }}</span>
+                <span>{{ 'orders.book.price' | translate }}</span>
+                <span class="text-end">{{ 'orders.book.quantity' | translate }}</span>
               </div>
               <ul class="divide-y divide-[var(--app-border)]">
                 @if (asks().length === 0) {
                   <li class="px-4 py-3 text-sm text-[var(--app-fg-muted)]">
-                    {{ ''orders.book.emptyAsks'' | translate }}
+                    {{ 'orders.book.emptyAsks' | translate }}
                   </li>
                 } @else {
                   @for (level of asks(); track level.price) {

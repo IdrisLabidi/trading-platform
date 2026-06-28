@@ -345,5 +345,73 @@
       "cancel": "Could not cancel the order.",
       "book": "Could not fetch the order book."
     }
+  },
+  "watchlist": {
+    "manager": {
+      "title": "Watchlist",
+      "subtitle": "Track your symbols and watchlist groups",
+      "refresh": "Refresh",
+      "new": "New list",
+      "loading": "Loading watchlists...",
+      "empty": "You don`t have any watchlist yet.",
+      "emptyAction": "Create my first list",
+      "groups": "Lists",
+      "updated": "Updated",
+      "namePlaceholder": "List name",
+      "create": "Create",
+      "selectPrompt": "Select a list to view its content."
+    },
+    "items": {
+      "rename": "Rename",
+      "remove": "Delete",
+      "save": "Save",
+      "add": "Add",
+      "field": {
+        "symbol": "Symbol",
+        "targetPrice": "Target price",
+        "targetPricePlaceholder": "Optional"
+      },
+      "empty": "No symbol in this list."
+    },
+    "item": {
+      "addedAt": "Added on",
+      "price": "Price",
+      "target": "Target",
+      "distance": "Distance",
+      "remove": "Remove",
+      "save": "OK"
+    },
+    "notifications": {
+      "created": {
+        "title": "List created",
+        "message": "The watchlist has been created."
+      },
+      "updated": {
+        "title": "List updated",
+        "message": "The watchlist has been updated."
+      },
+      "removed": {
+        "title": "List removed",
+        "message": "The watchlist has been removed."
+      },
+      "itemAdded": {
+        "title": "Symbol added",
+        "message": "The symbol was added to the list."
+      },
+      "itemRemoved": {
+        "title": "Symbol removed",
+        "message": "The symbol was removed from the list."
+      }
+    },
+    "error": {
+      "title": "Watchlist error",
+      "unknown": "Unknown error while loading watchlists.",
+      "create": "Could not create the watchlist.",
+      "update": "Could not update the watchlist.",
+      "remove": "Could not delete the watchlist.",
+      "itemAdd": "Could not add the symbol.",
+      "itemUpdate": "Could not update the target price.",
+      "itemRemove": "Could not remove the symbol."
+    }
   }
 }

@@ -1,18 +1,17 @@
-import { ChangeDetectionStrategy, Component, OnInit, computed, inject } from '@angular/core';
-import { DatePipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { TranslatePipe } from '@ngx-translate/core';
-import { ButtonModule } from 'primeng/button';
-import { TagModule } from 'primeng/tag';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import {ChangeDetectionStrategy, Component, OnInit, computed, inject} from '@angular/core';
+import {DatePipe} from '@angular/common';
+import {RouterLink} from '@angular/router';
+import {TranslatePipe} from '@ngx-translate/core';
+import {ButtonModule} from 'primeng/button';
+import {TagModule} from 'primeng/tag';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
 
-import { PortfolioStore } from '../stores/portfolio.store';
-import { CurrencyFormatPipe } from '../../../shared/pipes/currency-format.pipe';
-import { NumberFormatPipe } from '../../../shared/pipes/number-format.pipe';
-import { PercentFormatPipe } from '../../../shared/pipes/percent-format.pipe';
-import { AssetListComponent } from './asset-list.component';
-import { PerformanceChartComponent } from './performance-chart.component';
-import type { IBalance, IPosition } from '../models/portfolio.model';
+import {PortfolioStore} from '../stores/portfolio.store';
+import {CurrencyFormatPipe} from '../../../shared/pipes/currency-format.pipe';
+import {PercentFormatPipe} from '../../../shared/pipes/percent-format.pipe';
+import {AssetListComponent} from './asset-list.component';
+import {PerformanceChartComponent} from './performance-chart.component';
+import type {IBalance} from '../models/portfolio.model';
 
 /**
  * Portfolio overview page. Combines the cash balance, the position
@@ -31,7 +30,6 @@ import type { IBalance, IPosition } from '../models/portfolio.model';
     TagModule,
     ProgressSpinnerModule,
     CurrencyFormatPipe,
-    NumberFormatPipe,
     PercentFormatPipe,
     AssetListComponent,
     PerformanceChartComponent
@@ -55,7 +53,7 @@ import type { IBalance, IPosition } from '../models/portfolio.model';
         </div>
         <div class="flex items-center gap-2">
           @if (lastLoadedAt(); as stamp) {
-            <p-tag [value]="stamp | date: 'short'" severity="info" [rounded]="true"></p-tag>
+            <p-tag [value]="(stamp | date: 'short') ?? ''" severity="info" [rounded]="true"></p-tag>
           }
           <p-button
             size="small"
@@ -174,7 +172,7 @@ import type { IBalance, IPosition } from '../models/portfolio.model';
 
         <section class="grid grid-cols-1 gap-4 px-4 pb-6 sm:px-6 xl:grid-cols-3">
           <div class="xl:col-span-2">
-            <app-asset-list [positions]="positions()" />
+            <app-asset-list [positions]="positions()"/>
           </div>
           <div>
             <app-performance-chart

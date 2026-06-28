@@ -345,5 +345,73 @@
       "cancel": "Impossible d''annuler l''ordre.",
       "book": "Impossible de récupérer le carnet d''ordres."
     }
+  },
+  "watchlist": {
+    "manager": {
+      "title": "Watchlist",
+      "subtitle": "Suivez vos symboles et vos listes de surveillance",
+      "refresh": "Actualiser",
+      "new": "Nouvelle liste",
+      "loading": "Chargement des watchlists...",
+      "empty": "Vous n''avez pas encore de watchlist.",
+      "emptyAction": "Créer ma première liste",
+      "groups": "Listes",
+      "updated": "Mise à jour",
+      "namePlaceholder": "Nom de la liste",
+      "create": "Créer",
+      "selectPrompt": "Sélectionnez une liste pour afficher son contenu."
+    },
+    "items": {
+      "rename": "Renommer",
+      "remove": "Supprimer",
+      "save": "Enregistrer",
+      "add": "Ajouter",
+      "field": {
+        "symbol": "Symbole",
+        "targetPrice": "Prix cible",
+        "targetPricePlaceholder": "Optionnel"
+      },
+      "empty": "Aucun symbole dans cette liste."
+    },
+    "item": {
+      "addedAt": "Ajouté le",
+      "price": "Cours",
+      "target": "Cible",
+      "distance": "Écart",
+      "remove": "Retirer",
+      "save": "OK"
+    },
+    "notifications": {
+      "created": {
+        "title": "Liste créée",
+        "message": "La watchlist a été créée."
+      },
+      "updated": {
+        "title": "Liste mise à jour",
+        "message": "La watchlist a été mise à jour."
+      },
+      "removed": {
+        "title": "Liste supprimée",
+        "message": "La watchlist a été supprimée."
+      },
+      "itemAdded": {
+        "title": "Symbole ajouté",
+        "message": "Le symbole a été ajouté à la liste."
+      },
+      "itemRemoved": {
+        "title": "Symbole retiré",
+        "message": "Le symbole a été retiré de la liste."
+      }
+    },
+    "error": {
+      "title": "Erreur watchlist",
+      "unknown": "Erreur inconnue lors du chargement des watchlists.",
+      "create": "Impossible de créer la watchlist.",
+      "update": "Impossible de mettre à jour la watchlist.",
+      "remove": "Impossible de supprimer la watchlist.",
+      "itemAdd": "Impossible d''ajouter le symbole.",
+      "itemUpdate": "Impossible de mettre à jour le prix cible.",
+      "itemRemove": "Impossible de retirer le symbole."
+    }
   }
 }

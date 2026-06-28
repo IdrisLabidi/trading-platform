@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, Input, computed, signal } from '@angular/core';
-import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { TagModule } from 'primeng/tag';
@@ -18,7 +17,6 @@ import type { IPosition } from '../models/portfolio.model';
   selector: 'app-asset-list',
   standalone: true,
   imports: [
-    DatePipe,
     RouterLink,
     TranslatePipe,
     TagModule,

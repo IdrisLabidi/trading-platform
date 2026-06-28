@@ -207,7 +207,7 @@ export class OrderHistoryComponent implements OnInit {
   private readonly _statusFilter = signal<OrderStatus | 'ALL'>('ALL');
   private readonly _cancelling = signal<ReadonlySet<string>>(new Set());
 
-  readonly statusOptions: ReadonlyArray<IStatusFilter> = [
+  readonly statusOptions: IStatusFilter[] = [
     { label: 'All', value: 'ALL' },
     { label: 'PENDING', value: 'PENDING' },
     { label: 'PARTIAL', value: 'PARTIAL' },

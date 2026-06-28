@@ -277,22 +277,22 @@ export class OrderFormComponent implements OnInit {
     quantity: this.fb.control<number | null>(null, [Validators.required, Validators.min(1)])
   });
 
-  readonly sideOptions: ReadonlyArray<{ readonly label: string; readonly value: OrderSide }> = [
+  readonly sideOptions: { readonly label: string; readonly value: OrderSide }[] = [
     { label: 'BUY', value: 'BUY' },
     { label: 'SELL', value: 'SELL' }
   ];
 
-  readonly typeOptions: ReadonlyArray<{ readonly label: string; readonly value: OrderType }> = [
+  readonly typeOptions: { readonly label: string; readonly value: OrderType }[] = [
     { label: 'LIMIT', value: 'LIMIT' },
     { label: 'MARKET', value: 'MARKET' }
   ];
 
   private readonly _preselectedSymbol = signal<string | null>(null);
 
-  readonly symbolOptions = computed<ReadonlyArray<{ readonly label: string; readonly value: string }>>(() => {
+  readonly symbolOptions = computed<{ label: string; value: string }[]>(() => {
     const assets = this.marketsStore.assets();
     return assets
-      .map((asset: IAsset) => ({ label: `${asset.symbol} — ${asset.name}`, value: asset.symbol }))
+      .map((asset: IAsset) => ({ label: `${asset.symbol} â€” ${asset.name}`, value: asset.symbol }))
       .sort((a, b) => a.label.localeCompare(b.label));
   });
 

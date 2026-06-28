@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
-import { DatePipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
@@ -25,7 +24,6 @@ import type { IPosition } from '../models/portfolio.model';
   selector: 'app-position-details',
   standalone: true,
   imports: [
-    DatePipe,
     RouterLink,
     TranslatePipe,
     ButtonModule,
@@ -52,7 +50,7 @@ import type { IPosition } from '../models/portfolio.model';
           </a>
           <div>
             <h1 class="text-base font-semibold sm:text-lg">
-              {{ 'portfolio.details.title' | translate }} — {{ position()?.symbol ?? symbol() }}
+              {{ 'portfolio.details.title' | translate }} ï¿½ {{ position()?.symbol ?? symbol() }}
             </h1>
             <p class="text-xs text-[var(--app-fg-muted)]">
               {{ asset()?.name ?? ('portfolio.details.assetFallback' | translate) }}

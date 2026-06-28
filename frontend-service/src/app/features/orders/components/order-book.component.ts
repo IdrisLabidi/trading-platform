@@ -191,10 +191,10 @@ export class OrderBookComponent implements OnInit {
   readonly selectedSymbol = this._selected.asReadonly();
   readonly loading = this._loading.asReadonly();
 
-  readonly symbolOptions = computed<ReadonlyArray<ISymbolOption>>(() => {
+  readonly symbolOptions = computed<ISymbolOption[]>(() => {
     const assets = this.marketsStore.assets();
     return assets
-      .map((asset: IAsset) => ({ label: `${asset.symbol} — ${asset.name}`, value: asset.symbol }))
+      .map((asset: IAsset) => ({ label: `${asset.symbol} â€” ${asset.name}`, value: asset.symbol }))
       .sort((a, b) => a.label.localeCompare(b.label));
   });
 

@@ -5,12 +5,33 @@
     "error": "Une erreur est survenue"
   },
   "auth": {
-    "login": "Connexion",
-    "logout": "Déconnexion",
-    "username": "Nom d''utilisateur",
-    "password": "Mot de passe",
-    "submit": "Se connecter",
-    "invalidCredentials": "Identifiants invalides"
+    "login": {
+      "title": "Connexion",
+      "subtitle": "Connectez-vous à votre compte pour accéder à la plateforme.",
+      "username": "Nom d''utilisateur",
+      "password": "Mot de passe",
+      "submit": "Se connecter",
+      "divider": "ou",
+      "help": "L''authentification est gérée par Keycloak. Vos identifiants ne sont jamais transmis à notre backend.",
+      "errors": {
+        "usernameRequired": "Veuillez saisir votre nom d''utilisateur.",
+        "passwordRequired": "Veuillez saisir votre mot de passe.",
+        "busy": "Une autre tentative est déjà en cours."
+      }
+    },
+    "logout": {
+      "title": "Déconnexion en cours",
+      "subtitle": "Vous serez redirigé vers la page de connexion dans un instant."
+    },
+    "notifications": {
+      "error": {
+        "title": "Erreur d''authentification"
+      }
+    },
+    "error": {
+      "busy": "Une autre tentative est déjà en cours.",
+      "invalidCredentials": "Identifiants invalides."
+    }
   },
   "nav": {
     "dashboard": "Tableau de bord",

@@ -1,15 +1,13 @@
-﻿import { Injectable, computed, inject, signal } from '@angular/core';
+﻿import { Injectable, computed, signal } from '@angular/core';
 import Keycloak, {
   type KeycloakInitOptions,
   type KeycloakInstance,
   type KeycloakTokenParsed
 } from 'keycloak-js';
-import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import type {
   IAuthToken,
   IKeycloakTokenParsed,
-  ILoginCredentials,
   IUser
 } from '../models/user.model';
 
@@ -20,16 +18,23 @@ function readString(value: unknown): string | undefined {
 /**
  * Application authentication service backed by Keycloak.
  *
- * - Initializes the Keycloak adapter in `check-sso` mode by default.
- * - Exposes the current `IUser` and `IAuthToken` as signals.
- * - Provides login, logout, and token refresh primitives.
+ * Responsibilities:
+ *   - Bootstrap the Keycloak adapter in `check-sso` mode so a
+ *     returning user does not see the login screen if their session
+ *     is still valid.
+ *   - Expose the current `IUser` and `IAuthToken` as signals so the
+ *     feature stores and the HTTP interceptor can read them without
+ *     depending on Keycloak internals.
+ *   - Provide `login(redirect)` / `logout()` primitives that resolve
+ *     a same-origin redirect target.
+ *   - Auto-refresh the access token on `onTokenExpired`.
  *
- * Unknown backend methods are left as TODOs on purpose: there is no
- * dedicated user-info endpoint agreed yet.
+ * Navigation is delegated to the caller (the auth feature) so the
+ * core service stays router-agnostic and can be reused by other
+ * apps (e.g. the storybook harness).
  */
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly router = inject(Router);
   private readonly keycloak: KeycloakInstance = new Keycloak({
     url: environment.keycloak.url,
     realm: environment.keycloak.realm,
@@ -66,21 +71,31 @@ export class AuthService {
     return authenticated;
   }
 
-  async login(credentials?: ILoginCredentials): Promise<void> {
-    if (credentials) {
-      // TODO: backend authentication
-      void credentials;
-    }
-    await this.keycloak.login({ redirectUri: window.location.origin + '/dashboard' });
+  /**
+   * Trigger the Keycloak login round-trip. The optional `redirect`
+   * parameter lets the caller pick the post-login landing page.
+   * The caller is responsible for sanitising the value to avoid
+   * open-redirect attacks.
+   */
+  async login(redirect?: string): Promise<string> {
+    const target = this.composeRedirect(redirect);
+    await this.keycloak.login({ redirectUri: target });
+    return target;
   }
 
+  /**
+   * Terminate the current Keycloak session and clear the local
+   * signal state. The caller is expected to navigate to the login
+   * page after the redirect URI is honoured by Keycloak.
+   */
   async logout(): Promise<void> {
+    const redirectUri = window.location.origin + '/login';
     this._user.set(null);
     this._token.set(null);
-    await this.keycloak.logout({ redirectUri: window.location.origin + '/login' });
-    await this.router.navigate(['/login']);
+    await this.keycloak.logout({ redirectUri });
   }
 
+  /** Force-refresh the underlying access token. */
   async refreshToken(minValidity = 30): Promise<boolean> {
     try {
       const refreshed = await this.keycloak.updateToken(minValidity);
@@ -89,13 +104,22 @@ export class AuthService {
       }
       return refreshed;
     } catch {
-      await this.login();
+      // The refresh failed (session expired). Trigger the login flow
+      // so the user can re-authenticate. The Keycloak redirect will
+      // bring them back to the post-login landing page.
+      await this.keycloak.login({ redirectUri: window.location.origin + '/dashboard' });
       return false;
     }
   }
 
+  /** Returns the current access token, or `null` when not authenticated. */
   getAccessToken(): string | null {
     return this.keycloak.token ?? null;
+  }
+
+  /** Returns the underlying Keycloak instance (used by the feature store to compose redirects). */
+  get instance(): KeycloakInstance {
+    return this.keycloak;
   }
 
   private bindCallbacks(): void {
@@ -113,6 +137,8 @@ export class AuthService {
   private syncFromKeycloak(): void {
     const parsed = this.keycloak.tokenParsed as KeycloakTokenParsed | undefined;
     if (!parsed) {
+      this._user.set(null);
+      this._token.set(null);
       return;
     }
     const payload = parsed as unknown as IKeycloakTokenParsed;
@@ -137,5 +163,21 @@ export class AuthService {
       lastName: readString(parsed['family_name']),
       roles
     };
+  }
+
+  /**
+   * Compose a same-origin redirect URI from the caller-provided
+   * value. Returns the dashboard when the input is missing or
+   * unsafe (anything that does not start with a single slash).
+   */
+  private composeRedirect(value: string | undefined): string {
+    const fallback = window.location.origin + '/dashboard';
+    if (!value || typeof value !== 'string') {
+      return fallback;
+    }
+    if (!value.startsWith('/') || value.startsWith('//')) {
+      return fallback;
+    }
+    return window.location.origin + value;
   }
 }

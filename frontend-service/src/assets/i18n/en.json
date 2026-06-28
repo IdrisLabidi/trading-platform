@@ -5,12 +5,33 @@
     "error": "An error occurred"
   },
   "auth": {
-    "login": "Login",
-    "logout": "Logout",
-    "username": "Username",
-    "password": "Password",
-    "submit": "Sign in",
-    "invalidCredentials": "Invalid credentials"
+    "login": {
+      "title": "Sign in",
+      "subtitle": "Sign in to your account to access the platform.",
+      "username": "Username",
+      "password": "Password",
+      "submit": "Sign in",
+      "divider": "or",
+      "help": "Authentication is handled by Keycloak. Your credentials are never sent to our backend.",
+      "errors": {
+        "usernameRequired": "Please enter your username.",
+        "passwordRequired": "Please enter your password.",
+        "busy": "Another attempt is already in progress."
+      }
+    },
+    "logout": {
+      "title": "Signing you out",
+      "subtitle": "You will be redirected to the login page in a moment."
+    },
+    "notifications": {
+      "error": {
+        "title": "Authentication error"
+      }
+    },
+    "error": {
+      "busy": "Another attempt is already in progress.",
+      "invalidCredentials": "Invalid credentials."
+    }
   },
   "nav": {
     "dashboard": "Dashboard",

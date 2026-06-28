@@ -8,8 +8,6 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 import { AssetsStore } from '../stores/assets.store';
 import { CurrencyFormatPipe } from '../../../shared/pipes/currency-format.pipe';
-import { NumberFormatPipe } from '../../../shared/pipes/number-format.pipe';
-import { PercentFormatPipe } from '../../../shared/pipes/percent-format.pipe';
 import { AssetSearchComponent } from './asset-search.component';
 import type { AssetType, IAsset, IAssetCatalogCriteria } from '../models/asset.model';
 
@@ -30,8 +28,6 @@ import type { AssetType, IAsset, IAssetCatalogCriteria } from '../models/asset.m
     TagModule,
     ProgressSpinnerModule,
     CurrencyFormatPipe,
-    NumberFormatPipe,
-    PercentFormatPipe,
     AssetSearchComponent
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,

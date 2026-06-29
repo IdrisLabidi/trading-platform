@@ -1,5 +1,5 @@
 import { type Routes } from '@angular/router';
-import { authMatchGuard } from './core/guards/auth.guard';
+import { authMatchGuard } from './core/guards';
 
 /**
  * Root routes:

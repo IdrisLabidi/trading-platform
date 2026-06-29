@@ -44,7 +44,7 @@ export const environment = {
   keycloak: {
     url: 'http://localhost:8080',
     realm: 'trading-platform',
-    clientId: 'frontend-service'
+    clientId: 'trading-frontend'
   },
   defaultLanguage: 'fr' as const,
   defaultTheme: 'dark' as const,

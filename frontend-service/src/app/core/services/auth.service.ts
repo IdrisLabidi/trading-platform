@@ -1,7 +1,6 @@
 ﻿import { Injectable, computed, signal } from '@angular/core';
 import Keycloak, {
   type KeycloakInitOptions,
-  type KeycloakInstance,
   type KeycloakTokenParsed
 } from 'keycloak-js';
 import { environment } from '../../../environments/environment';
@@ -35,7 +34,7 @@ function readString(value: unknown): string | undefined {
  */
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly keycloak: KeycloakInstance = new Keycloak({
+  private readonly keycloak: Keycloak = new Keycloak({
     url: environment.keycloak.url,
     realm: environment.keycloak.realm,
     clientId: environment.keycloak.clientId
@@ -118,7 +117,7 @@ export class AuthService {
   }
 
   /** Returns the underlying Keycloak instance (used by the feature store to compose redirects). */
-  get instance(): KeycloakInstance {
+  get instance(): Keycloak {
     return this.keycloak;
   }
 

@@ -1,4 +1,4 @@
-﻿import { DestroyRef, Injectable, effect, inject } from '@angular/core';
+import { DestroyRef, Injectable, Injector, effect, inject } from '@angular/core';
 import { map, type Observable, type OperatorFunction } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -48,6 +48,7 @@ export class RealtimeService {
   private readonly socket = inject(SocketIoService);
   private readonly auth = inject(AuthService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly injector = inject(Injector);
 
   private bootstrapped = false;
   private ordersUserId: string | null = null;
@@ -66,12 +67,15 @@ export class RealtimeService {
       this.bootstrapped = true;
       this.socket.connect({ autoReconnect: true });
       // Re-authenticate whenever a new access token is emitted.
-      effect(() => {
-        const token = this.auth.token()?.accessToken;
-        if (token) {
-          this.socket.authenticate(token);
-        }
-      });
+      effect(
+        () => {
+          const token = this.auth.token()?.accessToken;
+          if (token) {
+            this.socket.authenticate(token);
+          }
+        },
+        { injector: this.injector }
+      );
       // Tear the connection down with the application injector.
       this.destroyRef.onDestroy(() => this.socket.disconnect());
     }

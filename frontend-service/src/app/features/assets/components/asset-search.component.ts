@@ -91,6 +91,7 @@ const DEFAULT_CRITERIA: IAssetCatalogCriteria = {
       ></p-select>
       <label class="flex items-center gap-2 text-xs text-[var(--app-fg-muted)]">
         <p-toggleSwitch
+          name="activeOnly"
           [ngModel]="activeOnly()"
           (ngModelChange)="activeOnly.set($event)"
         ></p-toggleSwitch>

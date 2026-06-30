@@ -1,10 +1,14 @@
-import { Injectable, inject } from '@angular/core';
-import { combineLatest, map, type Observable } from 'rxjs';
+﻿import { Injectable, inject } from '@angular/core';
+import { Observable, catchError, forkJoin, map, of } from 'rxjs';
 
-import { HttpService } from '../../../core/services/http.service';
-import type { IPosition, IPortfolioSummary } from '../../portfolio/models/portfolio.model';
-import type { IWatchlist, IWatchlistItem } from '../../watchlist/models/watchlist.model';
-import type { ITrade } from '../../history/models/trade.model';
+import { MarketsStore } from '../../markets/stores/markets.store';
+import { OrderService } from '../../orders/services/order.service';
+import { PortfolioService } from '../../portfolio/services/portfolio.service';
+import { WatchlistService } from '../../watchlist/services/watchlist.service';
+import type { IOrder } from '../../orders/models/order.model';
+import type { IPriceUpdate } from '../../markets/models/market.model';
+import type { IWatchlist } from '../../watchlist/models/watchlist.model';
+import type { IPortfolioSummary } from '../../portfolio/models/portfolio.model';
 
 import type { IDashboardService } from './dashboard.service.interface';
 import type {
@@ -16,39 +20,12 @@ import type {
   IDashboardWatchlistSnapshot
 } from '../models/dashboard.model';
 
-interface IDashboardSummaryDto {
-  readonly portfolioValue?: number;
-  readonly dayChange?: number;
-  readonly dayChangePercent?: number;
-  readonly watchlistCount?: number;
-  readonly openOrdersCount?: number;
-  readonly tradesToday?: number;
-  readonly asOf?: string;
-}
-
-interface IPortfolioDto {
-  readonly totalValue?: number;
-  readonly totalCost?: number;
-  readonly totalPnL?: number;
-  readonly totalPnLPercent?: number;
-  readonly positions?: readonly IPosition[];
-}
-
-interface IWatchlistsDto {
-  readonly watchlists?: readonly IWatchlist[];
-}
-
-interface ITradesDto {
-  readonly items?: readonly ITrade[];
-}
-
-interface IIndicesDto {
-  readonly items?: readonly IDashboardMarketIndex[];
-}
-
-interface IMarketsDto {
-  readonly items?: readonly { readonly symbol: string; readonly name: string; readonly price: number; readonly change: number; readonly changePercent: number }[];
-}
+const OPEN_ORDER_STATUSES: ReadonlySet<IOrder['status']> = new Set(['PENDING', 'PARTIAL', 'OPEN']);
+const RECENT_TRADE_STATUSES: ReadonlySet<IOrder['status']> = new Set(['FILLED', 'PARTIAL']);
+const RECENT_TRADES_LIMIT = 10;
+const MARKET_INDICES_LIMIT = 8;
+const PRICE_TICKER_LIMIT = 6;
+const WATCHLIST_TOP_LIMIT = 8;
 
 const EMPTY_SUMMARY: IDashboardSummary = {
   portfolioValue: 0,
@@ -60,159 +37,218 @@ const EMPTY_SUMMARY: IDashboardSummary = {
   asOf: new Date(0).toISOString()
 };
 
-const EMPTY_PORTFOLIO: IDashboardPortfolioSnapshot = {
+const EMPTY_PORTFOLIO: IPortfolioSummary = {
   totalValue: 0,
   totalCost: 0,
   totalPnL: 0,
-  totalPnLPercent: 0,
   positions: []
 };
 
 const EMPTY_WATCHLIST: IDashboardWatchlistSnapshot = {
   watchlists: [],
-  topItems: [] as readonly IWatchlistItem[]
+  topItems: []
 };
 
 /**
- * Concrete implementation of the dashboard service.
+ * Frontend aggregation layer for the dashboard. The real backend
+ * does not expose a `dashboard-service` microservice, so this
+ * service composes the `IDashboardData` payload by combining calls
+ * to the existing feature services:
  *
- * Aggregates the backend endpoints required to render the dashboard
- * widgets in a single `load()` call. The real backend is not wired
- * yet so each request is intentionally lightweight: the service maps
- * the (potentially empty) payload into the dashboard contract shape
- * and lets the store surface defaults.
+ * - `PortfolioService.loadSummary()`   (`portfolio-service`)
+ * - `OrderService.openOrders()`         (`market-service`)
+ * - `OrderService.history()`            (`market-service`)
+ * - `WatchlistService.list()`           (`/api/watchlists`)
+ * - `MarketsStore.markets()`            (`asset-service` + realtime)
+ *
+ * The widget ownership is documented above and mirrored in the
+ * project documentation (see `.ai/context/ARCHITECTURE.md`).
+ *
+ * Individual source failures are swallowed (`catchError` returns the
+ * empty default) so a single broken backend does not break the
+ * whole dashboard; the store already surfaces toast errors.
  */
 @Injectable({ providedIn: 'root' })
 export class DashboardService implements IDashboardService {
-  private readonly http = inject(HttpService);
+  private readonly portfolioService = inject(PortfolioService);
+  private readonly orderService = inject(OrderService);
+  private readonly watchlistService = inject(WatchlistService);
+  private readonly marketsStore = inject(MarketsStore);
 
   load(): Observable<IDashboardData> {
-    return combineLatest([
-      this.fetchSummary(),
-      this.fetchPortfolio(),
-      this.fetchWatchlists(),
-      this.fetchIndices(),
-      this.fetchRecentTrades()
-    ]).pipe(
-      map(([summary, portfolio, watchlist, indices, trades]) => ({
-        summary,
-        portfolio,
-        watchlist,
-        marketIndices: indices,
-        recentTrades: trades,
-        priceTicker: []
-      }))
-    );
-  }
-
-  // --- HTTP wrappers ------------------------------------------------
-
-  private fetchSummary(): Observable<IDashboardSummary> {
-    return this.http.get<IDashboardSummaryDto>('/api/dashboard/summary').pipe(
-      map((dto) => this.toSummary(dto))
-    );
-  }
-
-  private fetchPortfolio(): Observable<IDashboardPortfolioSnapshot> {
-    return this.http.get<IPortfolioSummary | IPortfolioDto>('/api/portfolio/summary').pipe(
-      map((dto) => this.toPortfolio(dto))
-    );
-  }
-
-  private fetchWatchlists(): Observable<IDashboardWatchlistSnapshot> {
-    return this.http.get<IWatchlistsDto>('/api/watchlists').pipe(
-      map((dto) => this.toWatchlist(dto))
-    );
-  }
-
-  private fetchIndices(): Observable<readonly IDashboardMarketIndex[]> {
-    return this.http.get<IIndicesDto | IMarketsDto>('/api/markets/indices').pipe(
-      map((dto) => this.toIndices(dto))
-    );
-  }
-
-  private fetchRecentTrades(): Observable<readonly IDashboardRecentTrade[]> {
-    return this.http.get<ITradesDto>('/api/history/recent').pipe(
-      map((dto) => this.toTrades(dto))
+    return forkJoin({
+      portfolio: this.portfolioService.loadSummary().pipe(
+        catchError(() => of(EMPTY_PORTFOLIO))
+      ),
+      openOrders: this.orderService.openOrders().pipe(
+        catchError(() => of<readonly IOrder[]>([]))
+      ),
+      history: this.orderService.history().pipe(
+        catchError(() => of<readonly IOrder[]>([]))
+      ),
+      watchlists: this.watchlistService.list().pipe(
+        catchError(() => of<readonly IWatchlist[]>([]))
+      )
+    }).pipe(
+      map(({ portfolio, openOrders, history, watchlists }) => {
+        const markets = this.marketsStore.markets();
+        const portfolioSnapshot = this.toPortfolioSnapshot(portfolio);
+        return {
+          summary: this.toSummary(portfolioSnapshot, openOrders, history),
+          portfolio: portfolioSnapshot,
+          marketIndices: this.toMarketIndices(markets),
+          watchlist: this.toWatchlist(watchlists),
+          recentTrades: this.toRecentTrades(history),
+          priceTicker: this.toPriceTicker(markets)
+        };
+      })
     );
   }
 
   // --- Mappers ------------------------------------------------------
 
-  private toSummary(dto: IDashboardSummaryDto | null | undefined): IDashboardSummary {
-    if (!dto) {
-      return EMPTY_SUMMARY;
-    }
+  private toSummary(
+    portfolio: IDashboardPortfolioSnapshot,
+    openOrders: readonly IOrder[],
+    history: readonly IOrder[]
+  ): IDashboardSummary {
     return {
-      portfolioValue: dto.portfolioValue ?? 0,
-      dayChange: dto.dayChange ?? 0,
-      dayChangePercent: dto.dayChangePercent ?? 0,
-      watchlistCount: dto.watchlistCount ?? 0,
-      openOrdersCount: dto.openOrdersCount ?? 0,
-      tradesToday: dto.tradesToday ?? 0,
-      asOf: dto.asOf ?? new Date().toISOString()
+      portfolioValue: portfolio.totalValue,
+      dayChange: portfolio.totalPnL,
+      dayChangePercent: portfolio.totalPnLPercent,
+      watchlistCount: 0,
+      openOrdersCount: this.countOpenOrders(openOrders),
+      tradesToday: this.countTradesToday(history),
+      asOf: new Date().toISOString()
     };
   }
 
-  private toPortfolio(
-    dto: IPortfolioSummary | IPortfolioDto | null | undefined
-  ): IDashboardPortfolioSnapshot {
-    if (!dto) {
-      return EMPTY_PORTFOLIO;
-    }
-    const totalValue = dto.totalValue ?? 0;
-    const totalCost = dto.totalCost ?? totalValue;
-    const totalPnL = dto.totalPnL ?? totalValue - totalCost;
+  private toPortfolioSnapshot(portfolio: IPortfolioSummary): IDashboardPortfolioSnapshot {
+    const totalCost = this.toNumber(portfolio.totalCost);
+    const totalPnL = this.toNumber(portfolio.totalPnL);
+    const totalValue = this.toNumber(portfolio.totalValue);
     return {
       totalValue,
       totalCost,
       totalPnL,
-      totalPnLPercent:
-        'totalPnLPercent' in dto && typeof dto.totalPnLPercent === 'number'
-          ? dto.totalPnLPercent
-          : totalCost === 0
-            ? 0
-            : totalPnL / totalCost,
-      positions: dto.positions ?? []
+      totalPnLPercent: totalCost === 0 ? 0 : totalPnL / totalCost,
+      positions: portfolio.positions ?? []
     };
   }
 
-  private toWatchlist(dto: IWatchlistsDto | null | undefined): IDashboardWatchlistSnapshot {
-    if (!dto) {
-      return EMPTY_WATCHLIST;
-    }
-    const watchlists = dto.watchlists ?? [];
-    const flat: IWatchlistItem[] = watchlists.flatMap((w) => w.items ?? []);
+  private toWatchlist(
+    watchlists: readonly IWatchlist[]
+  ): IDashboardWatchlistSnapshot {
+    const flat = watchlists
+      .flatMap((entry) => entry.items ?? [])
+      .slice()
+      .sort((a, b) => this.compareTimestampDesc(a.addedAt, b.addedAt))
+      .slice(0, WATCHLIST_TOP_LIMIT);
     return {
       watchlists,
-      topItems: flat.slice(0, 8)
+      topItems: flat
     };
   }
 
-  private toIndices(
-    dto: IIndicesDto | IMarketsDto | null | undefined
+  private toMarketIndices(
+    markets: ReadonlyArray<{
+      readonly symbol: string;
+      readonly name: string;
+      readonly price: number;
+      readonly previousPrice: number;
+      readonly change: number;
+      readonly changePercent: number;
+    }>
   ): readonly IDashboardMarketIndex[] {
-    if (!dto) {
-      return [];
-    }
-    if ('items' in dto && Array.isArray(dto.items)) {
-      return dto.items;
-    }
-    return [];
+    return [...markets]
+      .map((market) => ({
+        symbol: market.symbol,
+        name: market.name,
+        value: this.toNumber(market.price),
+        change: this.toNumber(market.change),
+        changePercent: this.toPercent(market.changePercent)
+      }))
+      .sort((a, b) => Math.abs(b.changePercent) - Math.abs(a.changePercent))
+      .slice(0, MARKET_INDICES_LIMIT);
   }
 
-  private toTrades(dto: ITradesDto | null | undefined): readonly IDashboardRecentTrade[] {
-    if (!dto || !Array.isArray(dto.items)) {
-      return [];
-    }
-    return dto.items.slice(0, 10).map((trade) => ({
-      id: trade.id,
-      orderId: trade.orderId,
-      symbol: trade.symbol,
-      side: trade.side,
-      quantity: trade.quantity,
-      price: trade.price,
-      executedAt: trade.executedAt
+  private toPriceTicker(
+    markets: ReadonlyArray<{
+      readonly symbol: string;
+      readonly price: number;
+    }>
+  ): readonly IPriceUpdate[] {
+    const now = new Date().toISOString();
+    return markets.slice(0, PRICE_TICKER_LIMIT).map((market) => ({
+      symbol: market.symbol,
+      price: this.toNumber(market.price),
+      timestamp: now
     }));
+  }
+
+  private toRecentTrades(history: readonly IOrder[]): readonly IDashboardRecentTrade[] {
+    return history
+      .filter((order) => RECENT_TRADE_STATUSES.has(order.status))
+      .sort((a, b) => this.compareTimestampDesc(a.createdAt, b.createdAt))
+      .slice(0, RECENT_TRADES_LIMIT)
+      .map((order) => ({
+        id: order.id,
+        orderId: order.id,
+        symbol: order.symbol,
+        side: order.side,
+        quantity: order.quantity,
+        price: order.price,
+        executedAt: order.createdAt
+      }));
+  }
+
+  // --- Helpers ------------------------------------------------------
+
+  private countOpenOrders(openOrders: readonly IOrder[]): number {
+    return openOrders.filter((order) => OPEN_ORDER_STATUSES.has(order.status)).length;
+  }
+
+  private countTradesToday(history: readonly IOrder[]): number {
+    const start = new Date();
+    start.setHours(0, 0, 0, 0);
+    const startTime = start.getTime();
+    return history.filter((order) => {
+      if (!RECENT_TRADE_STATUSES.has(order.status)) {
+        return false;
+      }
+      const stamp = new Date(order.createdAt).getTime();
+      return Number.isFinite(stamp) && stamp >= startTime;
+    }).length;
+  }
+
+  private compareTimestampDesc(a: string, b: string): number {
+    const ta = new Date(a).getTime();
+    const tb = new Date(b).getTime();
+    if (!Number.isFinite(ta) && !Number.isFinite(tb)) {
+      return 0;
+    }
+    if (!Number.isFinite(ta)) {
+      return 1;
+    }
+    if (!Number.isFinite(tb)) {
+      return -1;
+    }
+    return tb - ta;
+  }
+
+  private toNumber(value: number | string | null | undefined): number {
+    if (value === null || value === undefined) {
+      return 0;
+    }
+    if (typeof value === 'number') {
+      return Number.isFinite(value) ? value : 0;
+    }
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : 0;
+  }
+
+  private toPercent(value: number | string | null | undefined): number {
+    const num = this.toNumber(value);
+    return Number.isFinite(num) ? num : 0;
   }
 }

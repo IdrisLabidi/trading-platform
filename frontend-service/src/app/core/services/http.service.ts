@@ -11,7 +11,6 @@ import { environment } from '../../../environments/environment';
 @Injectable({ providedIn: 'root' })
 export class HttpService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = environment.apiBaseUrl;
 
   get<T>(path: string, params?: Record<string, string | number | boolean>): Observable<T> {
     return this.http.get<T>(this.url(path), { params: this.toParams(params) });
@@ -34,7 +33,7 @@ export class HttpService {
   }
 
   private url(path: string): string {
-    return `${this.baseUrl}${path.startsWith('/') ? path : '/' + path}`;
+    return `${path.startsWith('/') ? path : '/' + path}`;
   }
 
   private toParams(params?: Record<string, string | number | boolean>): HttpParams {

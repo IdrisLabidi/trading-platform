@@ -33,13 +33,13 @@ export const environment = {
   assetServiceUrl: 'http://localhost:8082',
   orderServiceUrl: 'http://localhost:8081',
   notificationsServiceUrl: 'http://localhost:8084',
-  websocketUrl: 'ws://localhost:8087/ws',
+  websocketUrl: 'ws://localhost:3000/ws',
   /**
    * Socket.IO endpoint used by the realtime layer to receive live
    * events from the backend (orders, portfolio, prices, notifications).
    * The path segment is forwarded to socket.io-client verbatim.
    */
-  socketIoUrl: 'http://localhost:8087',
+  socketIoUrl: 'http://localhost:3000',
   socketIoPath: '/socket.io',
   keycloak: {
     url: 'http://localhost:8080',

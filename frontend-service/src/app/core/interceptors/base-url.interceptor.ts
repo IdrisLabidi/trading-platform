@@ -3,13 +3,24 @@ import { environment } from '../../../environments/environment';
 import type { ServiceKey } from '../../../environments/environment';
 
 /**
- * Rewrites requests targeting the virtual `/api/<service>/...` prefix
- * to the real backend URL declared in `environment.services`.
+ * Development URL rewriter.
  *
- * In production (served behind the API gateway) the mapping is
- * identity (`/api/markets` → `/api/markets`). In development each
- * segment points to its own local container, which removes the need
- * for any CORS configuration on the backends.
+ * Requests use the virtual form:
+ *
+ *   /api/<service>/...
+ *
+ * The interceptor replaces only the origin with the
+ * corresponding microservice host while preserving the
+ * complete request path.
+ *
+ * Example:
+ *
+ *   /api/assets/123
+ *      ↓
+ *   http://localhost:8082/api/assets/123
+ *
+ * This matches the backend controllers, which are all
+ * mapped under `/api/<service>`.
  */
 export const baseUrlInterceptor: HttpInterceptorFn = (req, next) => {
   const rewritten = rewrite(req.url);
@@ -20,16 +31,20 @@ export const baseUrlInterceptor: HttpInterceptorFn = (req, next) => {
 };
 
 function rewrite(url: string): string {
+  // Ignore absolute URLs and non-API requests.
   if (!url || !url.startsWith('/api/')) {
     return url;
   }
-  const segment = url.slice('/api/'.length).split('/', 1)[0] as ServiceKey | string;
-  const base = environment.services[segment as ServiceKey];
+
+  // Extract the service key immediately after "/api/".
+  const service = url.slice('/api/'.length).split('/', 1)[0] as ServiceKey;
+  const base = environment.services[service];
+
+  // Unknown service → leave the URL untouched.
   if (!base) {
     return url;
   }
-  const tail = url.slice('/api/'.length + segment.length);
-  const normalizedBase = base.endsWith('/') ? base.slice(0, -1) : base;
-  const normalizedTail = tail.startsWith('/') ? tail : '/' + tail;
-  return `${normalizedBase}${normalizedTail}`;
+
+  // Only replace the origin, preserve the complete API path.
+  return `${base.replace(/\/$/, '')}${url}`;
 }

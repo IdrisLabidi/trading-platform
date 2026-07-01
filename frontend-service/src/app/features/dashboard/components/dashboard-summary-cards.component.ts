@@ -82,10 +82,10 @@ import { PercentFormatPipe } from '../../../shared/pipes/percent-format.pipe';
           <i class="pi pi-shopping-cart text-sm" aria-hidden="true"></i>
         </header>
         <strong class="text-2xl font-semibold text-[var(--app-fg)]">
-          {{ openOrders() | appNumber }}
+          {{ openOrders() | appNumber:undefined:0 }}
         </strong>
         <span class="text-xs text-[var(--app-fg-muted)]">
-          {{ 'dashboard.summary.tradesToday' | translate }}: {{ tradesToday() | appNumber }}
+          {{ 'dashboard.summary.tradesToday' | translate }}: {{ tradesToday() | appNumber:undefined:0 }}
         </span>
       </article>
 
@@ -97,7 +97,7 @@ import { PercentFormatPipe } from '../../../shared/pipes/percent-format.pipe';
           <i class="pi pi-eye text-sm" aria-hidden="true"></i>
         </header>
         <strong class="text-2xl font-semibold text-[var(--app-fg)]">
-          {{ watchlistCount() | appNumber }}
+          {{ watchlistCount() | appNumber:undefined:0 }}
         </strong>
         <span class="text-xs text-[var(--app-fg-muted)]">
           {{ 'dashboard.summary.assets' | translate }}

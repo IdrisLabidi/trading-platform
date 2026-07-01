@@ -32,7 +32,11 @@ import type { AppLanguage } from '../../core/models/settings.model';
           <i class="pi pi-bars"></i>
         </button>
         <div style="align-self: flex-start;">
-          <img src='../../../assets/tuninvest_img.png' alt="tuninvest_logo" style="height: 3rem">
+          @if (themeService.theme() === 'dark') {
+            <img src='../../../assets/tuninvest_img_dark.png' alt="tuninvest_logo" style="height: 3rem">
+          } @else {
+            <img src='../../../assets/tuninvest_img.png' alt="tuninvest_logo" style="height: 3rem">
+          }
         </div>
       </div>
 

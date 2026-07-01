@@ -1,6 +1,6 @@
 {
   "app": {
-    "name": "Trading Platform",
+    "name": "TUNinvest",
     "loading": "Chargement...",
     "error": "Une erreur est survenue"
   },
@@ -76,7 +76,7 @@
       "label": "Indicateurs clés",
       "portfolio": "Valeur du portefeuille",
       "dayChange": "Variation du jour",
-      "openOrders": "Ordres ouverts",
+      "openOrders": "Ordres en cours",
       "watchlist": "Watchlists",
       "tradesToday": "Trades aujourd''hui",
       "assets": "actifs suivis",
@@ -179,7 +179,7 @@
       "title": "Portefeuille",
       "subtitle": "Vue d''ensemble de vos positions et de votre solde",
       "refresh": "Actualiser",
-      "openOrders": "Ordres ouverts",
+      "openOrders": "Ordres en cours",
       "loading": "Chargement du portefeuille...",
       "totalValue": "Valeur totale",
       "totalCost": "Coût total",
@@ -235,12 +235,12 @@
       "title": "Historique des ordres",
       "subtitle": "Tous vos ordres passés sur la plateforme",
       "refresh": "Actualiser",
-      "open": "Voir les ordres ouverts",
+      "open": "Voir les ordres en cours",
       "new": "Nouvel ordre",
       "filter": "Filtrer par statut",
       "loading": "Chargement des ordres...",
       "empty": "Aucun ordre ne correspond à votre filtre.",
-      "openSection": "Ordres ouverts",
+      "openSection": "Ordres en cours",
       "terminalSection": "Ordres terminés",
       "col": {
         "symbol": "Symbole",
@@ -253,11 +253,11 @@
       }
     },
     "open": {
-      "title": "Ordres ouverts",
+      "title": "Ordres en cours",
       "subtitle": "Vos ordres en attente ou partiellement exécutés",
       "refresh": "Actualiser",
       "new": "Nouvel ordre",
-      "loading": "Chargement des ordres ouverts...",
+      "loading": "Chargement des ordres en cours...",
       "empty": "Aucun ordre ouvert.",
       "emptyAction": "Passer un nouvel ordre"
     },

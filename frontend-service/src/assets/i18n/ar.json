@@ -1,6 +1,6 @@
 {
   "app": {
-    "name": "Trading Platform",
+    "name": "TUNinvest",
     "loading": "جاري التحميل...",
     "error": "حدث خطأ ما"
   },
@@ -76,7 +76,7 @@
       "label": "المؤشرات الرئيسية",
       "portfolio": "قيمة المحفظة",
       "dayChange": "تغيير اليوم",
-      "openOrders": "الأوامر المفتوحة",
+      "openOrders": "الطلبات قيد التنفيذ",
       "watchlist": "قوائم المراقبة",
       "tradesToday": "تداولات اليوم",
       "assets": "الأصول المتابعة",

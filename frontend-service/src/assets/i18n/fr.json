@@ -7,21 +7,21 @@
   "auth": {
     "login": {
       "title": "Connexion",
-      "subtitle": "Connectez-vous à votre compte pour accéder à la plateforme.",
+      "subtitle": "Connectez-vous Ã  votre compte pour accÃ©der Ã  la plateforme.",
       "username": "Nom d''utilisateur",
       "password": "Mot de passe",
       "submit": "Se connecter",
       "divider": "ou",
-      "help": "L''authentification est gérée par Keycloak. Vos identifiants ne sont jamais transmis à notre backend.",
+      "help": "L''authentification est gÃ©rÃ©e par Keycloak. Vos identifiants ne sont jamais transmis Ã  notre backend.",
       "errors": {
         "usernameRequired": "Veuillez saisir votre nom d''utilisateur.",
         "passwordRequired": "Veuillez saisir votre mot de passe.",
-        "busy": "Une autre tentative est déjà en cours."
+        "busy": "Une autre tentative est dÃ©jÃ  en cours."
       }
     },
     "logout": {
-      "title": "Déconnexion en cours",
-      "subtitle": "Vous serez redirigé vers la page de connexion dans un instant."
+      "title": "DÃ©connexion en cours",
+      "subtitle": "Vous serez redirigÃ© vers la page de connexion dans un instant."
     },
     "notifications": {
       "error": {
@@ -29,20 +29,20 @@
       }
     },
     "error": {
-      "busy": "Une autre tentative est déjà en cours.",
+      "busy": "Une autre tentative est dÃ©jÃ  en cours.",
       "invalidCredentials": "Identifiants invalides."
     }
   },
   "nav": {
     "dashboard": "Tableau de bord",
-    "markets": "Marchés",
+    "markets": "MarchÃ©s",
     "portfolio": "Portefeuille",
     "assets": "Actifs",
     "orders": "Ordres",
     "history": "Historique",
     "watchlist": "Watchlist",
     "notifications": "Notifications",
-    "settings": "Paramètres"
+    "settings": "ParamÃ¨tres"
   },
   "common": {
     "yes": "Oui",
@@ -58,22 +58,22 @@
   "dashboard": {
     "toolbar": {
       "title": "Tableau de bord",
-      "subtitle": "Vue d''ensemble de votre activité de trading",
+      "subtitle": "Vue d''ensemble de votre activitÃ© de trading",
       "refresh": "Actualiser",
-      "lastRefreshed": "Dernière mise à jour"
+      "lastRefreshed": "DerniÃ¨re mise Ã  jour"
     },
     "status": {
-      "ready": "À jour",
+      "ready": "Ã€ jour",
       "idle": "En attente",
       "error": "Erreur"
     },
     "common": {
-      "updated": "Mis à jour",
-      "placeholder": "Espace réservé",
-      "widgetPlaceholder": "Widget à compléter"
+      "updated": "Mis Ã  jour",
+      "placeholder": "Espace rÃ©servÃ©",
+      "widgetPlaceholder": "Widget Ã  complÃ©ter"
     },
     "summary": {
-      "label": "Indicateurs clés",
+      "label": "Indicateurs clÃ©s",
       "portfolio": "Valeur du portefeuille",
       "dayChange": "Variation du jour",
       "openOrders": "Ordres ouverts",
@@ -85,19 +85,19 @@
     "portfolio": {
       "title": "Portefeuille",
       "totalValue": "Valeur totale",
-      "totalCost": "Coût total",
+      "totalCost": "CoÃ»t total",
       "totalPnL": "Plus-value latente",
       "totalPnLPercent": "Plus-value %",
       "symbol": "Symbole",
-      "quantity": "Quantité",
+      "quantity": "QuantitÃ©",
       "averagePrice": "PRU",
       "currentPrice": "Prix actuel",
-      "marketValue": "Valeur de marché",
+      "marketValue": "Valeur de marchÃ©",
       "empty": "Aucune position dans votre portefeuille."
     },
     "market": {
-      "title": "Aperçu du marché",
-      "empty": "Aucun indice de marché à afficher pour le moment."
+      "title": "AperÃ§u du marchÃ©",
+      "empty": "Aucun indice de marchÃ© Ã  afficher pour le moment."
     },
     "watchlist": {
       "title": "Watchlist",
@@ -106,8 +106,8 @@
       "empty": "Aucun actif suivi pour le moment."
     },
     "activity": {
-      "title": "Activité récente",
-      "empty": "Aucune transaction récente."
+      "title": "ActivitÃ© rÃ©cente",
+      "empty": "Aucune transaction rÃ©cente."
     },
     "error": {
       "title": "Erreur du tableau de bord",
@@ -116,30 +116,30 @@
   },
   "markets": {
     "list": {
-      "title": "Marchés",
-      "subtitle": "Liste des instruments cotés sur la plateforme",
+      "title": "MarchÃ©s",
+      "subtitle": "Liste des instruments cotÃ©s sur la plateforme",
       "refresh": "Actualiser",
-      "loading": "Chargement des marchés...",
-      "empty": "Aucun marché ne correspond à votre recherche."
+      "loading": "Chargement des marchÃ©s...",
+      "empty": "Aucun marchÃ© ne correspond Ã  votre recherche."
     },
     "status": {
       "inactive": "Inactif"
     },
     "card": {
-      "details": "Voir le détail",
+      "details": "Voir le dÃ©tail",
       "trade": "Trader"
     },
     "search": {
-      "aria": "Filtrer les marchés",
+      "aria": "Filtrer les marchÃ©s",
       "placeholder": "Rechercher par symbole ou nom",
       "type": "Type",
       "activeOnly": "Actifs uniquement",
       "apply": "Filtrer"
     },
     "details": {
-      "loading": "Chargement du marché...",
-      "notFound": "Marché introuvable",
-      "backToList": "Retour à la liste",
+      "loading": "Chargement du marchÃ©...",
+      "notFound": "MarchÃ© introuvable",
+      "backToList": "Retour Ã  la liste",
       "trade": "Passer un ordre",
       "orderBook": "Carnet d''ordres",
       "refreshBook": "Actualiser",
@@ -154,24 +154,24 @@
     "notifications": {
       "submitted": {
         "title": "Ordre soumis",
-        "message": "Votre ordre a été enregistré."
+        "message": "Votre ordre a Ã©tÃ© enregistrÃ©."
       },
       "cancelled": {
-        "title": "Ordre annulé",
-        "message": "L''ordre a été annulé avec succès."
+        "title": "Ordre annulÃ©",
+        "message": "L''ordre a Ã©tÃ© annulÃ© avec succÃ¨s."
       },
       "updated": {
-        "title": "Ordre modifié",
-        "message": "L''ordre a été mis à jour."
+        "title": "Ordre modifiÃ©",
+        "message": "L''ordre a Ã©tÃ© mis Ã  jour."
       }
     },
     "error": {
-      "title": "Erreur marchés",
-      "unknown": "Erreur inconnue lors du chargement des marchés.",
-      "orderBook": "Impossible de récupérer le carnet d''ordres.",
+      "title": "Erreur marchÃ©s",
+      "unknown": "Erreur inconnue lors du chargement des marchÃ©s.",
+      "orderBook": "Impossible de rÃ©cupÃ©rer le carnet d''ordres.",
       "submit": "Impossible de soumettre l''ordre.",
       "cancel": "Impossible d''annuler l''ordre.",
-      "update": "Impossible de mettre à jour l''ordre."
+      "update": "Impossible de mettre Ã  jour l''ordre."
     }
   },
   "portfolio": {
@@ -182,12 +182,12 @@
       "openOrders": "Ordres ouverts",
       "loading": "Chargement du portefeuille...",
       "totalValue": "Valeur totale",
-      "totalCost": "Coût total",
+      "totalCost": "CoÃ»t total",
       "pnl": "Plus-value latente",
-      "cash": "Trésorerie disponible",
+      "cash": "TrÃ©sorerie disponible",
       "positions": "Positions",
-      "cost": "Coût d''acquisition",
-      "frozen": "Réservé",
+      "cost": "CoÃ»t d''acquisition",
+      "frozen": "RÃ©servÃ©",
       "available": "Disponible"
     },
     "positions": {
@@ -195,10 +195,10 @@
       "empty": "Aucune position dans votre portefeuille.",
       "col": {
         "symbol": "Symbole",
-        "quantity": "Quantité",
+        "quantity": "QuantitÃ©",
         "avgPrice": "PRU",
         "currentPrice": "Prix actuel",
-        "marketValue": "Valeur de marché",
+        "marketValue": "Valeur de marchÃ©",
         "pnl": "Plus-value",
         "weight": "Poids"
       },
@@ -206,24 +206,24 @@
       "hundredPercent": "100%"
     },
     "details": {
-      "title": "Détails de la position",
+      "title": "DÃ©tails de la position",
       "assetFallback": "Position",
       "trade": "Trader",
-      "openMarket": "Voir le marché",
+      "openMarket": "Voir le marchÃ©",
       "loading": "Chargement de la position...",
       "notFound": "Position introuvable",
-      "quantity": "Quantité",
+      "quantity": "QuantitÃ©",
       "avgPrice": "Prix de revient",
       "currentPrice": "Prix actuel",
-      "marketValue": "Valeur de marché",
+      "marketValue": "Valeur de marchÃ©",
       "pnl": "Plus-value latente",
-      "reservations": "Réservations",
-      "frozen": "Quantité gelée",
+      "reservations": "RÃ©servations",
+      "frozen": "QuantitÃ© gelÃ©e",
       "available": "Disponible"
     },
     "performance": {
       "title": "Contribution au P&L",
-      "empty": "Aucune donnée de performance."
+      "empty": "Aucune donnÃ©e de performance."
     },
     "error": {
       "title": "Erreur portefeuille",
@@ -233,28 +233,28 @@
   "orders": {
     "history": {
       "title": "Historique des ordres",
-      "subtitle": "Tous vos ordres passés sur la plateforme",
+      "subtitle": "Tous vos ordres passÃ©s sur la plateforme",
       "refresh": "Actualiser",
       "open": "Voir les ordres ouverts",
       "new": "Nouvel ordre",
       "filter": "Filtrer par statut",
       "loading": "Chargement des ordres...",
-      "empty": "Aucun ordre ne correspond à votre filtre.",
+      "empty": "Aucun ordre ne correspond Ã  votre filtre.",
       "openSection": "Ordres ouverts",
-      "terminalSection": "Ordres terminés",
+      "terminalSection": "Ordres terminÃ©s",
       "col": {
         "symbol": "Symbole",
         "side": "Sens",
         "type": "Type",
-        "quantity": "Quantité",
+        "quantity": "QuantitÃ©",
         "price": "Prix",
         "status": "Statut",
-        "createdAt": "Créé le"
+        "createdAt": "CrÃ©Ã© le"
       }
     },
     "open": {
       "title": "Ordres ouverts",
-      "subtitle": "Vos ordres en attente ou partiellement exécutés",
+      "subtitle": "Vos ordres en attente ou partiellement exÃ©cutÃ©s",
       "refresh": "Actualiser",
       "new": "Nouvel ordre",
       "loading": "Chargement des ordres ouverts...",
@@ -267,8 +267,8 @@
       "submitting": "Envoi de l''ordre en cours...",
       "section": {
         "instrument": "Instrument",
-        "execution": "Exécution",
-        "summary": "Récapitulatif"
+        "execution": "ExÃ©cution",
+        "summary": "RÃ©capitulatif"
       },
       "field": {
         "symbol": "Symbole",
@@ -277,50 +277,50 @@
         "type": "Type d''ordre",
         "price": "Prix limite",
         "pricePlaceholder": "Prix en devise",
-        "priceMarketHint": "Non applicable pour un ordre au marché.",
-        "quantity": "Quantité",
-        "quantityPlaceholder": "Quantité d''actions"
+        "priceMarketHint": "Non applicable pour un ordre au marchÃ©.",
+        "quantity": "QuantitÃ©",
+        "quantityPlaceholder": "QuantitÃ© d''actions"
       },
       "summary": {
         "symbol": "Symbole",
-        "estimated": "Montant estimé",
+        "estimated": "Montant estimÃ©",
         "side": "Sens"
       },
       "actions": {
-        "reset": "Réinitialiser",
+        "reset": "RÃ©initialiser",
         "submitBuy": "Acheter",
         "submitSell": "Vendre"
       }
     },
     "book": {
       "title": "Carnet d''ordres",
-      "subtitle": "Aperçu temps réel des ordres en carnet",
+      "subtitle": "AperÃ§u temps rÃ©el des ordres en carnet",
       "symbolPlaceholder": "Choisir un symbole",
       "refresh": "Actualiser",
       "trade": "Trader",
       "loading": "Chargement du carnet...",
-      "empty": "Sélectionnez un symbole pour afficher son carnet.",
+      "empty": "SÃ©lectionnez un symbole pour afficher son carnet.",
       "bids": "Achat",
       "asks": "Vente",
       "price": "Prix",
-      "quantity": "Quantité",
+      "quantity": "QuantitÃ©",
       "emptyBids": "Aucun ordre d''achat en carnet",
       "emptyAsks": "Aucun ordre de vente en carnet"
     },
     "item": {
-      "quantity": "Quantité",
+      "quantity": "QuantitÃ©",
       "remaining": "Restant",
       "price": "Prix",
-      "createdAt": "Créé le",
+      "createdAt": "CrÃ©Ã© le",
       "cancel": "Annuler"
     },
     "confirm": {
       "title": "Confirmation de l''ordre",
       "symbol": "Symbole",
       "type": "Type",
-      "quantity": "Quantité",
+      "quantity": "QuantitÃ©",
       "price": "Prix",
-      "estimated": "Montant estimé",
+      "estimated": "Montant estimÃ©",
       "cancel": "Annuler",
       "submitBuy": "Confirmer l''achat",
       "submitSell": "Confirmer la vente"
@@ -329,42 +329,42 @@
       "title": "Annuler l''ordre",
       "symbol": "Symbole",
       "side": "Sens",
-      "quantity": "Quantité",
+      "quantity": "QuantitÃ©",
       "price": "Prix",
-      "warning": "Cette action libère la réservation de fonds ou de titres. Elle ne peut pas être annulée.",
+      "warning": "Cette action libÃ¨re la rÃ©servation de fonds ou de titres. Elle ne peut pas Ãªtre annulÃ©e.",
       "keep": "Conserver l''ordre",
       "confirm": "Annuler l''ordre"
     },
     "confirmation": {
       "title": "Ordre soumis",
-      "submitted": "Votre ordre a été enregistré avec succès.",
+      "submitted": "Votre ordre a Ã©tÃ© enregistrÃ© avec succÃ¨s.",
       "id": "Identifiant",
-      "createdAt": "Créé le",
-      "estimated": "Montant estimé",
+      "createdAt": "CrÃ©Ã© le",
+      "estimated": "Montant estimÃ©",
       "close": "Fermer",
       "viewOrders": "Voir mes ordres"
     },
     "notifications": {
       "submitted": {
         "title": "Ordre soumis",
-        "message": "Votre ordre a été enregistré."
+        "message": "Votre ordre a Ã©tÃ© enregistrÃ©."
       },
       "cancelled": {
-        "title": "Ordre annulé",
-        "message": "L''ordre a été annulé avec succès."
+        "title": "Ordre annulÃ©",
+        "message": "L''ordre a Ã©tÃ© annulÃ© avec succÃ¨s."
       },
       "updated": {
-        "title": "Ordre modifié",
-        "message": "L''ordre a été mis à jour."
+        "title": "Ordre modifiÃ©",
+        "message": "L''ordre a Ã©tÃ© mis Ã  jour."
       }
     },
     "error": {
       "title": "Erreur ordres",
       "unknown": "Erreur inconnue lors du chargement des ordres.",
-      "busy": "Une autre opération est déjà en cours.",
+      "busy": "Une autre opÃ©ration est dÃ©jÃ  en cours.",
       "submit": "Impossible de soumettre l''ordre.",
       "cancel": "Impossible d''annuler l''ordre.",
-      "book": "Impossible de récupérer le carnet d''ordres."
+      "book": "Impossible de rÃ©cupÃ©rer le carnet d''ordres."
     }
   },
   "watchlist": {
@@ -375,12 +375,12 @@
       "new": "Nouvelle liste",
       "loading": "Chargement des watchlists...",
       "empty": "Vous n''avez pas encore de watchlist.",
-      "emptyAction": "Créer ma première liste",
+      "emptyAction": "CrÃ©er ma premiÃ¨re liste",
       "groups": "Listes",
-      "updated": "Mise à jour",
+      "updated": "Mise Ã  jour",
       "namePlaceholder": "Nom de la liste",
-      "create": "Créer",
-      "selectPrompt": "Sélectionnez une liste pour afficher son contenu."
+      "create": "CrÃ©er",
+      "selectPrompt": "SÃ©lectionnez une liste pour afficher son contenu."
     },
     "items": {
       "rename": "Renommer",
@@ -395,113 +395,113 @@
       "empty": "Aucun symbole dans cette liste."
     },
     "item": {
-      "addedAt": "Ajouté le",
+      "addedAt": "AjoutÃ© le",
       "price": "Cours",
       "target": "Cible",
-      "distance": "Écart",
+      "distance": "Ã‰cart",
       "remove": "Retirer",
       "save": "OK"
     },
     "notifications": {
       "created": {
-        "title": "Liste créée",
-        "message": "La watchlist a été créée."
+        "title": "Liste crÃ©Ã©e",
+        "message": "La watchlist a Ã©tÃ© crÃ©Ã©e."
       },
       "updated": {
-        "title": "Liste mise à jour",
-        "message": "La watchlist a été mise à jour."
+        "title": "Liste mise Ã  jour",
+        "message": "La watchlist a Ã©tÃ© mise Ã  jour."
       },
       "removed": {
-        "title": "Liste supprimée",
-        "message": "La watchlist a été supprimée."
+        "title": "Liste supprimÃ©e",
+        "message": "La watchlist a Ã©tÃ© supprimÃ©e."
       },
       "itemAdded": {
-        "title": "Symbole ajouté",
-        "message": "Le symbole a été ajouté à la liste."
+        "title": "Symbole ajoutÃ©",
+        "message": "Le symbole a Ã©tÃ© ajoutÃ© Ã  la liste."
       },
       "itemRemoved": {
-        "title": "Symbole retiré",
-        "message": "Le symbole a été retiré de la liste."
+        "title": "Symbole retirÃ©",
+        "message": "Le symbole a Ã©tÃ© retirÃ© de la liste."
       }
     },
     "error": {
       "title": "Erreur watchlist",
       "unknown": "Erreur inconnue lors du chargement des watchlists.",
-      "create": "Impossible de créer la watchlist.",
-      "update": "Impossible de mettre à jour la watchlist.",
+      "create": "Impossible de crÃ©er la watchlist.",
+      "update": "Impossible de mettre Ã  jour la watchlist.",
       "remove": "Impossible de supprimer la watchlist.",
       "itemAdd": "Impossible d''ajouter le symbole.",
-      "itemUpdate": "Impossible de mettre à jour le prix cible.",
+      "itemUpdate": "Impossible de mettre Ã  jour le prix cible.",
       "itemRemove": "Impossible de retirer le symbole."
     }
   },
   "settings": {
-    "title": "Paramètres",
-    "subtitle": "Personnalisez votre expérience de trading",
+    "title": "ParamÃ¨tres",
+    "subtitle": "Personnalisez votre expÃ©rience de trading",
     "navigation": "Sections",
     "menu": {
       "theme": "Apparence",
-      "themeDescription": "Thème clair ou sombre.",
+      "themeDescription": "ThÃ¨me clair ou sombre.",
       "language": "Langue",
       "languageDescription": "Choisissez la langue de l''interface.",
       "profile": "Profil",
-      "profileDescription": "Identité Keycloak et notifications.",
+      "profileDescription": "IdentitÃ© Keycloak et notifications.",
       "notifications": "Notifications",
       "notificationsDescription": "Toggles de notifications."
     },
     "theme": {
-      "title": "Thème",
-      "subtitle": "Choisissez le thème qui vous convient le mieux.",
+      "title": "ThÃ¨me",
+      "subtitle": "Choisissez le thÃ¨me qui vous convient le mieux.",
       "darkTitle": "Sombre",
-      "darkDescription": "Recommandé pour les sessions de trading nocturnes.",
+      "darkDescription": "RecommandÃ© pour les sessions de trading nocturnes.",
       "lightTitle": "Clair",
       "lightDescription": "Plus confortable en plein jour.",
       "active": "Actif",
-      "previewTitle": "Aperçu",
-      "previewSample": "Exemple d''élément",
-      "previewHelp": "Le thème est appliqué immédiatement à toute l''application."
+      "previewTitle": "AperÃ§u",
+      "previewSample": "Exemple d''Ã©lÃ©ment",
+      "previewHelp": "Le thÃ¨me est appliquÃ© immÃ©diatement Ã  toute l''application."
     },
     "language": {
       "title": "Langue",
       "subtitle": "Choisissez la langue de l''interface.",
-      "french": "Français",
+      "french": "FranÃ§ais",
       "frenchDescription": "Langue principale de la plateforme.",
       "english": "Anglais",
       "englishDescription": "Anglais international.",
       "arabic": "Arabe",
       "arabicDescription": "Arabe standard moderne (RTL).",
-      "rtl": "Lecture de droite à gauche",
-      "ltr": "Lecture de gauche à droite",
+      "rtl": "Lecture de droite Ã  gauche",
+      "ltr": "Lecture de gauche Ã  droite",
       "active": "Actuelle",
-      "previewTitle": "Aperçu",
+      "previewTitle": "AperÃ§u",
       "previewHello": "Bonjour et bienvenue !",
       "previewDirection": "Sens de lecture"
     },
     "profile": {
       "title": "Profil et notifications",
-      "subtitle": "Identité Keycloak et préférences de notification.",
-      "identityTitle": "Identité",
+      "subtitle": "IdentitÃ© Keycloak et prÃ©fÃ©rences de notification.",
+      "identityTitle": "IdentitÃ©",
       "username": "Nom d''utilisateur",
       "email": "Adresse e-mail",
       "fullName": "Nom complet",
-      "roles": "Rôles",
+      "roles": "RÃ´les",
       "notificationsTitle": "Notifications",
       "notificationsInbox": "Notifications dans l''application",
-      "notificationsInboxHelp": "Active la réception des toasts et des notifications en temps réel.",
+      "notificationsInboxHelp": "Active la rÃ©ception des toasts et des notifications en temps rÃ©el.",
       "orderConfirmations": "Confirmations d''ordre",
-      "orderConfirmationsHelp": "Affiche un toast après chaque soumission d''ordre.",
+      "orderConfirmationsHelp": "Affiche un toast aprÃ¨s chaque soumission d''ordre.",
       "priceAlerts": "Alertes de prix",
       "priceAlertsHelp": "Active les notifications push pour les variations de prix.",
       "compactTables": "Tables compactes",
-      "compactTablesHelp": "Réduit la densité des lignes dans toutes les tables.",
-      "sessionTheme": "Thème actuel",
+      "compactTablesHelp": "RÃ©duit la densitÃ© des lignes dans toutes les tables.",
+      "sessionTheme": "ThÃ¨me actuel",
       "sessionLanguage": "Langue actuelle",
-      "signOut": "Se déconnecter"
+      "signOut": "Se dÃ©connecter"
     },
     "notifications": {
       "reset": {
-        "title": "Paramètres réinitialisés",
-        "message": "Tous les paramètres ont été remis aux valeurs par défaut."
+        "title": "ParamÃ¨tres rÃ©initialisÃ©s",
+        "message": "Tous les paramÃ¨tres ont Ã©tÃ© remis aux valeurs par dÃ©faut."
       }
     }
   },
@@ -511,19 +511,19 @@
       "subtitle": "Tous les instruments disponibles sur la plateforme",
       "refresh": "Actualiser",
       "loading": "Chargement du catalogue...",
-      "empty": "Aucun actif ne correspond à votre filtre.",
+      "empty": "Aucun actif ne correspond Ã  votre filtre.",
       "inactive": "Inactif",
-      "listedAt": "Listé le",
-      "details": "Voir le détail",
+      "listedAt": "ListÃ© le",
+      "details": "Voir le dÃ©tail",
       "trade": "Trader"
     },
     "details": {
-      "title": "Détail de l''actif",
+      "title": "DÃ©tail de l''actif",
       "assetFallback": "Actif",
       "loading": "Chargement de l''actif...",
       "notFound": "Actif introuvable",
       "backToList": "Retour au catalogue",
-      "watchlist": "Ajouter à la watchlist",
+      "watchlist": "Ajouter Ã  la watchlist",
       "trade": "Trader",
       "price": "Prix actuel",
       "currency": "Devise",
@@ -531,7 +531,7 @@
       "type": "Type",
       "identification": "Identification",
       "uuid": "Identifiant UUID",
-      "listedAt": "Date de référencement",
+      "listedAt": "Date de rÃ©fÃ©rencement",
       "status": "Statut",
       "active": "Actif",
       "inactive": "Inactif",
@@ -543,20 +543,20 @@
       "aria": "Filtrer le catalogue",
       "placeholder": "Rechercher par symbole, nom ou description",
       "type": "Type",
-      "market": "Marché",
+      "market": "MarchÃ©",
       "activeOnly": "Actifs uniquement",
       "apply": "Filtrer"
     },
     "notifications": {
       "watchlistMissing": {
         "title": "Aucune watchlist",
-        "message": "Créez d''abord une watchlist pour pouvoir y ajouter des actifs."
+        "message": "CrÃ©ez d''abord une watchlist pour pouvoir y ajouter des actifs."
       }
     },
     "error": {
       "title": "Erreur actifs",
       "unknown": "Erreur inconnue lors du chargement du catalogue.",
-      "fetch": "Impossible de récupérer cet actif."
+      "fetch": "Impossible de rÃ©cupÃ©rer cet actif."
     }
   }
 }

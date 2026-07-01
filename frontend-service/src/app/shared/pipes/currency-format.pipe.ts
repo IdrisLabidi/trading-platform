@@ -1,12 +1,29 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { NumberFormatter } from '../../core/utils/number-formatter.util';
+import { TranslateService } from '@ngx-translate/core';
+import { NumberFormatter } from '../../core/utils';
 
-@Pipe({ name: 'appCurrency', standalone: true })
+@Pipe({
+  name: 'appCurrency',
+  standalone: true,
+  pure: false,
+})
 export class CurrencyFormatPipe implements PipeTransform {
-  transform(value: number | null | undefined, currency = 'EUR', locale = 'fr-FR'): string {
-    if (value === null || value === undefined || Number.isNaN(value)) {
+  constructor(private translate: TranslateService) {}
+
+  transform(value: number | null | undefined): string {
+    if (value == null || Number.isNaN(value)) {
       return '';
     }
-    return NumberFormatter.currency(value, currency, locale);
+
+    const lang = this.translate.currentLang();
+    const isArabic = this.translate.currentLang()?.startsWith('ar') ?? false;
+
+    const locale = isArabic ? 'ar-TN' : 'fr-FR';
+
+    const formatted = NumberFormatter.currency(value, 'TND', locale);
+
+    return isArabic
+      ? formatted.replace('TND', 'د.ت.')
+      : formatted;
   }
 }

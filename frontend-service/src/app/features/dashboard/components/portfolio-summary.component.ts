@@ -40,18 +40,6 @@ import { PercentFormatPipe } from '../../../shared/pipes/percent-format.pipe';
       <div class="grid grid-cols-2 gap-4 border-b border-[var(--app-border)] px-4 py-3 text-sm">
         <div>
           <div class="text-xs text-[var(--app-fg-muted)]">
-            {{ 'dashboard.portfolio.totalValue' | translate }}
-          </div>
-          <div class="text-base font-semibold">{{ totalValue() | appCurrency }}</div>
-        </div>
-        <div>
-          <div class="text-xs text-[var(--app-fg-muted)]">
-            {{ 'dashboard.portfolio.totalCost' | translate }}
-          </div>
-          <div class="text-base font-semibold">{{ totalCost() | appCurrency }}</div>
-        </div>
-        <div>
-          <div class="text-xs text-[var(--app-fg-muted)]">
             {{ 'dashboard.portfolio.totalPnL' | translate }}
           </div>
           <div
@@ -134,8 +122,6 @@ export class PortfolioSummaryComponent {
   private readonly store = inject(DashboardStore);
 
   readonly positions = computed(() => this.store.portfolio()?.positions ?? []);
-  readonly totalValue = computed<number>(() => this.store.portfolio()?.totalValue ?? 0);
-  readonly totalCost = computed<number>(() => this.store.portfolio()?.totalCost ?? 0);
   readonly totalPnL = computed<number>(() => this.store.portfolio()?.totalPnL ?? 0);
   readonly totalPnLPercent = computed<number>(
     () => this.store.portfolio()?.totalPnLPercent ?? 0

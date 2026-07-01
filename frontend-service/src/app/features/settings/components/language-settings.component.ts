@@ -114,7 +114,7 @@ const LANGUAGES: ReadonlyArray<ILanguageOption> = [
           </p>
           <p class="text-xs text-[var(--app-fg-muted)]">
             {{ 'settings.language.previewDirection' | translate }}:
-            {{ directionLabel() }}
+            {{ directionLabel() | translate }}
           </p>
         </div>
       </p-card>

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { DatePipe } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 
-import { DashboardStore } from '../stores/dashboard.store';
+import { DashboardStore } from '../stores';
 import { NumberFormatPipe } from '../../../shared/pipes/number-format.pipe';
 
 /**
@@ -22,18 +22,18 @@ import { NumberFormatPipe } from '../../../shared/pipes/number-format.pipe';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <article
-      class="flex h-full flex-col rounded-lg border border-[var(--app-border)] bg-[var(--app-bg-elevated)] shadow-sm"
+      class="flex h-full flex-col rounded-lg border border-(--app-border) bg-(--app-bg-elevated) shadow-sm"
     >
       <header
-        class="flex items-center justify-between border-b border-[var(--app-border)] px-4 py-3"
+        class="flex items-center justify-between border-b border-(--app-border) px-4 py-3"
       >
         <div class="flex items-center gap-2">
-          <i class="pi pi-history text-sm text-[var(--app-fg-muted)]" aria-hidden="true"></i>
+          <i class="pi pi-history text-sm text-(--app-fg-muted)" aria-hidden="true"></i>
           <h2 class="text-sm font-semibold">
             {{ 'dashboard.activity.title' | translate }}
           </h2>
         </div>
-        <span class="text-xs text-[var(--app-fg-muted)]">
+        <span class="text-xs text-(--app-fg-muted)">
           {{ 'dashboard.common.placeholder' | translate }}
         </span>
       </header>

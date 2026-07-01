@@ -1,10 +1,10 @@
-package tn.utm.nainternship.assetservice.service;
+package tn.utm.nainternship.marketservice.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import tn.utm.nainternship.assetservice.Repository.AssetRepository;
-import tn.utm.nainternship.assetservice.model.Asset;
-import tn.utm.nainternship.assetservice.exception.AssetNotFoundException;
+import tn.utm.nainternship.marketservice.entity.Asset;
+import tn.utm.nainternship.marketservice.exception.AssetNotFoundException;
+import tn.utm.nainternship.marketservice.repository.AssetRepository;
 
 import java.util.List;
 import java.util.UUID;

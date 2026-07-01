@@ -1,4 +1,4 @@
-package tn.utm.nainternship.assetservice.controller;
+package tn.utm.nainternship.marketservice.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tn.utm.nainternship.assetservice.dto.AssetResponse;
-import tn.utm.nainternship.assetservice.model.Asset;
-import tn.utm.nainternship.assetservice.service.AssetService;
+import tn.utm.nainternship.marketservice.dto.AssetResponse;
+import tn.utm.nainternship.marketservice.entity.Asset;
+import tn.utm.nainternship.marketservice.service.AssetService;
 
 import java.util.List;
 import java.util.UUID;

@@ -1,11 +1,11 @@
-package tn.utm.nainternship.assetservice.model;
+package tn.utm.nainternship.marketservice.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import tn.utm.nainternship.assetservice.dto.AssetResponse;
+import tn.utm.nainternship.marketservice.dto.AssetResponse;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -34,6 +34,12 @@ public class Asset {
     private Boolean isActive;
     private Instant listedAt;
 
+    public enum AssetType {
+        STOCK, //Action
+        ETF,
+        BOND, //Obligation
+        FOREX
+    }
 
     public AssetResponse toResponse() {
         return new AssetResponse(

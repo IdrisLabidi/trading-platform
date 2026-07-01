@@ -12,7 +12,7 @@ import type { IApiError } from '../models/api-error.model';
  * - Converts `HttpErrorResponse` into the serialisable `IApiError` shape.
  * - Surfaces a toast through `NotificationService` (skipping 401 which
  *   is handled by the authentication flow).
- * - Triggers a redirect to `/login` on 401 when the user was already
+ * - Triggers a redirect to `/` on 401 when the user was already
  *   authenticated, so an expired session does not leave the user on a
  *   broken page.
  * - Re-throws the normalised error so callers can react if needed.
@@ -36,7 +36,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       if (apiError.status === 401) {
         if (auth.isAuthenticated()) {
           void auth.logout();
-          void router.navigate(['/login']);
+          void router.navigate(['/']);
         }
       } else if (apiError.status >= 500) {
         notifications.push('error', 'Erreur serveur', apiError.message);

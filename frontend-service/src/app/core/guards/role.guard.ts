@@ -1,12 +1,12 @@
 ﻿import { inject } from '@angular/core';
 import { type CanActivateFn, type CanMatchFn, Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../services';
 import { environment } from '../../../environments/environment';
 
 /**
  * Allows the navigation when the current user owns every role listed
  * in `route.data.roles` (or in `environment.traderRoles` when no
- * override is provided). Unauthenticated users are sent to `/login`,
+ * override is provided). Unauthenticated users are sent to `/`,
  * authenticated-but-unauthorised users are sent back to `/`.
  */
 export const roleGuard: CanActivateFn = (route) => {
@@ -26,7 +26,7 @@ function checkRoles(required: readonly string[] | undefined) {
   const router = inject(Router);
   const user = auth.user();
   if (!user) {
-    return router.createUrlTree(['/login']);
+    return router.createUrlTree(['/']);
   }
   const wanted = required && required.length > 0 ? required : environment.traderRoles;
   const hasRole = wanted.some((r) => user.roles.includes(r));

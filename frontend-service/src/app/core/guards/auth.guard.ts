@@ -1,10 +1,10 @@
 ﻿import { inject } from '@angular/core';
 import { type CanActivateFn, type CanMatchFn, Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../services';
 
 /**
  * Allows the navigation when the user is authenticated, otherwise
- * redirects to the `/login` page (preserving the requested URL).
+ * redirects to the public landing page (preserving the requested URL).
  */
 export const authGuard: CanActivateFn = (_route, state) => {
   const auth = inject(AuthService);
@@ -12,7 +12,7 @@ export const authGuard: CanActivateFn = (_route, state) => {
   if (auth.isAuthenticated()) {
     return true;
   }
-  return router.createUrlTree(['/login'], {
+  return router.createUrlTree(['/'], {
     queryParams: { redirect: state.url }
   });
 };
@@ -28,7 +28,7 @@ export const authMatchGuard: CanMatchFn = (_route, segments) => {
     return true;
   }
   const target = '/' + segments.map((s) => s.path).join('/');
-  return router.createUrlTree(['/login'], {
+  return router.createUrlTree(['/'], {
     queryParams: { redirect: target }
   });
 };

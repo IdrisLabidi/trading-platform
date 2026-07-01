@@ -1,4 +1,4 @@
-﻿import { Injectable, computed, signal } from '@angular/core';
+﻿import {Injectable, computed, signal, Service} from '@angular/core';
 import Keycloak, {
   type KeycloakInitOptions,
   type KeycloakTokenParsed
@@ -84,11 +84,11 @@ export class AuthService {
 
   /**
    * Terminate the current Keycloak session and clear the local
-   * signal state. The caller is expected to navigate to the login
-   * page after the redirect URI is honoured by Keycloak.
+   * signal state. The caller is expected to navigate to the public
+   * landing page after the redirect URI is honoured by Keycloak.
    */
   async logout(): Promise<void> {
-    const redirectUri = window.location.origin + '/login';
+    const redirectUri = window.location.origin + '/';
     this._user.set(null);
     this._token.set(null);
     await this.keycloak.logout({ redirectUri });

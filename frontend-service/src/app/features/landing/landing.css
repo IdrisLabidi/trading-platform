@@ -1,0 +1,13 @@
+.landing-page {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background: var(--app-bg);
+}
+
+.landing-actions {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: flex-start;
+}

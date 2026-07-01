@@ -1,0 +1,13 @@
+<div class="landing-page">
+  <p-card styleClass="landing-card">
+    <ng-template pTemplate="title">Trading Platform</ng-template>
+    <ng-template pTemplate="subtitle">Monitor markets and manage your portfolio in one place.</ng-template>
+    <div class="landing-actions">
+      @if (isAuthenticated()) {
+        <p-button label="Open dashboard" icon="pi pi-arrow-right" (onClick)="continueToApp()"></p-button>
+      } @else {
+        <p-button label="Login with Keycloak" icon="pi pi-sign-in" (onClick)="login()"></p-button>
+      }
+    </div>
+  </p-card>
+</div>

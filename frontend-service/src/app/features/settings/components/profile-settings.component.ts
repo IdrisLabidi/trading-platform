@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import {Router} from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -179,7 +178,6 @@ export class ProfileSettingsComponent {
   private readonly auth = inject(AuthService);
   private readonly theme = inject(ThemeService);
   private readonly translation = inject(TranslationService);
-  private readonly router = inject(Router);
 
   readonly user = this.auth.user;
   readonly notificationsEnabled = computed<boolean>(() => this.settings.notificationsEnabled());
@@ -218,8 +216,6 @@ export class ProfileSettingsComponent {
   }
 
   signOut(): void {
-    void this.auth.logout().then(() => {
-      void this.router.navigate(['/login']);
-    });
+    void this.auth.logout();
   }
 }

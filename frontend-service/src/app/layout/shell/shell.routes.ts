@@ -5,7 +5,7 @@ import { ShellComponent } from './shell.component';
 
 /**
  * Top-level authenticated routes. Every lazy feature is wrapped with
- * `authMatchGuard` so anonymous users are redirected to `/login`
+ * `authMatchGuard` so anonymous users are redirected to `/`
  * before the chunk is even downloaded.
  *
  * Trader-only features (orders, portfolio) additionally require

@@ -8,7 +8,6 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tn.utm.nainternship.marketservice.client.AssetClient;
 import tn.utm.nainternship.marketservice.client.NotificationsServiceClient;
 import tn.utm.nainternship.marketservice.client.PortfolioClient;
 import tn.utm.nainternship.marketservice.dto.OrderDetailsResponse;
@@ -32,10 +31,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 public class OrderService {
-    private final AssetClient assetClient;
     private final PortfolioClient portfolioClient;
     private final NotificationsServiceClient notificationsClient;
     private final OrderBookService orderBookService;
+    private final AssetService assetService;
     private final OrderRepository orderRepository;
     private final TradeRepository tradeRepository;
     private final TradeEventPublisher tradeEventPublisher;
@@ -48,7 +47,7 @@ public class OrderService {
         log.info("Submitting order for userId={}, symbol={}, side={}, quantity={}, price={}", userId, request.getSymbol(), request.getSide(), request.getQuantity(), request.getPrice());
 
         // Step 2 - Validate symbol via asset-service (cached)
-        assetClient.getAsset(request.getSymbol());
+        assetService.findBySymbol(request.getSymbol());
         log.info("Symbol {} is valid", request.getSymbol());
 
         // Step 3 - Verify balance/position

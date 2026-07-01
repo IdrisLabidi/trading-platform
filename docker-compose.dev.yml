@@ -32,16 +32,6 @@ services:
         - "5433:5432"
     volumes: [ market_data:/var/lib/postgresql/data ]
 
-  asset-db:
-    image: postgres:16
-    environment:
-      POSTGRES_DB: assetdb
-      POSTGRES_USER: asset
-      POSTGRES_PASSWORD: asset
-    ports:
-      - "5432:5432"
-    volumes: [ asset_data:/var/lib/postgresql/data ]
-
   portfolio-db:
     image: postgres:16
     environment:
@@ -80,5 +70,4 @@ services:
 volumes:
   keycloak_data:
   market_data:
-  asset_data:
   portfolio_data:

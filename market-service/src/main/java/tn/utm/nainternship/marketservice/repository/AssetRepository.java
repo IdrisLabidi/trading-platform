@@ -1,7 +1,7 @@
-package tn.utm.nainternship.assetservice.Repository;
+package tn.utm.nainternship.marketservice.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import tn.utm.nainternship.assetservice.model.Asset;
+import tn.utm.nainternship.marketservice.entity.Asset;
 
 import java.util.Optional;
 import java.util.UUID;

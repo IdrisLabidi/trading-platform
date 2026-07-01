@@ -1,12 +1,11 @@
-package tn.utm.nainternship.assetservice.util;
+package tn.utm.nainternship.marketservice.utils;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import tn.utm.nainternship.assetservice.Repository.AssetRepository;
-import tn.utm.nainternship.assetservice.model.Asset;
-import tn.utm.nainternship.assetservice.model.AssetType;
+import tn.utm.nainternship.marketservice.entity.Asset;
+import tn.utm.nainternship.marketservice.repository.AssetRepository;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -24,7 +23,7 @@ public class DatabaseSeeder implements CommandLineRunner {
                     .symbol("BIAT")
                     .description("Banque Internationale Arabe de Tunisie")
                     .name("Banque Internationale Arabe de Tunisie")
-                    .type(AssetType.STOCK)
+                    .type(Asset.AssetType.STOCK)
                     .market("TUNIS")
                     .currency("TND")
                     .lastPrice(new BigDecimal("145.00"))
@@ -35,7 +34,7 @@ public class DatabaseSeeder implements CommandLineRunner {
                     .symbol("ATB")
                     .description("Arab Tunisian Bank")
                     .name("Arab Tunisian Bank")
-                    .type(AssetType.STOCK)
+                    .type(Asset.AssetType.STOCK)
                     .market("TUNIS")
                     .currency("TND")
                     .lastPrice(new BigDecimal("22.50"))
@@ -46,7 +45,7 @@ public class DatabaseSeeder implements CommandLineRunner {
                     .symbol("SFBT")
                     .description("Société de Fabrication des Boissons")
                     .name("Société de Fabrication des Boissons")
-                    .type(AssetType.STOCK)
+                    .type(Asset.AssetType.STOCK)
                     .market("TUNIS")
                     .currency("TND")
                     .lastPrice(new BigDecimal("18.30"))
@@ -57,7 +56,7 @@ public class DatabaseSeeder implements CommandLineRunner {
                     .symbol("TUN-ETF")
                     .description("ETF Tunindex 20")
                     .name("ETF Tunindex 20")
-                    .type(AssetType.ETF)
+                    .type(Asset.AssetType.ETF)
                     .market("TUNIS")
                     .currency("TND")
                     .lastPrice(new BigDecimal("98.00"))
@@ -68,7 +67,7 @@ public class DatabaseSeeder implements CommandLineRunner {
                     .symbol("SP500")
                     .description("S&P 500 ETF")
                     .name("S&P 500 ETF")
-                    .type(AssetType.ETF)
+                    .type(Asset.AssetType.ETF)
                     .market("NYSE")
                     .currency("USD")
                     .lastPrice(new BigDecimal("520.00"))
@@ -86,3 +85,4 @@ public class DatabaseSeeder implements CommandLineRunner {
     }
 
 }
+

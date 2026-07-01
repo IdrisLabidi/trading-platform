@@ -33,6 +33,7 @@ import { RealtimeService } from './core/realtime/realtime.service';
 import { NotificationStreamHandler } from './core/realtime/notification-stream.handler';
 import { environment } from '../environments/environment';
 import { TranslationHttpLoader } from './core/i18n/translation-http.loader';
+import { PageTitleService } from "./core/services/page-title.service";
 
 /**
  * HTTP interceptor chain. Order matters:
@@ -98,6 +99,7 @@ export const appConfig: ApplicationConfig = {
       const i18n = inject(TranslationService);
       const realtime = inject(RealtimeService);
       const notifications = inject(NotificationStreamHandler);
+      const pageTitle = inject(PageTitleService);
       // Touching the signals ensures the constructors have run and
       // the persisted preferences (theme, language) are applied.
       void theme.theme();
@@ -105,6 +107,7 @@ export const appConfig: ApplicationConfig = {
       // Force the notification stream handler to subscribe before
       // bootstrap completes so no realtime notification is missed.
       notifications.attach();
+      void pageTitle;
       return auth.init().then((authenticated) => {
         realtime.bootstrap({ userId: authenticated ? auth.user()?.id ?? null : null });
         return undefined;

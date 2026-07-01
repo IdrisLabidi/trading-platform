@@ -10,17 +10,16 @@ import { NumberFormatter } from '../../core/utils';
 export class CurrencyFormatPipe implements PipeTransform {
   constructor(private translate: TranslateService) {}
 
-  transform(value: number | null | undefined): string {
+  transform(value: number | null | undefined, currency = "TND", locale = "fr-FR"): string {
     if (value == null || Number.isNaN(value)) {
       return '';
     }
 
-    const lang = this.translate.currentLang();
     const isArabic = this.translate.currentLang()?.startsWith('ar') ?? false;
 
-    const locale = isArabic ? 'ar-TN' : 'fr-FR';
+    const appLocale = isArabic ? 'ar-TN' : 'fr-FR';
 
-    const formatted = NumberFormatter.currency(value, 'TND', locale);
+    const formatted = NumberFormatter.currency(value, 'TND', appLocale);
 
     return isArabic
       ? formatted.replace('TND', 'د.ت.')

@@ -92,7 +92,7 @@ export class MarketService {
   /** Fetch the list of tradable assets. */
   listAssets(): Observable<readonly IAsset[]> {
     return this.http
-      .get<IRawAssetList | null>('/api/assets')
+      .get<unknown>('/api/assets')
       .pipe(map((payload) => this.unwrapList(payload).map((raw) => this.toAsset(raw))));
   }
 
@@ -212,13 +212,18 @@ export class MarketService {
     };
   }
 
-  private unwrapList(payload: IRawAssetList | null | undefined): readonly IRawAsset[] {
+  private unwrapList(payload: unknown): readonly IRawAsset[] {
     if (!payload) {
       return [];
     }
-    const items = payload.items;
-    if (Array.isArray(items)) {
-      return items;
+    if (Array.isArray(payload)) {
+      return payload as readonly IRawAsset[];
+    }
+    if (typeof payload === 'object' && payload !== null && 'items' in payload) {
+      const items = (payload as IRawAssetList).items;
+      if (Array.isArray(items)) {
+        return items;
+      }
     }
     return [];
   }

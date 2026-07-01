@@ -138,10 +138,10 @@ export class WatchlistService {
     return forkJoin({
       watchlists: this.list(),
       assets: this.http
-        .get<IRawAssetList | null>('/api/assets')
+        .get<unknown>('/api/assets')
         .pipe(
           map((payload) => {
-            const items = payload?.items ?? [];
+            const items = this.unwrapAssetList(payload);
             const map = new Map<
               string,
               { readonly price: number; readonly currency: string; readonly name: string }
@@ -218,5 +218,21 @@ export class WatchlistService {
     }
     const parsed = Number(value);
     return Number.isFinite(parsed) ? parsed : 0;
+  }
+
+  private unwrapAssetList(payload: unknown): readonly IRawAsset[] {
+    if (!payload) {
+      return [];
+    }
+    if (Array.isArray(payload)) {
+      return payload as readonly IRawAsset[];
+    }
+    if (typeof payload === 'object' && payload !== null && 'items' in payload) {
+      const items = (payload as IRawAssetList).items;
+      if (Array.isArray(items)) {
+        return items;
+      }
+    }
+    return [];
   }
 }

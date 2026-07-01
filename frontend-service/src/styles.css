@@ -1,13 +1,14 @@
 /* =============================================================
  * Global styles entry point
- * CSS layer ordering: PrimeNG base/utilities first,
- * then Tailwind utilities, then application overrides.
+ * CSS layer ordering:
+ * reset -> tailwind theme/preflight -> primeng -> tailwind utilities -> app overrides.
  * ============================================================= */
 
-@layer reset, primeng, tailwind-base, tailwind-components, tailwind-utilities, app;
+@layer reset, tailwind-base, primeng, tailwind-components, tailwind-utilities, app;
 
 @import 'primeicons/primeicons.css';
 
+@import 'tailwindcss/theme.css' layer(tailwind-base);
 @import 'tailwindcss/preflight.css' layer(tailwind-base);
 @import 'tailwindcss/utilities.css' layer(tailwind-utilities);
 

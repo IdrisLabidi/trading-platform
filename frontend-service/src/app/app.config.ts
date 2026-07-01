@@ -69,7 +69,7 @@ export const appConfig: ApplicationConfig = {
           darkModeSelector: '[data-theme="dark"]',
           cssLayer: {
             name: 'primeng',
-            order: 'reset, primeng, tailwind-base, tailwind-components, tailwind-utilities, app'
+            order: 'reset, tailwind-base, primeng, tailwind-components, tailwind-utilities, app'
           }
         }
       }

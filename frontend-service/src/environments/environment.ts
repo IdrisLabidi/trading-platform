@@ -24,13 +24,13 @@ export const environment = {
   services: {
     markets: 'http://localhost:8081',
     portfolio: 'http://localhost:8083',
-    assets: 'http://localhost:8082',
+    assets: 'http://localhost:8081',
     orders: 'http://localhost:8081',
     notifications: 'http://localhost:8084'
   } as const,
   marketServiceUrl: 'http://localhost:8081',
   portfolioServiceUrl: 'http://localhost:8083',
-  assetServiceUrl: 'http://localhost:8082',
+  assetServiceUrl: 'http://localhost:8081',
   orderServiceUrl: 'http://localhost:8081',
   notificationsServiceUrl: 'http://localhost:8084',
   websocketUrl: 'ws://localhost:3000/ws',

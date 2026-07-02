@@ -18,8 +18,7 @@ The project is monorepo, with the current directory containing all the code for 
 5 microservices are defined, each responsible for a specific aspect of the trading platform. These services communicate with each other through well-defined APIs.
 
 # High level overview:
-- `asset-service`: Reference catalog of tradable symbols.
-- `market-service`: Order book, matching engine, publishes `trade-executed` events in Kafka.
+- `market-service`: Assets, Order book, matching engine, publishes `trade-executed` events in Kafka.
 - `portfolio-service`: Cash accounts, positions, freeze/reserve, consumes Kafka.
 - `notifications-service`: Email (nodemailer) + Socket.IO relay of in-app notifications.
 - `frontend-service`: Trading UI pages.

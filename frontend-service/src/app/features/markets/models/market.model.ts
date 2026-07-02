@@ -15,6 +15,14 @@ export interface IAsset {
   readonly market?: string;
   readonly currency: string;
   readonly lastPrice: number;
+  readonly previousClose: number;
+  readonly variationPercent: number;
+  readonly quantity: number;
+  readonly volume: number;
+  readonly buyQuantity: number;
+  readonly buyPrice: number;
+  readonly sellPrice: number;
+  readonly sellQuantity: number;
   readonly isActive: boolean;
   readonly listedAt?: string;
 }
@@ -33,6 +41,12 @@ export interface IMarket {
   readonly previousPrice: number;
   readonly change: number;
   readonly changePercent: number;
+  readonly quantity: number;
+  readonly volume: number;
+  readonly buyQuantity: number;
+  readonly buyPrice: number;
+  readonly sellPrice: number;
+  readonly sellQuantity: number;
   readonly isActive: boolean;
 }
 

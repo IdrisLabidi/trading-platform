@@ -13,6 +13,14 @@ interface IRawAsset {
   readonly market?: string;
   readonly currency?: string;
   readonly lastPrice?: number | string | null;
+  readonly previousClose?: number | string | null;
+  readonly variationPercent?: number | string | null;
+  readonly quantity?: number | string | null;
+  readonly volume?: number | string | null;
+  readonly buyQuantity?: number | string | null;
+  readonly buyPrice?: number | string | null;
+  readonly sellPrice?: number | string | null;
+  readonly sellQuantity?: number | string | null;
   readonly isActive?: boolean;
   readonly listedAt?: string;
 }
@@ -83,6 +91,14 @@ export class AssetService {
       market: raw.market,
       currency: raw.currency ?? 'USD',
       lastPrice,
+      previousClose: this.toNumber(raw.previousClose),
+      variationPercent: this.toNumber(raw.variationPercent),
+      quantity: this.toNumber(raw.quantity),
+      volume: this.toNumber(raw.volume),
+      buyQuantity: this.toNumber(raw.buyQuantity),
+      buyPrice: this.toNumber(raw.buyPrice),
+      sellPrice: this.toNumber(raw.sellPrice),
+      sellQuantity: this.toNumber(raw.sellQuantity),
       isActive: raw.isActive ?? true,
       listedAt: raw.listedAt
     };

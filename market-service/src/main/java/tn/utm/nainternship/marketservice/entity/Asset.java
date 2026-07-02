@@ -31,6 +31,14 @@ public class Asset {
     private String market;          // "TUNIS", "NYSE", "NASDAQ"
     private String currency;        // "TND", "USD"
     private BigDecimal lastPrice;
+    private BigDecimal previousClose;
+    private BigDecimal variationPercent;
+    private Long quantity;
+    private BigDecimal volume;
+    private Long buyQuantity;
+    private BigDecimal buyPrice;
+    private BigDecimal sellPrice;
+    private Long sellQuantity;
     private Boolean isActive;
     private Instant listedAt;
 
@@ -51,6 +59,14 @@ public class Asset {
                 this.market,
                 this.currency,
                 this.lastPrice,
+                this.previousClose,
+                this.variationPercent,
+                this.quantity,
+                this.volume,
+                this.buyQuantity,
+                this.buyPrice,
+                this.sellPrice,
+                this.sellQuantity,
                 this.isActive,
                 this.listedAt
         );

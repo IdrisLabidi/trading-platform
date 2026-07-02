@@ -65,6 +65,12 @@ export class MarketsStore {
 
   // --- Commands ----------------------------------------------------
 
+  /** Refresh the shared catalog snapshot used by the market views. */
+  syncCatalog(assets: readonly IAsset[]): void {
+    this._assets.set(assets);
+    this.ws.setCatalog(assets);
+  }
+
   /** Refresh the catalog (assets) and the user's order history. */
   async refresh(): Promise<void> {
     if (this._loading()) {
@@ -75,8 +81,7 @@ export class MarketsStore {
     this.loader.start();
     try {
       const assets = await firstValue(this.service.listAssets());
-      this._assets.set(assets);
-      this.ws.setCatalog(assets);
+      this.syncCatalog(assets);
       if (assets.length > 0) {
         this.ws.subscribe(assets.map((asset) => asset.symbol));
       }

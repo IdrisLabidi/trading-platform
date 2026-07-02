@@ -28,11 +28,13 @@ export class AssetsStore {
   private readonly marketsStore = inject(MarketsStore);
   private readonly loader = inject(LoadingService);
   private readonly notifications = inject(NotificationService);
+  private readonly refreshIntervalMs = 60_000;
 
   private readonly _assets = signal<readonly IAsset[]>([]);
   private readonly _loading = signal<boolean>(false);
   private readonly _error = signal<string | null>(null);
   private readonly _lastLoadedAt = signal<string | null>(null);
+  private _pollHandle: ReturnType<typeof setInterval> | null = null;
 
   readonly assets = this._assets.asReadonly();
   readonly loading = this._loading.asReadonly();
@@ -87,29 +89,39 @@ export class AssetsStore {
 
   /** Look up a single asset by symbol. */
   bySymbol(symbol: string): IAsset | null {
-    return this._assets().find((asset) => asset.symbol === symbol) ?? null;
+   return this.catalog().find((asset) => asset.symbol === symbol) ?? null;
   }
 
   /** Refresh the catalog from the backend. */
-  async refresh(): Promise<void> {
+  async refresh(options: { readonly silent?: boolean } = {}): Promise<void> {
     if (this._loading()) {
       return;
     }
     this._loading.set(true);
     this._error.set(null);
-    this.loader.start();
-    try {
-      const assets = await firstValue(this.service.list());
-      this._assets.set(assets);
-      this._lastLoadedAt.set(new Date().toISOString());
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'assets.error.unknown';
-      this._error.set(message);
-      this.notifications.error('assets.error.title', message);
-    } finally {
-      this._loading.set(false);
-      this.loader.stop();
-    }
+   if (!options.silent) {
+     this.loader.start();
+   }
+   try {
+     const assets = await firstValue(this.service.list());
+     this._assets.set(assets);
+     this.marketsStore.syncCatalog(assets);
+     this._lastLoadedAt.set(new Date().toISOString());
+     this.startPolling();
+   } catch (err: unknown) {
+     const message = err instanceof Error ? err.message : 'assets.error.unknown';
+     this._error.set(message);
+     if (options.silent) {
+       console.error('Failed to refresh assets catalog', err);
+     } else {
+       this.notifications.error('assets.error.title', message);
+     }
+   } finally {
+     this._loading.set(false);
+     if (!options.silent) {
+       this.loader.stop();
+     }
+   }
   }
 
   /** Fetch a single asset by symbol (refreshes the local cache). */
@@ -118,6 +130,7 @@ export class AssetsStore {
     try {
       const asset = await firstValue(this.service.getBySymbol(upper));
       this._assets.update((list) => upsertBySymbol(list, asset));
+      this.marketsStore.syncCatalog(this.catalog());
       return asset;
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'assets.error.fetch';
@@ -130,6 +143,19 @@ export class AssetsStore {
     this._assets.set([]);
     this._error.set(null);
     this._lastLoadedAt.set(null);
+    if (this._pollHandle !== null) {
+      clearInterval(this._pollHandle);
+      this._pollHandle = null;
+    }
+  }
+
+  private startPolling(): void {
+    if (this._pollHandle !== null) {
+      return;
+    }
+    this._pollHandle = setInterval(() => {
+      void this.refresh({ silent: true });
+    }, this.refreshIntervalMs);
   }
 }
 

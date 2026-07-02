@@ -8,4 +8,6 @@ import java.util.UUID;
 
 public interface AssetRepository extends JpaRepository<Asset, UUID> {
     Optional<Asset> findBySymbol(String symbol);
+
+    Optional<Asset> findBySymbolIgnoreCase(String symbol);
 }

@@ -1,13 +1,16 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { CurrencyFormatPipe } from '../../../shared/pipes/currency-format.pipe';
+import { NumberFormatPipe } from '../../../shared/pipes/number-format.pipe';
+import { PercentFormatPipe } from '../../../shared/pipes/percent-format.pipe';
 
 import { MarketsStore } from '../stores/markets.store';
 import type { IMarket } from '../models/market.model';
 import type { AssetType } from '../models/market.model';
-import { MarketCardComponent } from './market-card.component';
 import {
   MarketSearchComponent,
   type IMarketSearchCriteria
@@ -23,10 +26,13 @@ import {
   standalone: true,
   imports: [
     TranslatePipe,
+    RouterLink,
     ButtonModule,
     TagModule,
     ProgressSpinnerModule,
-    MarketCardComponent,
+    CurrencyFormatPipe,
+    NumberFormatPipe,
+    PercentFormatPipe,
     MarketSearchComponent
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -91,10 +97,78 @@ import {
             <p>{{ 'markets.list.empty' | translate }}</p>
           </div>
         } @else {
-          <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-            @for (market of filteredMarkets(); track market.symbol) {
-              <app-market-card [market]="market" />
-            }
+          <div class="overflow-auto rounded-lg border border-[var(--app-border)] bg-[var(--app-bg-elevated)]">
+            <table class="min-w-[1200px] w-full text-sm">
+              <thead class="bg-[var(--app-bg-overlay)] text-xs uppercase text-[var(--app-fg-muted)]">
+                <tr>
+                  <th class="px-3 py-2 text-start font-medium">{{ 'markets.list.columns.symbol' | translate }}</th>
+                  <th class="px-3 py-2 text-start font-medium">{{ 'markets.list.columns.name' | translate }}</th>
+                  <th class="px-3 py-2 text-end font-medium">{{ 'markets.list.columns.veille' | translate }}</th>
+                  <th class="px-3 py-2 text-end font-medium">{{ 'markets.list.columns.cours' | translate }}</th>
+                  <th class="px-3 py-2 text-end font-medium">{{ 'markets.list.columns.varPercent' | translate }}</th>
+                  <th class="px-3 py-2 text-end font-medium">{{ 'markets.list.columns.quantity' | translate }}</th>
+                  <th class="px-3 py-2 text-end font-medium">{{ 'markets.list.columns.volume' | translate }}</th>
+                  <th class="px-3 py-2 text-end font-medium">{{ 'markets.list.columns.buyQuantity' | translate }}</th>
+                  <th class="px-3 py-2 text-end font-medium">{{ 'markets.list.columns.buyPrice' | translate }}</th>
+                  <th class="px-3 py-2 text-end font-medium">{{ 'markets.list.columns.sellPrice' | translate }}</th>
+                  <th class="px-3 py-2 text-end font-medium">{{ 'markets.list.columns.sellQuantity' | translate }}</th>
+                  <th class="px-3 py-2 text-center font-medium">{{ 'markets.list.columns.status' | translate }}</th>
+                  <th class="px-3 py-2 text-end font-medium">{{ 'markets.list.columns.actions' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (market of filteredMarkets(); track market.symbol) {
+                  <tr class="border-t border-[var(--app-border)] hover:bg-[var(--app-bg-overlay)]">
+                    <td class="px-3 py-2 font-semibold">{{ market.symbol }}</td>
+                    <td class="px-3 py-2">
+                      <div class="flex flex-col">
+                        <span class="font-medium">{{ market.name }}</span>
+                        <span class="text-xs text-[var(--app-fg-muted)]">{{ market.type }}</span>
+                      </div>
+                    </td>
+                    <td class="px-3 py-2 text-end tabular-nums">{{ market.previousPrice | appCurrency: market.currency }}</td>
+                    <td class="px-3 py-2 text-end tabular-nums">{{ market.price | appCurrency: market.currency }}</td>
+                    <td
+                      class="px-3 py-2 text-end tabular-nums"
+                      [class.text-[var(--app-success)]]="market.changePercent >= 0"
+                      [class.text-[var(--app-danger)]]="market.changePercent < 0"
+                    >
+                      {{ market.changePercent | appPercent }}
+                    </td>
+                    <td class="px-3 py-2 text-end tabular-nums">{{ market.quantity | appNumber }}</td>
+                    <td class="px-3 py-2 text-end tabular-nums">{{ market.volume | appCurrency: market.currency }}</td>
+                    <td class="px-3 py-2 text-end tabular-nums">{{ market.buyQuantity | appNumber }}</td>
+                    <td class="px-3 py-2 text-end tabular-nums">{{ market.buyPrice | appCurrency: market.currency }}</td>
+                    <td class="px-3 py-2 text-end tabular-nums">{{ market.sellPrice | appCurrency: market.currency }}</td>
+                    <td class="px-3 py-2 text-end tabular-nums">{{ market.sellQuantity | appNumber }}</td>
+                    <td class="px-3 py-2 text-center">
+                      @if (market.isActive) {
+                        <p-tag value="Active" severity="success" [rounded]="true"></p-tag>
+                      } @else {
+                        <p-tag [value]="'markets.status.inactive' | translate" severity="warn" [rounded]="true"></p-tag>
+                      }
+                    </td>
+                    <td class="px-3 py-2 text-end">
+                      <div class="flex items-center justify-end gap-2">
+                        <a
+                          [routerLink]="['/markets', market.symbol]"
+                          class="text-xs font-medium text-[var(--app-accent)] hover:underline"
+                        >
+                          {{ 'markets.card.details' | translate }}
+                        </a>
+                        <a
+                          [routerLink]="['/orders', 'new']"
+                          [queryParams]="{ symbol: market.symbol }"
+                          class="text-xs font-medium text-[var(--app-accent)] hover:underline"
+                        >
+                          {{ 'markets.card.trade' | translate }}
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
           </div>
         }
       </div>

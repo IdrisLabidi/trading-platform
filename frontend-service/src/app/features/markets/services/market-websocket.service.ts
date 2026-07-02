@@ -37,7 +37,7 @@ export class MarketWebSocketService {
     if (priceMap.size > 0) {
       for (const [symbol, update] of priceMap) {
         const asset = catalog.find((entry) => entry.symbol === symbol);
-        const previous = asset?.lastPrice ?? update.price;
+        const previous = asset?.lastPrice ?? asset?.previousClose ?? update.price;
         out.push({
           symbol,
           name: asset?.name ?? symbol,
@@ -46,7 +46,18 @@ export class MarketWebSocketService {
           price: update.price,
           previousPrice: previous,
           change: update.price - previous,
-          changePercent: previous === 0 ? 0 : (update.price - previous) / previous,
+          changePercent:
+            asset && Number.isFinite(asset.variationPercent)
+              ? asset.variationPercent
+              : previous === 0
+                ? 0
+                : (update.price - previous) / previous,
+          quantity: asset?.quantity ?? 0,
+          volume: asset?.volume ?? 0,
+          buyQuantity: asset?.buyQuantity ?? 0,
+          buyPrice: asset?.buyPrice ?? 0,
+          sellPrice: asset?.sellPrice ?? 0,
+          sellQuantity: asset?.sellQuantity ?? 0,
           isActive: asset?.isActive ?? true
         });
       }
@@ -58,9 +69,15 @@ export class MarketWebSocketService {
       type: asset.type,
       currency: asset.currency,
       price: asset.lastPrice,
-      previousPrice: asset.lastPrice,
-      change: 0,
-      changePercent: 0,
+      previousPrice: asset.previousClose,
+      change: asset.lastPrice - asset.previousClose,
+      changePercent: asset.variationPercent,
+      quantity: asset.quantity,
+      volume: asset.volume,
+      buyQuantity: asset.buyQuantity,
+      buyPrice: asset.buyPrice,
+      sellPrice: asset.sellPrice,
+      sellQuantity: asset.sellQuantity,
       isActive: asset.isActive
     }));
   });

@@ -5,6 +5,36 @@
     "error": "Une erreur est survenue"
   },
   "auth": {
+    "landing": {
+      "badge": {
+        "text": "Plateforme de Négociation Boursière"
+      },
+      "hero": {
+        "title": "Investissez intelligemment.",
+        "highlight": "Tradez en toute confiance.",
+        "description": "Suivez le marché tunisien, analysez vos investissements et gérez votre portefeuille depuis une plateforme sécurisée.",
+        "login": "Se connecter",
+        "dashboard": "Ouvrir le tableau de bord"
+      },
+      "features": {
+        "market": {
+          "title": "Suivi du marché",
+          "description": "Suivez les mouvements du marché en temps réel."
+        },
+        "portfolio": {
+          "title": "Portefeuille",
+          "description": "Gérez vos investissements en toute simplicité."
+        },
+        "analytics": {
+          "title": "Analyses",
+          "description": "Obtenez des informations grâce à des statistiques avancées."
+        },
+        "security": {
+          "title": "Sécurité",
+          "description": "Authentification sécurisée grâce à Keycloak."
+        }
+      }
+    },
     "login": {
       "title": "Connexion",
       "subtitle": "Connectez-vous à votre compte pour accéder à la plateforme.",

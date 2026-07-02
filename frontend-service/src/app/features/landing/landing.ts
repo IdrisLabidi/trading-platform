@@ -3,10 +3,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { AuthService } from '../../core/services';
+import {PublicToolbar} from './public-toolbar/public-toolbar';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-landing',
-  imports: [CardModule, ButtonModule],
+  imports: [CardModule, ButtonModule, PublicToolbar, TranslatePipe],
   templateUrl: './landing.html',
   styleUrl: './landing.css',
 })

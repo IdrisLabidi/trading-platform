@@ -5,6 +5,36 @@
     "error": "An error occurred"
   },
   "auth": {
+    "landing": {
+      "badge": {
+        "text": "Tunisian Trading Platform"
+      },
+      "hero": {
+        "title": "Trade smarter.",
+        "highlight": "Invest confidently.",
+        "description": "Monitor the Tunisian market, analyze your investments and manage your portfolio from a single secure platform.",
+        "login": "Login",
+        "dashboard": "Open dashboard"
+      },
+      "features": {
+        "market": {
+          "title": "Market Tracking",
+          "description": "Follow market movements in real time."
+        },
+        "portfolio": {
+          "title": "Portfolio",
+          "description": "Manage your investments effortlessly."
+        },
+        "analytics": {
+          "title": "Analytics",
+          "description": "Gain insights through advanced statistics."
+        },
+        "security": {
+          "title": "Secure",
+          "description": "Protected authentication powered by Keycloak."
+        }
+      }
+    },
     "login": {
       "title": "Sign in",
       "subtitle": "Sign in to your account to access the platform.",

@@ -1,13 +1,72 @@
+<app-public-toolbar></app-public-toolbar>
+
 <div class="landing-page">
-  <p-card styleClass="landing-card">
-    <ng-template pTemplate="title">Trading Platform</ng-template>
-    <ng-template pTemplate="subtitle">Monitor markets and manage your portfolio in one place.</ng-template>
-    <div class="landing-actions">
-      @if (isAuthenticated()) {
-        <p-button label="Open dashboard" icon="pi pi-arrow-right" (onClick)="continueToApp()"></p-button>
-      } @else {
-        <p-button label="Login with Keycloak" icon="pi pi-sign-in" (onClick)="login()"></p-button>
-      }
+
+  <div class="background"></div>
+
+  <section class="hero">
+
+    <div class="hero-content">
+
+      <span class="hero-tag">
+        {{ 'auth.landing.badge.text' | translate }}
+      </span>
+
+      <h1>
+        {{ 'auth.landing.hero.title' | translate }}
+        <span>{{ 'auth.landing.hero.highlight' | translate }}</span>
+      </h1>
+
+      <p class="hero-description">
+        {{ 'auth.landing.hero.description' | translate }}
+      </p>
+
+      <div class="hero-actions">
+        @if (isAuthenticated()) {
+          <p-button
+            label="{{ 'auth.landing.hero.dashboard' | translate }}"
+            icon="pi pi-arrow-right"
+            (onClick)="continueToApp()">
+          </p-button>
+        } @else {
+          <p-button
+            label="{{ 'auth.landing.hero.login' | translate }}"
+            icon="pi pi-sign-in"
+            (onClick)="login()">
+          </p-button>
+        }
+      </div>
+
     </div>
-  </p-card>
+
+    <div class="features">
+
+      <p-card>
+        <i class="pi pi-chart-line"></i>
+        <h3>{{ 'auth.landing.features.market.title' |  translate }}</h3>
+        <p>{{ 'auth.landing.features.market.description' |  translate }}</p>
+      </p-card>
+
+      <p-card>
+        <i class="pi pi-wallet"></i>
+        <h3>{{ 'auth.landing.features.portfolio.title' |  translate }}</h3>
+        <p>{{ 'auth.landing.features.portfolio.description' |  translate }}</p>
+      </p-card>
+
+      <p-card>
+        <i class="pi pi-chart-bar"></i>
+        <h3>{{ 'auth.landing.features.analytics.title' |  translate }}</h3>
+        <p>{{ 'auth.landing.features.analytics.description' |  translate }}</p>
+      </p-card>
+
+      <p-card>
+        <i class="pi pi-shield"></i>
+        <h3>{{ 'auth.landing.features.security.title' |  translate }}</h3>
+        <p>{{ 'auth.landing.features.security.description' |  translate }}</p>
+      </p-card>
+
+    </div>
+
+  </section>
+
 </div>

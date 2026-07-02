@@ -33,3 +33,10 @@ spring:
     redis:
       host: redis
       port: 6379
+
+market-data:
+  enabled: true
+  endpoint-url: ${MARKET_DATA_ENDPOINT_URL:http://market-data:8085/api/market-data}
+  refresh-interval-ms: ${MARKET_DATA_REFRESH_INTERVAL_MS:60000}
+  default-market: ${MARKET_DATA_DEFAULT_MARKET:TUNIS}
+  default-currency: ${MARKET_DATA_DEFAULT_CURRENCY:TND}

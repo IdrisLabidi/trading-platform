@@ -4,7 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/frontend-service/frontend-service.iml" filepath="$PROJECT_DIR$/frontend-service/frontend-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/market-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/market-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/market-service.test.iml" filepath="$PROJECT_DIR$/.idea/modules/market-service.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/notifications-service/notifications-service.iml" filepath="$PROJECT_DIR$/notifications-service/notifications-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/portfolio-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/portfolio-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/trading-platform.iml" filepath="$PROJECT_DIR$/trading-platform.iml" />
     </modules>
   </component>

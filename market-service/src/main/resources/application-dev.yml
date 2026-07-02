@@ -40,3 +40,10 @@ asset-service:
   url: http://localhost:8082
 portfolio-service:
   url: http://localhost:8083
+
+market-data:
+  enabled: true
+  endpoint-url: "${MARKET_DATA_ENDPOINT_URL}"
+  refresh-interval-ms: ${MARKET_DATA_REFRESH_INTERVAL_MS:60000}
+  default-market: ${MARKET_DATA_DEFAULT_MARKET:TUNIS}
+  default-currency: ${MARKET_DATA_DEFAULT_CURRENCY:TND}

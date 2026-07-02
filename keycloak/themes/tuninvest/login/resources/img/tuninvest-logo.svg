@@ -1,0 +1,17 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" aria-label="TunInvest logo">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="url(#g)"/>
+  <path d="M14 44V20h6v18h12v6H14Zm22-18v-6h24v6H50v24h-6V26h-8Z"
+        fill="#ffffff" opacity="0" />
+  <g fill="#ffffff">
+    <path d="M16 18h32v6H36v22h-8V24h-12z" opacity="0"/>
+  </g>
+  <g fill="#ffffff" font-family="Inter, Segoe UI, system-ui, sans-serif" font-weight="800" font-size="22" text-anchor="middle">
+    <text x="32" y="40">TI</text>
+  </g>
+</svg>

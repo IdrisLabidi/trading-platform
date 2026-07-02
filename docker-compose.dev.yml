@@ -13,6 +13,7 @@ services:
     depends_on: [keycloak-db]
     volumes:
       -  ./auth:/opt/keycloak/data/import
+      - ./keycloak/themes:/opt/keycloak/themes
 
   keycloak-db:
     image: postgres:16

@@ -1,0 +1,461 @@
+﻿/* =========================================================================
+   TunInvest Keycloak Theme
+   Custom login look & feel mirroring the Angular landing page
+   ========================================================================= */
+
+:root {
+  /* Brand palette aligned with the landing page */
+  --tuninvest-blue: #2563eb;
+  --tuninvest-blue-soft: rgba(25, 118, 210, .15);
+  --tuninvest-blue-strong: #1d4ed8;
+  --tuninvest-green: #10b981;
+  --tuninvest-green-soft: rgba(0, 180, 120, .12);
+
+  /* Light tokens (matches the landing `var(--app-*)` light values) */
+  --tuninvest-bg: #f7f8fb;
+  --tuninvest-bg-elevated: #ffffff;
+  --tuninvest-bg-overlay: rgba(0, 0, 0, .04);
+  --tuninvest-fg: #0f172a;
+  --tuninvest-fg-muted: #475569;
+  --tuninvest-border: rgba(15, 23, 42, .08);
+  --tuninvest-accent: var(--tuninvest-blue);
+  --tuninvest-accent-fg: #ffffff;
+
+  --tuninvest-card-radius: 18px;
+  --tuninvest-blur: 18px;
+}
+
+/* Auto dark mode (Keycloak toggles `pf-v5-dark` on <html>) */
+.pf-v5-dark,
+html.pf-v5-dark {
+  --tuninvest-bg: #0b1220;
+  --tuninvest-bg-elevated: #111a2c;
+  --tuninvest-bg-overlay: rgba(255, 255, 255, .06);
+  --tuninvest-fg: #e2e8f0;
+  --tuninvest-fg-muted: #94a3b8;
+  --tuninvest-border: rgba(255, 255, 255, .08);
+  --tuninvest-accent: #3b82f6;
+  --tuninvest-accent-fg: #ffffff;
+}
+
+/* ----- Global page ----- */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body.login-pf,
+.login-pf body {
+  background:
+    radial-gradient(circle at top right,
+      var(--tuninvest-blue-soft),
+      transparent 45%),
+    radial-gradient(circle at bottom left,
+      var(--tuninvest-green-soft),
+      transparent 40%),
+    var(--tuninvest-bg) !important;
+  color: var(--tuninvest-fg);
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+/* Decorative blurred blobs in the corners (mirrors .background::before/after) */
+body.login-pf::before,
+body.login-pf::after {
+  content: "";
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: .4;
+  z-index: 0;
+  pointer-events: none;
+}
+body.login-pf::before {
+  width: 400px;
+  height: 400px;
+  top: -120px;
+  right: -80px;
+  background: var(--tuninvest-blue);
+}
+body.login-pf::after {
+  width: 350px;
+  height: 350px;
+  left: -100px;
+  bottom: -120px;
+  background: var(--tuninvest-green);
+}
+
+/* Replace the PatternFly login grid with our own layout */
+.pf-v5-c-login {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.pf-v5-c-login__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 3rem 1.25rem;
+  gap: 1.5rem;
+}
+
+.pf-v5-c-login__header {
+  width: 100%;
+  max-width: 460px;
+  display: flex;
+  justify-content: center;
+}
+
+.pf-v5-c-login__main {
+  width: 100%;
+  max-width: 460px;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.pf-v5-c-login__main-header,
+.pf-v5-c-login__main-body,
+.pf-v5-c-login__main-footer {
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+
+.pf-v5-c-login__main-header {
+  display: none; /* we render our own card title */
+}
+
+/* ----- Top navbar (mirrors the public-toolbar component) ----- */
+.tuninvest-navbar {
+  position: relative;
+  z-index: 5;
+  pointer-events: auto;
+
+  width: min(1200px, calc(100% - 2rem));
+  margin: 1.5rem auto 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0.75rem 1.25rem;
+
+  border: 1px solid var(--tuninvest-border);
+  border-radius: var(--tuninvest-card-radius);
+
+  background: color-mix(in srgb, var(--tuninvest-bg-elevated) 85%, transparent);
+  backdrop-filter: blur(var(--tuninvest-blur));
+  -webkit-backdrop-filter: blur(var(--tuninvest-blur));
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+}
+
+.tuninvest-navbar .brand {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+}
+.tuninvest-navbar .brand img {
+  height: 2.4rem;
+  display: block;
+}
+
+.tuninvest-navbar .navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+
+.tuninvest-navbar .language-switcher {
+  display: flex;
+  align-items: center;
+  gap: .25rem;
+  padding: .2rem;
+  border: 1px solid var(--tuninvest-border);
+  border-radius: 999px;
+  background: var(--tuninvest-bg);
+}
+.tuninvest-navbar .language-switcher select {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--tuninvest-fg-muted);
+  font: inherit;
+  font-size: .8rem;
+  font-weight: 600;
+  padding: .35rem .9rem;
+  border-radius: 999px;
+  cursor: pointer;
+  outline: none;
+}
+.tuninvest-navbar .language-switcher select:focus-visible {
+  box-shadow: 0 0 0 2px var(--tuninvest-accent);
+}
+
+/* ----- Login card ----- */
+.tuninvest-card {
+  position: relative;
+  z-index: 2;
+
+  width: 100%;
+  padding: 2.25rem 2rem 1.75rem;
+
+  background: color-mix(in srgb, var(--tuninvest-bg-elevated) 88%, transparent);
+  border: 1px solid var(--tuninvest-border);
+  border-radius: var(--tuninvest-card-radius);
+  backdrop-filter: blur(var(--tuninvest-blur));
+  -webkit-backdrop-filter: blur(var(--tuninvest-blur));
+  box-shadow: 0 20px 50px rgba(15, 23, 42, .12);
+
+  color: var(--tuninvest-fg);
+}
+
+.tuninvest-card .card-badge {
+  display: inline-block;
+  margin-bottom: 1rem;
+  padding: .4rem .9rem;
+  border-radius: 999px;
+  background: var(--tuninvest-blue-soft);
+  color: var(--tuninvest-accent);
+  font-weight: 600;
+  font-size: .8rem;
+  letter-spacing: .02em;
+}
+
+.tuninvest-card h1 {
+  font-size: 1.85rem;
+  font-weight: 800;
+  line-height: 1.15;
+  margin: 0 0 .35rem;
+}
+.tuninvest-card h1 span {
+  display: block;
+  color: var(--tuninvest-accent);
+}
+.tuninvest-card .card-subtitle {
+  margin: 0 0 1.5rem;
+  color: var(--tuninvest-fg-muted);
+  font-size: .95rem;
+  line-height: 1.5;
+}
+
+/* ----- Form ----- */
+.tuninvest-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.tuninvest-form .field {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+}
+
+.tuninvest-form label {
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--tuninvest-fg-muted);
+}
+
+.tuninvest-form .input-shell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--tuninvest-border);
+  background: var(--tuninvest-bg-elevated);
+  border-radius: 12px;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+.tuninvest-form .input-shell:focus-within {
+  border-color: var(--tuninvest-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tuninvest-accent) 25%, transparent);
+}
+.tuninvest-form .input-shell .input-icon {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  color: var(--tuninvest-fg-muted);
+  font-style: normal;
+}
+.tuninvest-form .input-shell input {
+  flex: 1;
+  border: 0;
+  outline: none;
+  background: transparent;
+  padding: .75rem .75rem .75rem 0;
+  color: var(--tuninvest-fg);
+  font: inherit;
+  font-size: 1rem;
+}
+.tuninvest-form .input-shell .toggle-pwd {
+  border: 0;
+  background: transparent;
+  color: var(--tuninvest-fg-muted);
+  padding: 0 .75rem;
+  cursor: pointer;
+  font: inherit;
+}
+.tuninvest-form .input-shell .toggle-pwd:hover {
+  color: var(--tuninvest-accent);
+}
+
+.tuninvest-form .field-error {
+  font-size: .8rem;
+  color: #ef4444;
+  min-height: 1rem;
+}
+.tuninvest-form .field.has-error .input-shell {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, .18);
+}
+
+/* Row: remember me + forgot password */
+.tuninvest-form .form-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: .9rem;
+  color: var(--tuninvest-fg-muted);
+}
+.tuninvest-form .remember {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  cursor: pointer;
+  user-select: none;
+}
+.tuninvest-form .remember input {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--tuninvest-accent);
+}
+.tuninvest-form .form-row a {
+  color: var(--tuninvest-accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+.tuninvest-form .form-row a:hover {
+  text-decoration: underline;
+}
+
+/* Submit button (PrimeNG-style "p-button" gradient) */
+.tuninvest-form button[type="submit"] {
+  margin-top: .5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .55rem;
+  width: 100%;
+  padding: .95rem 1.25rem;
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--tuninvest-blue) 0%, #1e40af 100%);
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
+  box-shadow: 0 8px 20px rgba(37, 99, 235, .35);
+}
+.tuninvest-form button[type="submit"]:hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+.tuninvest-form button[type="submit"]:active:not(:disabled) {
+  transform: translateY(0);
+}
+.tuninvest-form button[type="submit"]:disabled {
+  cursor: progress;
+  opacity: .8;
+  filter: saturate(.7);
+}
+
+/* Alert message at the top of the form */
+.tuninvest-alert {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .65rem .85rem;
+  border-radius: 10px;
+  font-size: .9rem;
+  margin-bottom: .25rem;
+}
+.tuninvest-alert.tuninvest-alert-error {
+  background: rgba(239, 68, 68, .12);
+  color: #b91c1c;
+}
+.pf-v5-dark .tuninvest-alert.tuninvest-alert-error {
+  color: #fecaca;
+}
+.tuninvest-alert.tuninvest-alert-warning {
+  background: rgba(245, 158, 11, .15);
+  color: #92400e;
+}
+.tuninvest-alert.tuninvest-alert-success {
+  background: rgba(16, 185, 129, .15);
+  color: #065f46;
+}
+.tuninvest-alert.tuninvest-alert-info {
+  background: var(--tuninvest-blue-soft);
+  color: var(--tuninvest-accent);
+}
+
+/* "No account? Register" link band */
+.tuninvest-register {
+  margin-top: 1.25rem;
+  text-align: center;
+  font-size: .9rem;
+  color: var(--tuninvest-fg-muted);
+}
+.tuninvest-register a {
+  color: var(--tuninvest-accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.tuninvest-register a:hover {
+  text-decoration: underline;
+}
+
+/* Footer brand line */
+.tuninvest-footer {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 460px;
+  margin: 0 auto 1.5rem;
+  text-align: center;
+  font-size: .8rem;
+  color: var(--tuninvest-fg-muted);
+  opacity: .75;
+}
+
+/* Hide the original Keycloak brand header */
+#kc-header,
+.pf-v5-c-brand {
+  display: none !important;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .tuninvest-navbar {
+    width: calc(100% - 1rem);
+    margin-top: .75rem;
+    padding: .6rem .8rem;
+  }
+  .tuninvest-card {
+    padding: 1.75rem 1.25rem 1.25rem;
+  }
+  .tuninvest-card h1 {
+    font-size: 1.55rem;
+  }
+}
